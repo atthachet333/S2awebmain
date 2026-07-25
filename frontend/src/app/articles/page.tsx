@@ -1,0 +1,128 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowUpRight, Clock, Calendar, TrendingUp } from 'lucide-react';
+import { featuredArticle, popularArticles } from '@/data/articles';
+import { PageHero } from '@/components/layout/PageHero';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { AnimatedSection } from '@/components/animations/AnimatedSection';
+import { ArticlesExplorer } from '@/components/articles/ArticlesExplorer';
+import { Newsletter } from '@/components/articles/Newsletter';
+
+export const metadata: Metadata = {
+  title: 'บทความและความรู้',
+  description:
+    'ศูนย์รวมความรู้ด้านบัญชี ภาษี การเงิน และการบริหารธุรกิจ อัปเดตกฎหมายและมุมมอง CFO สำหรับผู้ประกอบการ',
+};
+
+export default function ArticlesPage() {
+  return (
+    <>
+      <PageHero
+        breadcrumb="บทความ"
+        eyebrow="Knowledge Hub"
+        title="ความรู้ด้านบัญชี ภาษี และการเงิน"
+        description="รวมบทความ มุมมอง และอัปเดตกฎหมาย ที่ช่วยให้ผู้ประกอบการตัดสินใจได้ดีขึ้น"
+      />
+
+      {/* Featured + Popular */}
+      <section className="section bg-white">
+        <div className="container grid gap-8 lg:grid-cols-12">
+          <AnimatedSection className="lg:col-span-8">
+            <Link
+              href={`/articles/${featuredArticle.slug}`}
+              className="group flex h-full flex-col overflow-hidden rounded-3xl border border-borderc bg-white shadow-soft transition-all duration-300 hover:shadow-card"
+            >
+              <div className="relative flex h-56 items-end bg-gradient-to-br from-navy via-primary-600 to-accent p-6 md:h-72">
+                <div
+                  className="absolute inset-0 opacity-20"
+                  style={{
+                    backgroundImage:
+                      'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)',
+                    backgroundSize: '32px 32px',
+                  }}
+                  aria-hidden="true"
+                />
+                <span className="relative rounded-full bg-gold px-3 py-1 text-xs font-bold text-navy-dark">
+                  บทความแนะนำ
+                </span>
+              </div>
+              <div className="p-6 md:p-8">
+                <div className="flex items-center gap-3 text-xs text-muted">
+                  <span className="rounded-full bg-primary-50 px-2.5 py-1 font-semibold text-accent">
+                    {featuredArticle.category}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Calendar className="h-3.5 w-3.5" /> {featuredArticle.date}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-3.5 w-3.5" /> {featuredArticle.readTime}
+                  </span>
+                </div>
+                <h2 className="mt-3 text-2xl font-bold text-navy transition-colors group-hover:text-accent md:text-3xl">
+                  {featuredArticle.title}
+                </h2>
+                <p className="mt-3 leading-relaxed text-muted">{featuredArticle.excerpt}</p>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent">
+                  อ่านบทความเต็ม
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
+              </div>
+            </Link>
+          </AnimatedSection>
+
+          <AnimatedSection className="lg:col-span-4">
+            <div className="rounded-3xl border border-borderc bg-lightblue/40 p-6">
+              <h3 className="flex items-center gap-2 text-lg font-bold text-navy">
+                <TrendingUp className="h-5 w-5 text-accent" />
+                บทความยอดนิยม
+              </h3>
+              <ul className="mt-4 space-y-4">
+                {popularArticles.map((article, i) => (
+                  <li key={article.slug}>
+                    <Link
+                      href={`/articles/${article.slug}`}
+                      className="group flex gap-3"
+                    >
+                      <span className="font-display text-xl font-bold text-primary-100">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <div>
+                        <p className="text-sm font-semibold leading-snug text-navy transition-colors group-hover:text-accent">
+                          {article.title}
+                        </p>
+                        <p className="mt-1 text-xs text-muted">
+                          {article.category} · {article.readTime}
+                        </p>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Explorer */}
+      <section className="section bg-lightblue/40">
+        <div className="container">
+          <SectionHeader
+            eyebrow="บทความทั้งหมด"
+            title="ค้นหาความรู้ที่คุณสนใจ"
+            description="กรองตามหมวดหมู่หรือค้นหาหัวข้อที่ต้องการ"
+          />
+          <div className="mt-10">
+            <ArticlesExplorer />
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="section bg-white">
+        <div className="container">
+          <Newsletter />
+        </div>
+      </section>
+    </>
+  );
+}

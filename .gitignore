@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+**/node_modules/
+
+# builds
+.next/
+**/.next/
+dist/
+**/dist/
+out/
+**/out/
+
+# env
+.env
+.env.local
+**/.env
+**/.env.local
+
+# misc
+.DS_Store
+*.log
+npm-debug.log*
+*.pem
