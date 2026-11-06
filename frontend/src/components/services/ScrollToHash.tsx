@@ -11,7 +11,8 @@ export function ScrollToHash() {
     const id = decodeURIComponent(window.location.hash.slice(1));
     if (!id) return;
     const timer = window.setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ block: 'start' });
+      // instant: กระโดดไปยังหัวข้อทันทีเหมือนพฤติกรรมปกติของเบราว์เซอร์ (ไม่ขึ้นกับ scroll-behavior: smooth)
+      document.getElementById(id)?.scrollIntoView({ block: 'start', behavior: 'instant' });
     }, 150);
     return () => window.clearTimeout(timer);
   }, []);
