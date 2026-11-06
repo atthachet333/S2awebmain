@@ -13,6 +13,7 @@ import { FAQAccordion } from '@/components/sections/FAQAccordion';
 import { CTASection } from '@/components/sections/CTASection';
 import { AdvisoryModel } from '@/components/sections/AdvisoryModel';
 import { GrowthJourney } from '@/components/sections/GrowthJourney';
+import { ClientRelationship } from '@/components/sections/ClientRelationship';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -31,6 +32,8 @@ export default function HomePage() {
       <WhyChooseUs />
       {/* EP28: เส้นทางการเติบโต (ฉบับย่อ) */}
       <GrowthJourney />
+      {/* EP29: คุณค่าของการทำงานกับ S2 (ทีเซอร์) */}
+      <ClientRelationship />
       <TechnologyPartnership />
       <WorkProcess />
       <IndustriesServed />

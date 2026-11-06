@@ -42,8 +42,8 @@ export default function AboutPage() {
         description="S2 Accounting Consultant เริ่มจากงานบัญชีและภาษี และพัฒนาเป็นที่ปรึกษาธุรกิจที่ช่วยผู้ประกอบการเข้าใจผลประกอบการและตัดสินใจจากข้อมูลจริง"
       />
 
-      {/* Story + Visual */}
-      <section className="section bg-white">
+      {/* Story + Visual (overflow-x-clip: กันแสงตกแต่ง -inset-4 ล้นขอบจอมือถือ) */}
+      <section className="section overflow-x-clip bg-white">
         <div className="container grid items-center gap-12 lg:grid-cols-2">
           <AnimatedSection>
             <span className="eyebrow">เรื่องราวของเรา</span>

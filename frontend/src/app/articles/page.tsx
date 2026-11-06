@@ -7,7 +7,7 @@ import { PageHero } from '@/components/layout/PageHero';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { AnimatedSection } from '@/components/animations/AnimatedSection';
 import { ArticlesExplorer } from '@/components/articles/ArticlesExplorer';
-import { Newsletter } from '@/components/articles/Newsletter';
+import { ArticlesHelp } from '@/components/articles/ArticlesHelp';
 
 export const metadata: Metadata = {
   title: 'บทความและความรู้',
@@ -115,10 +115,10 @@ export default function ArticlesPage() {
         </div>
       </section>
 
-      {/* Newsletter */}
+      {/* EP29: ช่องทางสอบถาม (แทนฟอร์มสมัครรับข่าวสารที่ไม่มีระบบส่งจริง) */}
       <section className="section bg-white">
         <div className="container">
-          <Newsletter />
+          <ArticlesHelp />
         </div>
       </section>
     </>

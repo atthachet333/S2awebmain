@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, ClipboardList, Receipt, ShieldCheck, SlidersHorizontal } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ClipboardList, Handshake, Receipt, ShieldCheck, SlidersHorizontal } from 'lucide-react';
 import { pricingPathways, quoteFactors, transactionExamples, customScope, pricingTrust } from '@/data/pricing';
 import { pricingFaqs } from '@/data/faq';
+import { relationshipBenefits } from '@/data/clientRelationship';
 import { PageHero } from '@/components/layout/PageHero';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { AnimatedSection, StaggerGroup } from '@/components/animations/AnimatedSection';
@@ -10,6 +11,7 @@ import { PricingCard } from '@/components/pricing/PricingCard';
 import { ComparisonTable } from '@/components/pricing/ComparisonTable';
 import { FAQAccordion } from '@/components/sections/FAQAccordion';
 import { CTASection } from '@/components/sections/CTASection';
+import { ScrollToHash } from '@/components/services/ScrollToHash';
 
 export const metadata: Metadata = {
   title: 'แพ็กเกจและราคา',
@@ -29,6 +31,8 @@ function Chip({ children }: { children: string }) {
 export default function PricingPage() {
   return (
     <>
+      {/* EP29: เปิดจากลิงก์ /pricing#working-with-s2 แล้วเลื่อนไปยังหัวข้อทันที */}
+      <ScrollToHash />
       <PageHero
         breadcrumb="แพ็กเกจ"
         eyebrow="Flexible Pricing · Professional Service"
@@ -157,6 +161,68 @@ export default function PricingPage() {
                 ธุรกิจ E-Commerce หรือ Marketplace ที่มีรายการจำนวนมาก อาจต้องประเมินขอบเขตและค่าบริการเฉพาะ
               </p>
             </AnimatedSection>
+          </div>
+
+          {/* EP29 — แยก "ขอบเขตงานที่ชำระ" กับ "คุณค่าจากการทำงานร่วมกันต่อเนื่อง" ให้ชัด (ไม่ใช่บริการไม่จำกัด) */}
+          <div id="working-with-s2" className="mx-auto mt-20 max-w-6xl scroll-mt-28" aria-labelledby="working-with-s2-heading">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="eyebrow">การทำงานกับ S2</span>
+              <h2 id="working-with-s2-heading" className="mt-4 text-display-md font-bold text-navy">
+                <span className="inline-block pr-[0.3em]">ขอบเขตงาน</span>
+                <span className="inline-block">และสิ่งที่ได้จากการทำงานต่อเนื่อง</span>
+              </h2>
+              <p className="mt-4 leading-relaxed text-muted">
+                สิ่งที่คุณชำระคือขอบเขตงานที่ตกลงกัน ส่วนคุณค่าอีกด้านเกิดจากความต่อเนื่องของการทำงานร่วมกัน ทั้งสองอย่างแยกกันชัดเจน
+              </p>
+            </div>
+
+            <div className="mt-10 grid gap-6 lg:grid-cols-12">
+              <AnimatedSection className="rounded-3xl border border-borderc bg-white p-6 shadow-soft md:p-8 lg:col-span-5">
+                <h3 className="flex items-center gap-2 text-lg font-bold text-navy">
+                  <ClipboardList className="h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
+                  รวมอยู่ในบริการ
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted">
+                  งานที่ระบุในขอบเขตงานมาตรฐานของแต่ละรูปแบบด้านบน และในใบเสนอราคาที่ตกลงกัน
+                </p>
+                <ul className="mt-4 space-y-2.5 text-sm text-ink/80">
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                    S2 Premium Accounting: งานบัญชี ภาษี รายงานทางการเงินพื้นฐาน และการปรึกษางานบัญชี
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                    S2 Enterprise Advisory: เพิ่มรายงานเพื่อการบริหาร มุมมองต้นทุนและกำไร และการสนับสนุนผู้บริหารที่ใกล้ชิดขึ้น ซึ่งเป็นส่วนหนึ่งของขอบเขตงานที่ชำระ
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                    งานนอกขอบเขต เช่น ERP การเชื่อมต่อระบบเฉพาะ หรือ Dashboard นอกขอบเขตมาตรฐาน ประเมินและเสนอราคาแยก
+                  </li>
+                </ul>
+              </AnimatedSection>
+
+              <AnimatedSection className="rounded-3xl border border-borderc bg-lightblue/40 p-6 md:p-8 lg:col-span-7">
+                <h3 className="flex items-center gap-2 text-lg font-bold text-navy">
+                  <Handshake className="h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
+                  สิ่งที่ได้จากการทำงานกับ S2 อย่างต่อเนื่อง
+                </h3>
+                <p className="mt-1 text-xs font-semibold text-muted">
+                  สำหรับลูกค้าที่ใช้บริการต่อเนื่อง ทั้ง Premium และ Enterprise Advisory
+                </p>
+                <ul className="mt-5 grid gap-5 sm:grid-cols-2">
+                  {relationshipBenefits.map((benefit) => (
+                    <li key={benefit.id}>
+                      <p className="text-sm font-bold text-navy">{benefit.title}</p>
+                      <p className="mt-1 text-sm leading-relaxed text-muted">{benefit.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </AnimatedSection>
+            </div>
+
+            <p className="mx-auto mt-6 max-w-3xl text-center text-xs leading-relaxed text-muted">
+              สิ่งเหล่านี้เกิดจากความต่อเนื่องของการทำงานร่วมกัน ไม่ใช่บริการเพิ่มเติมที่ไม่จำกัด และไม่ใช่การรับประกันระยะเวลาตอบกลับ งานที่อยู่นอกขอบเขตจะตกลงขอบเขตและค่าบริการกันก่อนเสมอ
+            </p>
           </div>
         </div>
       </section>
