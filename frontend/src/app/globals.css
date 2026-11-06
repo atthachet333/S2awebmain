@@ -7,6 +7,23 @@
     --color-navy: #071c4a;
     --color-accent: #1e63d5;
     --header-h: 76px;
+    --page-bg: #ffffff;
+    --surface: #ffffff;
+    --surface-alt: #eef6ff;
+    --text-primary: #13213c;
+    --text-heading: #071c4a;
+    --text-muted: #64748b;
+    --theme-border: #dde6f3;
+  }
+
+  :root.dark {
+    --page-bg: #050b18;
+    --surface: #0c1930;
+    --surface-alt: #081226;
+    --text-primary: #f8fafc;
+    --text-heading: #f8fafc;
+    --text-muted: #94a3b8;
+    --theme-border: rgba(148, 163, 184, 0.18);
   }
 
   * {
@@ -21,6 +38,8 @@
 
   body {
     @apply bg-white text-ink antialiased;
+    background-color: var(--page-bg);
+    color: var(--text-primary);
     font-feature-settings: 'ss01', 'cv01';
     text-rendering: optimizeLegibility;
   }
@@ -38,11 +57,87 @@
     text-wrap: balance;
   }
 
+  html[lang='zh-CN'] body {
+    font-family: var(--font-inter), 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
+  }
+
   :focus-visible {
     outline: 2px solid theme('colors.accent.DEFAULT');
     outline-offset: 2px;
     border-radius: 4px;
   }
+}
+
+@layer base {
+  body,
+  header,
+  footer,
+  section,
+  article,
+  nav,
+  input,
+  textarea,
+  select,
+  button {
+    transition-property: background-color, color, border-color, box-shadow;
+    transition-duration: 250ms;
+    transition-timing-function: ease;
+  }
+
+  .dark body { background-color: #050b18; color: #f8fafc; }
+  .dark .bg-white { background-color: #0c1930; }
+  .dark .bg-white\/95 { background-color: rgba(12, 25, 48, 0.95); }
+  .dark .bg-white\/80 { background-color: rgba(12, 25, 48, 0.82); }
+  .dark .bg-white\/70 { background-color: rgba(12, 25, 48, 0.78); }
+  .dark .bg-lightblue\/20,
+  .dark .bg-lightblue\/40,
+  .dark .bg-lightblue\/50,
+  .dark .bg-lightblue\/60,
+  .dark .bg-primary-50\/50,
+  .dark .bg-primary-50\/60 { background-color: rgba(8, 18, 38, 0.82); }
+  .dark .bg-lightblue,
+  .dark .bg-primary-50,
+  .dark .bg-iceblue { background-color: #10213e; }
+  .dark .from-primary-50\/60 { --tw-gradient-from: rgba(16, 33, 62, 0.78) var(--tw-gradient-from-position); }
+  .dark .to-white { --tw-gradient-to: #0c1930 var(--tw-gradient-to-position); }
+  .dark .text-navy,
+  .dark .text-ink,
+  .dark .text-ink\/70,
+  .dark .text-ink\/80,
+  .dark .text-ink\/85,
+  .dark h1,
+  .dark h2,
+  .dark h3,
+  .dark h4 { color: #f8fafc; }
+  .dark .text-muted { color: #94a3b8; }
+  .dark .text-muted\/60 { color: rgba(148, 163, 184, 0.68); }
+  .dark .text-primary-100\/70,
+  .dark .text-primary-100\/75,
+  .dark .text-primary-100\/80 { color: rgba(219, 234, 254, 0.78); }
+  .dark .text-accent { color: #60a5fa; }
+  .dark .border-borderc { border-color: rgba(148, 163, 184, 0.18); }
+  .dark .border-primary-100 { border-color: rgba(96, 165, 250, 0.28); }
+  .dark .shadow-soft,
+  .dark .shadow-card { box-shadow: 0 14px 38px rgba(0, 0, 0, 0.26); }
+  .dark .bg-hero-radial {
+    background-color: #050b18;
+    background-image: radial-gradient(900px 480px at 82% -8%, rgba(59,130,246,.2), transparent 60%), radial-gradient(680px 420px at 2% 8%, rgba(34,211,238,.1), transparent 58%);
+  }
+  .dark .bg-grid-pattern {
+    background-image: linear-gradient(to right, rgba(96,165,250,.09) 1px, transparent 1px), linear-gradient(to bottom, rgba(96,165,250,.09) 1px, transparent 1px);
+  }
+  .dark input,
+  .dark textarea,
+  .dark select { background-color: #081226; border-color: rgba(148,163,184,.24); color: #f8fafc; }
+  .dark input::placeholder,
+  .dark textarea::placeholder { color: #64748b; }
+  .dark .card-base { background-color: #0c1930; border-color: rgba(148,163,184,.18); }
+  .dark .eyebrow { background-color: rgba(59,130,246,.14); border-color: rgba(96,165,250,.24); color: #60a5fa; }
+  .dark header.border-white\/50 { border-color: rgba(148,163,184,.16); }
+  .dark footer { background: linear-gradient(160deg, #030816 0%, #071c4a 100%); }
+  .dark .service-number { background: rgba(59,130,246,.14); border-color: rgba(96,165,250,.3); box-shadow: 0 10px 28px rgba(21,94,239,.15); }
+  .dark .hover\:bg-primary-50:hover { background-color: rgba(59,130,246,.14); }
+  .dark .hover\:text-navy:hover { color: #f8fafc; }
 }
 
 @layer components {
@@ -100,4 +195,31 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* EP23 — consistency fixes */
+@layer base {
+  /* Dark-mode overrides for light tints that had none */
+  .dark .bg-primary-50\/25 { background-color: rgba(59, 130, 246, 0.06); }
+  .dark .bg-lightblue\/30 { background-color: rgba(8, 18, 38, 0.6); }
+  .dark .bg-cyan-soft { background-color: rgba(53, 194, 216, 0.14); }
+  .dark .bg-teal-soft { background-color: rgba(32, 184, 165, 0.14); }
+  .dark .from-white {
+    --tw-gradient-from: #0c1930 var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(12 25 48 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+  .dark .via-white {
+    --tw-gradient-to: rgb(12 25 48 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), #0c1930 var(--tw-gradient-via-position), var(--tw-gradient-to);
+  }
+  .dark .to-primary-50\/55 { --tw-gradient-to: rgba(16, 33, 62, 0.78) var(--tw-gradient-to-position); }
+
+  /* Thai and Chinese headings need more line-height than Latin (tone marks / CJK glyph height) */
+  html[lang='th'] .text-display-xl,
+  html[lang='zh-CN'] .text-display-xl { line-height: 1.2; }
+  html[lang='th'] .text-display-lg,
+  html[lang='zh-CN'] .text-display-lg { line-height: 1.24; }
+  html[lang='th'] .text-display-md,
+  html[lang='zh-CN'] .text-display-md { line-height: 1.3; }
 }

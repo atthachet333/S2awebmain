@@ -32,7 +32,7 @@ export function PageHero({ eyebrow, title, description, breadcrumb, children }: 
             <span className="font-medium text-navy">{breadcrumb}</span>
           </nav>
           <Badge>{eyebrow}</Badge>
-          <h1 className="mt-4 text-display-lg font-bold text-navy">{title}</h1>
+          <h1 className="mt-4 text-balance text-display-lg font-bold text-navy">{title}</h1>
           {description && (
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
               {description}

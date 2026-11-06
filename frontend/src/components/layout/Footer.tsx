@@ -4,14 +4,17 @@ import { navItems } from '@/data/navigation';
 import { services } from '@/data/services';
 import { siteConfig } from '@/lib/utils';
 import { Logo } from '@/components/navigation/Logo';
-import { BackendStatus } from '@/components/layout/BackendStatus';
 
 const contactRows = [
-  { icon: Phone, label: siteConfig.phone, href: `tel:${siteConfig.phone}` },
-  { icon: Mail, label: siteConfig.email, href: `mailto:${siteConfig.email}` },
-  { icon: MessageCircle, label: `LINE OA ${siteConfig.lineOA}`, href: '#' },
+  ...siteConfig.phones.map((phone) => ({
+    icon: Phone,
+    label: phone.label,
+    value: phone.number,
+    href: phone.href,
+  })),
+  { icon: Mail, label: 'อีเมล', value: siteConfig.email, href: `mailto:${siteConfig.email}` },
+  { icon: MessageCircle, label: 'LINE OA', value: siteConfig.lineOA, href: siteConfig.lineUrl },
 ];
-
 export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-borderc bg-navy-gradient text-primary-100">
@@ -49,12 +52,13 @@ export function Footer() {
                 นัดปรึกษาฟรี
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
+              
               <a
-                href={`tel:${siteConfig.phone}`}
-                className="inline-flex h-12 items-center gap-2 rounded-full border border-white/20 px-6 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+                href={siteConfig.phones[0].href}
+                className="inline-flex h-12 items-center gap-2 rounded-full border border-white/20 px-6 text-sm font-semibold text-white transition-colors hover:border-white/40 hover:bg-white/10"
               >
                 <Phone className="h-4 w-4" />
-                {siteConfig.phone}
+                {siteConfig.phones[0].number} (Office)
               </a>
             </div>
           </div>
@@ -69,20 +73,25 @@ export function Footer() {
               <Logo light />
             </div>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-primary-100/70">
-              บริการบัญชี ภาษี การเงิน และที่ปรึกษาธุรกิจระดับมืออาชีพ
-              ช่วยให้ธุรกิจของคุณเติบโตอย่างมั่นคงและยั่งยืน
+              ที่ปรึกษาธุรกิจที่มีงานบัญชีและภาษีเป็นรากฐาน
+              ช่วยผู้บริหารเข้าใจตัวเลขและตัดสินใจได้อย่างมั่นใจ
             </p>
+            
             <div className="mt-6 space-y-3">
               {contactRows.map((row) => (
                 <a
-                  key={row.label}
+                  key={`${row.label}-${row.value}`}
                   href={row.href}
-                  className="flex items-center gap-3 text-sm text-primary-100/80 transition-colors hover:text-white"
+                  className="group flex items-center gap-3 rounded-lg text-sm text-primary-100/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light"
+                  {...(row.label === 'LINE OA' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 transition-colors group-hover:bg-white/15">
                     <row.icon className="h-4 w-4" />
                   </span>
-                  {row.label}
+                  <span className="flex min-w-0 flex-col">
+                    <span className="text-[0.68rem] font-medium text-primary-100/55">{row.label}</span>
+                    <span className="break-all font-medium">{row.value}</span>
+                  </span>
                 </a>
               ))}
             </div>
@@ -145,17 +154,15 @@ export function Footer() {
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-primary-100/60 sm:flex-row">
           <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
             <p>© {new Date().getFullYear()} {siteConfig.name} สงวนลิขสิทธิ์</p>
-            <BackendStatus />
           </div>
           <div className="flex gap-6">
-            <Link href="#" className="transition-colors hover:text-white">
-              นโยบายความเป็นส่วนตัว
-            </Link>
-            <Link href="#" className="transition-colors hover:text-white">
-              ข้อกำหนดการใช้งาน
-            </Link>
+            <Link href="/privacy" className="transition-colors hover:text-white">นโยบายความเป็นส่วนตัว</Link>
+            <Link href="/terms" className="transition-colors hover:text-white">ข้อกำหนดการใช้งาน</Link>
           </div>
         </div>
+        <p className="mt-4 text-center text-[0.7rem] leading-relaxed text-primary-100/50 sm:text-left">
+          ข้อมูลบนเว็บไซต์เป็นข้อมูลทั่วไปและอาจเปลี่ยนแปลงตามกฎหมายหรือประกาศที่เกี่ยวข้อง ควรประเมินตามข้อเท็จจริงของแต่ละกรณี
+        </p>
       </div>
     </footer>
   );

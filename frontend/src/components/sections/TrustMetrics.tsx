@@ -5,12 +5,12 @@ import { useCountUp } from '@/hooks/useCountUp';
 import { StaggerGroup, StaggerItem } from '@/components/animations/AnimatedSection';
 import type { StatItem } from '@/types';
 
-// accent + คำอธิบายสั้นต่อการ์ด (ไม่แก้ type เดิม)
+// accent ต่อการ์ด — คำอธิบายมาจาก stats (ข้อมูลที่ยืนยันได้เท่านั้น)
 const meta = [
-  { grad: 'from-royal to-sky', tint: 'bg-primary-50', text: 'text-royal', desc: 'ธุรกิจหลากหลายอุตสาหกรรมทั่วประเทศ' },
-  { grad: 'from-cyan to-sky', tint: 'bg-cyan-soft', text: 'text-cyan', desc: 'สั่งสมความเชี่ยวชาญอย่างต่อเนื่อง' },
-  { grad: 'from-teal to-cyan', tint: 'bg-teal-soft', text: 'text-teal', desc: 'รายงานการเงินที่ส่งมอบตรงเวลา' },
-  { grad: 'from-gold to-gold-soft', tint: 'bg-gold-soft/40', text: 'text-gold', desc: 'จากแบบสำรวจความพึงพอใจลูกค้า' },
+  { grad: 'from-royal to-sky', text: 'text-royal' },
+  { grad: 'from-cyan to-sky', text: 'text-cyan' },
+  { grad: 'from-teal to-cyan', text: 'text-teal' },
+  { grad: 'from-gold to-gold-soft', text: 'text-gold' },
 ];
 
 function StatCard({ stat, index }: { stat: StatItem; index: number }) {
@@ -33,7 +33,9 @@ function StatCard({ stat, index }: { stat: StatItem; index: number }) {
         <span className={m.text}>{stat.suffix}</span>
       </p>
       <p className="mt-1 text-sm font-semibold text-navy">{stat.label}</p>
-      <p className="mt-1 text-xs leading-relaxed text-muted">{m.desc}</p>
+      {stat.description && (
+        <p className="mt-1 text-xs leading-relaxed text-muted">{stat.description}</p>
+      )}
     </StaggerItem>
   );
 }

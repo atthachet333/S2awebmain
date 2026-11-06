@@ -5,6 +5,7 @@ import { Navbar } from '@/components/navigation/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ScrollProgress } from '@/components/layout/ScrollProgress';
 import { siteConfig } from '@/lib/utils';
+import { AppProviders } from '@/providers/AppProviders';
 
 const plexThai = IBM_Plex_Sans_Thai({
   subsets: ['thai', 'latin'],
@@ -21,8 +22,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
+  applicationName: siteConfig.name,
   title: {
-    default: `${siteConfig.name} | บริการบัญชี ภาษี และที่ปรึกษาการเงิน`,
+    default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -50,7 +52,11 @@ export const metadata: Metadata = {
     description: siteConfig.description,
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: siteConfig.url },
+  icons: {
+    icon: [{ url: siteConfig.logo, type: 'image/png' }],
+    shortcut: siteConfig.logo,
+    apple: siteConfig.logo,
+  },
 };
 
 const jsonLd = {
@@ -69,21 +75,31 @@ const jsonLd = {
   },
   areaServed: 'TH',
   priceRange: '฿฿',
-  openingHours: 'Mo-Fr 09:00-18:00',
+  openingHours: 'Mo-Sa 09:00-17:00',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="th" className={`${plexThai.variable} ${inter.variable}`}>
+    <html lang="th" suppressHydrationWarning className={`${plexThai.variable} ${inter.variable}`}>
+      <head>
+        <meta name="theme-color" content="#ffffff" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var saved=localStorage.getItem('s2-theme');var dark=saved?saved==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',dark);document.documentElement.dataset.theme=dark?'dark':'light';document.documentElement.style.colorScheme=dark?'dark':'light'}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
         />
-        <ScrollProgress />
-        <Navbar />
-        <main id="main">{children}</main>
-        <Footer />
+        <AppProviders>
+          <ScrollProgress />
+          <Navbar />
+          <main id="main">{children}</main>
+          <Footer />
+        </AppProviders>
       </body>
     </html>
   );

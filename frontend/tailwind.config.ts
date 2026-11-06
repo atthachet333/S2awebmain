@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './src/app/**/*.{ts,tsx}',
     './src/components/**/*.{ts,tsx}',
@@ -56,8 +57,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-plex-thai)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
-        display: ['var(--font-plex-thai)', 'var(--font-inter)', 'sans-serif'],
+        sans: ['var(--font-plex-thai)', 'var(--font-inter)', 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', 'system-ui', 'sans-serif'],
+        display: ['var(--font-plex-thai)', 'var(--font-inter)', 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', 'sans-serif'],
       },
       fontSize: {
         'display-xl': ['clamp(2.5rem, 5vw, 4rem)', { lineHeight: '1.08', letterSpacing: '-0.02em' }],

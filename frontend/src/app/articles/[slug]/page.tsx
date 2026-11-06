@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { articles, getArticle } from '@/data/articles';
 import { AnimatedSection } from '@/components/animations/AnimatedSection';
@@ -22,7 +23,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: article.title,
     description: article.excerpt,
-    openGraph: { title: article.title, description: article.excerpt, type: 'article' },
+    keywords: article.keywords,
+    alternates: { canonical: `/articles/${article.slug}` },
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      type: 'article',
+      url: `/articles/${article.slug}`,
+      images: [{ url: article.coverImage, alt: article.imageAlt }],
+    },
   };
 }
 
@@ -31,7 +40,12 @@ export default async function ArticleDetailPage({ params }: PageProps) {
   const article = getArticle(slug);
   if (!article) notFound();
 
-  const related = articles.filter((a) => a.slug !== slug && a.category === article.category).slice(0, 3);
+  const explicitRelated = (article.relatedSlugs ?? [])
+    .map((relatedSlug) => getArticle(relatedSlug))
+    .filter((item): item is NonNullable<typeof item> => Boolean(item));
+  const related = explicitRelated.length > 0
+    ? explicitRelated.slice(0, 3)
+    : articles.filter((a) => a.slug !== slug && a.category === article.category).slice(0, 3);
   const fallback = articles.filter((a) => a.slug !== slug).slice(0, 3);
   const relatedArticles = related.length > 0 ? related : fallback;
 
@@ -42,13 +56,14 @@ export default async function ArticleDetailPage({ params }: PageProps) {
     description: article.excerpt,
     author: { '@type': 'Organization', name: article.author },
     articleSection: article.category,
+    image: article.coverImage,
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
 
       <article className="relative overflow-hidden bg-hero-radial pt-32 md:pt-40">
@@ -85,15 +100,14 @@ export default async function ArticleDetailPage({ params }: PageProps) {
         </div>
 
         <div className="container mt-10">
-          <div className="mx-auto h-56 max-w-4xl rounded-3xl bg-gradient-to-br from-navy via-primary-600 to-accent shadow-lift md:h-72">
-            <div
-              className="h-full w-full rounded-3xl opacity-20"
-              style={{
-                backgroundImage:
-                  'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)',
-                backgroundSize: '36px 36px',
-              }}
-              aria-hidden="true"
+          <div className="relative mx-auto aspect-[3/1] max-w-4xl overflow-hidden rounded-3xl bg-gradient-to-br from-navy via-primary-600 to-accent shadow-lift">
+            <Image
+              src={article.coverImage}
+              alt={article.imageAlt}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 896px"
+              className="object-cover"
             />
           </div>
         </div>
@@ -112,8 +126,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
           <div className="mx-auto mt-10 max-w-3xl rounded-2xl border border-borderc bg-lightblue/50 p-6">
             <p className="text-sm leading-relaxed text-navy">
               <strong className="font-semibold">หมายเหตุ:</strong>{' '}
-              บทความนี้จัดทำขึ้นเพื่อให้ความรู้ทั่วไป ไม่ถือเป็นคำแนะนำเฉพาะราย
-              หากต้องการคำปรึกษาที่เหมาะกับธุรกิจของคุณ สามารถนัดหมายกับทีมของเราได้
+              บทความนี้จัดทำขึ้นเพื่อให้ความรู้ทั่วไป ไม่ถือเป็นคำแนะนำเฉพาะราย ข้อมูลอาจเปลี่ยนแปลงตามกฎหมายหรือประกาศที่เกี่ยวข้อง ควรประเมินตามข้อเท็จจริงของแต่ละกรณี หากต้องการคำปรึกษาที่เหมาะกับธุรกิจของคุณ สามารถนัดหมายกับทีมของเราได้
             </p>
           </div>
         </div>
@@ -130,7 +143,11 @@ export default async function ArticleDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      <CTASection />
+      <CTASection
+        title={article.ctaTitle}
+        buttonLabel={article.ctaLabel}
+        buttonHref={article.ctaHref}
+      />
     </>
   );
 }

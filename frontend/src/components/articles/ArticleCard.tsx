@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, Clock, Calendar } from 'lucide-react';
 import type { Article } from '@/types';
 
@@ -6,6 +7,8 @@ const categoryGradients: Record<string, string> = {
   บัญชี: 'from-primary-600 to-accent',
   ภาษี: 'from-navy to-primary-600',
   การเงิน: 'from-accent to-accent-light',
+  'ต้นทุนและกำไร': 'from-royal to-cyan',
+  'ระบบบัญชีและ ERP': 'from-navy-dark to-teal',
   การบริหารธุรกิจ: 'from-primary-700 to-accent',
   'CFO Insight': 'from-navy-dark to-primary-600',
   ข่าวสารกฎหมาย: 'from-primary-600 to-navy',
@@ -18,22 +21,20 @@ export function ArticleCard({ article }: { article: Article }) {
       href={`/articles/${article.slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-borderc bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card"
     >
-      <div className={`relative flex h-40 items-end bg-gradient-to-br ${gradient} p-5`}>
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)',
-            backgroundSize: '28px 28px',
-          }}
-          aria-hidden="true"
+      <div className={`relative aspect-[3/1] overflow-hidden bg-gradient-to-br ${gradient}`}>
+        <Image
+          src={article.coverImage}
+          alt={article.imageAlt}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
         />
-        <span className="relative rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-navy">
-          {article.category}
-        </span>
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-center gap-3 text-xs text-muted">
+        <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
+          <span className="rounded-full bg-primary-50 px-2.5 py-1 font-semibold text-accent">
+            {article.category}
+          </span>
           <span className="flex items-center gap-1">
             <Calendar className="h-3.5 w-3.5" />
             {article.date}

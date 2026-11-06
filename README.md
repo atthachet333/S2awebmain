@@ -1,4 +1,4 @@
-# S2 Accounting & Finance Advisory
+# S2 Accounting Consultant
 
 เว็บไซต์บริษัทให้บริการด้านบัญชี ภาษี การเงิน และที่ปรึกษาธุรกิจ
 โครงสร้างแบบ **monorepo** แยก Frontend และ Backend ออกจากกันอย่างชัดเจน
@@ -82,7 +82,7 @@ curl http://localhost:9899/api/packages
 # ส่งฟอร์มติดต่อ
 curl -X POST http://localhost:9899/api/contact \
   -H "Content-Type: application/json" \
-  -d '{"companyName":"Example","contactName":"Somchai","phone":"0812345678","email":"a@b.com","businessType":"SME","interestedServices":["accounting"],"message":"ทดสอบ"}'
+  -d '{"companyName":"Example","contactName":"Somchai","phone":"0812345678","email":"a@b.com","businessType":"SME","interestedServices":["accounting"],"message":"ทดสอบ","consent":true}'
 ```
 
 ## API Endpoints

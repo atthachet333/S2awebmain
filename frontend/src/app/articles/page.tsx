@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, Clock, Calendar, TrendingUp } from 'lucide-react';
 import { featuredArticle, popularArticles } from '@/data/articles';
 import { PageHero } from '@/components/layout/PageHero';
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   title: 'บทความและความรู้',
   description:
     'ศูนย์รวมความรู้ด้านบัญชี ภาษี การเงิน และการบริหารธุรกิจ อัปเดตกฎหมายและมุมมอง CFO สำหรับผู้ประกอบการ',
+  alternates: { canonical: '/articles' },
 };
 
 export default function ArticlesPage() {
@@ -32,19 +34,15 @@ export default function ArticlesPage() {
               href={`/articles/${featuredArticle.slug}`}
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-borderc bg-white shadow-soft transition-all duration-300 hover:shadow-card"
             >
-              <div className="relative flex h-56 items-end bg-gradient-to-br from-navy via-primary-600 to-accent p-6 md:h-72">
-                <div
-                  className="absolute inset-0 opacity-20"
-                  style={{
-                    backgroundImage:
-                      'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)',
-                    backgroundSize: '32px 32px',
-                  }}
-                  aria-hidden="true"
+              <div className="relative aspect-[3/1] overflow-hidden bg-gradient-to-br from-navy via-primary-600 to-accent">
+                <Image
+                  src={featuredArticle.featuredImage ?? featuredArticle.coverImage}
+                  alt={featuredArticle.imageAlt}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 66vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.01]"
                 />
-                <span className="relative rounded-full bg-gold px-3 py-1 text-xs font-bold text-navy-dark">
-                  บทความแนะนำ
-                </span>
               </div>
               <div className="p-6 md:p-8">
                 <div className="flex items-center gap-3 text-xs text-muted">

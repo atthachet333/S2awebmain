@@ -2,11 +2,23 @@
 
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { X, Phone, ArrowRight } from 'lucide-react';
+import { X, Phone, Mail, ArrowRight } from 'lucide-react';
 import { useEffect } from 'react';
 import { navItems } from '@/data/navigation';
 import { siteConfig } from '@/lib/utils';
 import { Logo } from './Logo';
+import { ThemeToggle } from './ThemeToggle';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { useLanguage } from '@/providers/LanguageProvider';
+
+const navKeys = {
+  '/': 'nav.home',
+  '/services': 'nav.services',
+  '/about': 'nav.about',
+  '/pricing': 'nav.pricing',
+  '/articles': 'nav.articles',
+  '/contact': 'nav.contact',
+} as const;
 
 interface MobileMenuProps {
   open: boolean;
@@ -15,6 +27,7 @@ interface MobileMenuProps {
 }
 
 export function MobileMenu({ open, onClose, pathname }: MobileMenuProps) {
+  const { t } = useLanguage();
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => {
@@ -39,7 +52,7 @@ export function MobileMenu({ open, onClose, pathname }: MobileMenuProps) {
           transition={{ duration: 0.2 }}
           role="dialog"
           aria-modal="true"
-          aria-label="เมนูหลัก"
+          aria-label={t('menu.main')}
         >
           <div
             className="absolute inset-0 bg-navy-dark/40 backdrop-blur-sm"
@@ -57,13 +70,21 @@ export function MobileMenu({ open, onClose, pathname }: MobileMenuProps) {
               <button
                 onClick={onClose}
                 className="flex h-10 w-10 items-center justify-center rounded-full text-navy transition-colors hover:bg-primary-50"
-                aria-label="ปิดเมนู"
+                aria-label={t('menu.close')}
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 py-6">
+            <div className="flex flex-1 flex-col overflow-y-auto px-4 py-5">
+              <div className="mb-5 space-y-4 rounded-2xl border border-borderc bg-lightblue/40 p-4">
+                <LanguageSwitcher mobile />
+                <div>
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">{t('control.theme')}</p>
+                  <ThemeToggle showLabel />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 border-t border-borderc pt-4">
               {navItems.map((item, i) => {
                 const active = pathname === item.href;
                 return (
@@ -82,12 +103,13 @@ export function MobileMenu({ open, onClose, pathname }: MobileMenuProps) {
                           : 'text-navy hover:bg-primary-50'
                       }`}
                     >
-                      {item.label}
+                      {t(navKeys[item.href as keyof typeof navKeys])}
                       <ArrowRight className="h-4 w-4 opacity-40" />
                     </Link>
                   </motion.div>
                 );
               })}
+              </div>
             </div>
 
             <div className="border-t border-borderc px-5 py-5">
@@ -96,15 +118,22 @@ export function MobileMenu({ open, onClose, pathname }: MobileMenuProps) {
                 onClick={onClose}
                 className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-accent font-semibold text-white shadow-soft transition-colors hover:bg-primary-600"
               >
-                นัดปรึกษาฟรี
+                {t('action.consultation')}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <a
-                href={`tel:${siteConfig.phone}`}
+                href={siteConfig.phones[0].href}
                 className="mt-3 flex items-center justify-center gap-2 text-sm font-medium text-muted"
               >
                 <Phone className="h-4 w-4" />
-                {siteConfig.phone}
+                {siteConfig.phones[0].number} (Office)
+              </a>
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="mt-2 flex items-center justify-center gap-2 break-all text-sm font-medium text-muted"
+              >
+                <Mail className="h-4 w-4 shrink-0" />
+                {siteConfig.email}
               </a>
             </div>
           </motion.nav>

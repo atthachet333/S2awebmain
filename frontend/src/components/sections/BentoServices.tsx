@@ -2,24 +2,23 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, Wifi, WifiOff } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { staggerContainer, staggerItem, viewportOnce } from '@/lib/motion';
 import { resolveIcon } from '@/lib/icon-map';
-import { useServices } from '@/hooks/useServices';
 import type { ApiService } from '@/lib/api';
 import { BarChart } from '@/components/dashboard/MiniChart';
 
-// Fallback ในเครื่อง (ตรงกับข้อมูลฝั่ง Backend) — ใช้เมื่อ API ไม่พร้อม
+// รายการบริการหน้าแรก (แหล่งข้อมูลเดียวของเนื้อหา)
 const fallbackServices: ApiService[] = [
   { slug: 'monthly-accounting', icon: 'BookOpenCheck', title: 'รับทำบัญชีรายเดือน', short: 'บันทึกบัญชีครบวงจร ปิดรอบตรงเวลา พร้อมรายงานที่ผู้บริหารเข้าใจง่ายทุกเดือน', category: 'accounting' },
   { slug: 'accounting-system', icon: 'Settings2', title: 'วางระบบบัญชี', short: 'ออกแบบผังบัญชีและกระบวนการทำงานให้ข้อมูลไหลลื่น', category: 'setup' },
   { slug: 'tax-planning', icon: 'Landmark', title: 'วางแผนภาษี', short: 'ใช้สิทธิประโยชน์ทางภาษีเต็มที่อย่างถูกกฎหมาย', category: 'tax' },
   { slug: 'cfo-advisory', icon: 'TrendingUp', title: 'CFO Advisory', short: 'ที่ปรึกษาการเงินระดับผู้บริหาร วางกลยุทธ์จากข้อมูลจริง', category: 'advisory' },
   { slug: 'financial-statements', icon: 'FileSpreadsheet', title: 'ปิดงบการเงิน', short: 'จัดทำและยื่นงบประจำปีอย่างถูกต้องครบถ้วน', category: 'accounting' },
-  { slug: 'cash-flow', icon: 'Wallet', title: 'บริหารกระแสเงินสด', short: 'มองเห็นเงินเข้า–ออกล่วงหน้า วางแผนสภาพคล่องไม่ให้สะดุด', category: 'finance' },
+  { slug: 'cost-profitability-analysis', icon: 'Wallet', title: 'วิเคราะห์ต้นทุนและกำไร', short: 'เห็นต้นทุนจริง แหล่งกำไร จุดที่ Margin รั่วไหล และโอกาสปรับราคา', category: 'finance' },
   { slug: 'payroll', icon: 'Users2', title: 'Payroll และประกันสังคม', short: 'จัดการเงินเดือน ภาษี และประกันสังคมอย่างเป็นความลับ', category: 'accounting' },
-  { slug: 'company-registration', icon: 'Building2', title: 'จดทะเบียนบริษัท', short: 'ดูแลการจดทะเบียนและเอกสารธุรกิจครบวงจร', category: 'setup' },
+  { slug: 'accounting-systems-erp-advisory', icon: 'Settings2', title: 'ที่ปรึกษาระบบบัญชีและ ERP', short: 'ออกแบบ Process และ Requirement ก่อนเลือก ปรับปรุง หรือนำ ERP ไปใช้', category: 'advisory' },
 ];
 
 // accent ต่อการ์ด (จำกัด 2–3 สีต่อหน้า: royal / cyan / teal)
@@ -42,8 +41,9 @@ const spans = [
 ];
 
 export function BentoServices() {
-  const { services, live } = useServices(fallbackServices);
-  const items = services.slice(0, 8);
+  // เนื้อหาบริการใช้ข้อมูลฝั่งเว็บไซต์เป็นแหล่งเดียว (แปล TH/EN/ZH ครบ)
+  // ไม่แสดงสถานะการเชื่อมต่อ Backend ต่อผู้เข้าชม (EP23) — Backend ยังทำงานตามปกติ
+  const items = fallbackServices;
 
   return (
     <section className="section bg-white" id="services">
@@ -51,20 +51,9 @@ export function BentoServices() {
         <div className="flex flex-col items-center">
           <SectionHeader
             eyebrow="บริการของเรา"
-            title="บริการครบวงจร ดูแลทุกด้านของการเงินธุรกิจ"
-            description="ตั้งแต่งานบัญชีประจำวัน ไปจนถึงการวางกลยุทธ์การเงินระดับผู้บริหาร เราออกแบบบริการให้เหมาะกับทุกช่วงการเติบโตของธุรกิจคุณ"
+            title="เริ่มจากงานบัญชี และต่อยอดสู่การบริหาร"
+            description="งานบัญชีและภาษีวางรากฐานข้อมูลที่เชื่อถือได้ ส่วนงานที่ปรึกษาช่วยให้คุณนำข้อมูลนั้นไปวางแผนและตัดสินใจ"
           />
-          <span
-            className={`mt-4 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium ${
-              live
-                ? 'border-teal/30 bg-teal-soft/50 text-teal'
-                : 'border-borderc bg-lightblue text-muted'
-            }`}
-            title={live ? 'ข้อมูลจาก Backend API' : 'กำลังใช้ข้อมูลสำรอง'}
-          >
-            {live ? <Wifi className="h-3.5 w-3.5" /> : <WifiOff className="h-3.5 w-3.5" />}
-            {live ? 'ข้อมูลบริการเชื่อมต่อจากระบบ Backend' : 'แสดงข้อมูลสำรอง'}
-          </span>
         </div>
 
         <motion.div
@@ -114,8 +103,7 @@ export function BentoServices() {
                     <div className="relative mt-auto pt-6">
                       <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
                         <div className="mb-2 flex items-center justify-between text-xs text-primary-100/70">
-                          <span>ผลงานที่ส่งมอบรายเดือน</span>
-                          <span className="font-semibold text-teal">+24%</span>
+                          <span>ตัวอย่างรายงานรายเดือน</span>
                         </div>
                         <BarChart
                           data={[52, 64, 58, 76, 70, 88]}

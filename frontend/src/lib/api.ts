@@ -3,8 +3,12 @@
  * ห้ามเรียก fetch() กระจายตาม component ให้เรียกผ่านฟังก์ชันในไฟล์นี้เท่านั้น
  */
 
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || 'http://localhost:9899';
+/**
+ * ค่าเริ่มต้นเป็น same-origin ('/api/...') — Next.js rewrite ใน next.config.mjs ส่งต่อไปยัง Backend
+ * ภายในเครื่อง (BACKEND_INTERNAL_URL) จึงไม่ต้องเปิด Backend สู่สาธารณะและไม่ต้องใช้ CORS
+ * กำหนด NEXT_PUBLIC_API_URL เฉพาะเมื่อ Backend มี hostname สาธารณะแยกต่างหาก
+ */
+export const API_URL = process.env.NEXT_PUBLIC_API_URL?.trim().replace(/\/$/, '') || '';
 
 const DEFAULT_TIMEOUT = 10_000;
 
@@ -91,9 +95,6 @@ export interface ApiPackage {
 
 export interface HealthResponse {
   status: string;
-  service: string;
-  port: number;
-  uptime: number;
   timestamp: string;
 }
 
@@ -105,6 +106,9 @@ export interface ContactPayload {
   businessType: string;
   interestedServices: string[];
   message?: string;
+  fileName?: string; // ชื่อไฟล์แนบ (.pdf/.jpg/.jpeg/.png) — Backend ตรวจซ้ำ
+  fileBase64?: string; // เนื้อไฟล์แบบ Base64 (ไม่เกิน 10 MB)
+  consent: true;
 }
 
 export interface ConsultationPayload {
@@ -114,6 +118,7 @@ export interface ConsultationPayload {
   preferredDate?: string;
   preferredChannel?: 'phone' | 'online' | 'onsite';
   topic?: string;
+  consent: true;
 }
 
 interface MutationResponse {
@@ -137,8 +142,8 @@ export const api = {
     return res.data;
   },
 
-  submitContactForm: (payload: ContactPayload) =>
-    request<MutationResponse>('/api/contact', { method: 'POST', body: payload }),
+  submitContactForm: (payload: ContactPayload, options: { timeout?: number } = {}) =>
+    request<MutationResponse>('/api/contact', { method: 'POST', body: payload, ...options }),
 
   submitConsultationForm: (payload: ConsultationPayload) =>
     request<MutationResponse>('/api/consultations', { method: 'POST', body: payload }),

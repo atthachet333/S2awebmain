@@ -8,7 +8,7 @@ export const submitContact = asyncHandler(async (req: Request, res: Response) =>
   const lead = await leadService.saveContact(req.body as ContactInput);
   res.status(201).json({
     success: true,
-    message: 'ได้รับข้อมูลเรียบร้อยแล้ว ทีมงานจะติดต่อกลับภายใน 1 วันทำการ',
+    message: 'ได้รับข้อมูลเรียบร้อยแล้ว ทีมงานจะติดต่อกลับภายใน 1–2 วันทำการ',
     data: { id: lead.id },
   });
 });

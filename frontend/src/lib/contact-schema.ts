@@ -7,13 +7,11 @@ export const contactSchema = z.object({
     .string()
     .min(9, 'กรุณากรอกเบอร์โทรให้ถูกต้อง')
     .regex(/^[0-9+\-\s]+$/, 'เบอร์โทรควรเป็นตัวเลขเท่านั้น'),
-  email: z.string().email('กรุณากรอกอีเมลให้ถูกต้อง'),
+  email: z.email('กรุณากรอกอีเมลให้ถูกต้อง'),
   businessType: z.string().min(1, 'กรุณาเลือกประเภทธุรกิจ'),
   service: z.string().min(1, 'กรุณาเลือกบริการที่สนใจ'),
   message: z.string().max(1000, 'ข้อความยาวเกินไป').optional().or(z.literal('')),
-  consent: z.literal(true, {
-    errorMap: () => ({ message: 'กรุณายอมรับนโยบายความเป็นส่วนตัว' }),
-  }),
+  consent: z.literal(true, { error: 'กรุณายอมรับนโยบายความเป็นส่วนตัว' }),
 });
 
 export type ContactFormValues = z.infer<typeof contactSchema>;
@@ -30,14 +28,28 @@ export const businessTypes = [
   'อื่นๆ',
 ];
 
+/** intent จากหน้า Pricing (?service=premium|enterprise|custom) */
+export const pricingIntentOptions: Record<string, string> = {
+  premium: 'S2 Premium Accounting',
+  enterprise: 'S2 Enterprise Advisory',
+  custom: 'ขอใบเสนอราคาตามขอบเขตงาน',
+};
+
 export const serviceOptions = [
+  'S2 Premium Accounting',
+  'S2 Enterprise Advisory',
+  'ขอใบเสนอราคาตามขอบเขตงาน',
   'รับทำบัญชีรายเดือน',
-  'วางระบบบัญชี',
   'ปิดงบการเงิน',
-  'ยื่นภาษี / วางแผนภาษี',
-  'CFO Advisory',
+  'วางระบบบัญชี',
+  'ยื่นภาษี',
+  'วางแผนภาษี',
+  'Payroll และประกันสังคม',
   'วิเคราะห์การเงิน',
-  'Payroll',
+  'วิเคราะห์ต้นทุนและกำไร',
+  'งบประมาณและประมาณการ',
+  'CFO Advisory',
+  'ที่ปรึกษาระบบบัญชีและ ERP',
   'จดทะเบียนบริษัท',
   'ยังไม่แน่ใจ ขอคำปรึกษา',
 ];

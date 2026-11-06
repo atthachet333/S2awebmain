@@ -12,6 +12,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
+  const legalRoutes = ['/privacy', '/terms'].map((path) => ({
+    url: `${siteConfig.url}${path}`,
+    lastModified: new Date(),
+    changeFrequency: 'yearly' as const,
+    priority: 0.3,
+  }));
+
   const articleRoutes = articles.map((a) => ({
     url: `${siteConfig.url}/articles/${a.slug}`,
     lastModified: new Date(),
@@ -19,5 +26,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...routes, ...articleRoutes];
+  return [...routes, ...articleRoutes, ...legalRoutes];
 }

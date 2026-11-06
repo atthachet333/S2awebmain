@@ -39,7 +39,7 @@ export function SectionHeader({
       )}
       <h2
         className={cn(
-          'mt-4 text-display-md font-bold',
+          'mt-4 text-balance text-display-md font-bold',
           light && 'text-white',
         )}
       >

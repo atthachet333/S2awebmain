@@ -13,9 +13,9 @@ export function IndustriesServed() {
     <section className="section relative overflow-hidden bg-iceblue">
       <div className="container">
         <SectionHeader
-          eyebrow="อุตสาหกรรมที่เราดูแล"
+          eyebrow="ธุรกิจที่บริการของเราออกแบบไว้รองรับ"
           title="เข้าใจความต่างของแต่ละธุรกิจ"
-          description="เรามีประสบการณ์ดูแลธุรกิจหลากหลายประเภท จึงเข้าใจโจทย์เฉพาะและมาตรฐานของแต่ละอุตสาหกรรม"
+          description="บริการของเราออกแบบให้รองรับโจทย์เฉพาะของธุรกิจแต่ละประเภท ตั้งแต่โครงสร้างต้นทุน ข้อกำหนดด้านภาษี ไปจนถึงระบบงานบัญชี"
         />
 
         {/* Mobile: horizontal snap scroll · Desktop: grid */}

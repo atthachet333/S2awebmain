@@ -21,3 +21,9 @@ out/
 *.log
 npm-debug.log*
 *.pem
+
+# local / build artifacts (EP28)
+*.tsbuildinfo
+.test-dist/
+frontend/frontend/
+backend/backend/

@@ -17,10 +17,17 @@ const expenses = [
   { label: 'อื่นๆ', color: '#D7A84A', pct: '12%' },
 ];
 
-/** A realistic executive finance dashboard mockup, fully rendered in the DOM. */
+/**
+ * Management Dashboard Demo — ข้อมูลทั้งหมดเป็นตัวอย่าง (sample data) ไม่ใช่ข้อมูลลูกค้าจริง
+ * ห้ามใส่คำว่า Live หรือวันที่จริงที่ทำให้เข้าใจว่าเป็นข้อมูลสด
+ */
 export function DashboardPreview({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-borderc bg-white shadow-card">
+    <div
+      className="overflow-hidden rounded-2xl border border-borderc bg-white shadow-card"
+      role="img"
+      aria-label="ตัวอย่าง Management Dashboard พร้อมข้อมูลตัวอย่าง"
+    >
       {/* Window bar */}
       <div className="flex items-center justify-between border-b border-borderc bg-primary-50/60 px-4 py-3">
         <div className="flex items-center gap-1.5">
@@ -28,9 +35,9 @@ export function DashboardPreview({ compact = false }: { compact?: boolean }) {
           <span className="h-3 w-3 rounded-full bg-[#FEBC2E]" />
           <span className="h-3 w-3 rounded-full bg-[#28C840]" />
         </div>
-        <span className="text-xs font-medium text-muted">Executive Dashboard · กรกฎาคม 2567</span>
-        <span className="rounded-full bg-white px-2.5 py-1 text-[0.65rem] font-semibold text-accent shadow-soft">
-          Live
+        <span className="min-w-0 truncate px-2 text-xs font-medium text-muted">ตัวอย่าง Management Dashboard</span>
+        <span className="shrink-0 whitespace-nowrap rounded-full bg-white px-2.5 py-1 text-[0.65rem] font-semibold text-accent shadow-soft">
+          ข้อมูลตัวอย่าง
         </span>
       </div>
 

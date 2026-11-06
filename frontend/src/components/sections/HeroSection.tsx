@@ -5,6 +5,7 @@ import { ArrowRight, PlayCircle, ShieldCheck, TrendingUp, Wallet, Landmark } fro
 import Link from 'next/link';
 import { DashboardPreview } from '@/components/dashboard/DashboardPreview';
 import { EASE } from '@/lib/motion';
+import { useLanguage } from '@/providers/LanguageProvider';
 
 const floatingCards = [
   {
@@ -23,16 +24,40 @@ const floatingCards = [
   },
   {
     icon: Landmark,
-    label: 'ภาษีที่ประหยัดได้',
-    value: '฿320K',
+    label: 'อัตรากำไรขั้นต้น',
+    value: '38.5%',
     className: '-left-3 bottom-24 sm:-left-10',
     delay: 0.9,
   },
 ];
 
-const trustPills = ['CPA รับรอง', 'ยื่นภาษีตรงเวลา', 'ดูแลกว่า 500 ธุรกิจ'];
+const trustPills = ['CPA รับรอง', 'ยื่นภาษีตรงเวลา', 'ดูแลลูกค้ากว่า 100 ราย ทั้งนิติบุคคลและบุคคล'];
 
 export function HeroSection() {
+  const { locale } = useLanguage();
+  const heroCopy = {
+    th: {
+      lead: 'จากงานบัญชีที่แม่นยำ',
+      accent: 'สู่การตัดสินใจทางธุรกิจ',
+      tail: 'ที่ดีกว่า',
+      description: 'S2 เป็นที่ปรึกษาธุรกิจที่มีงานบัญชีและภาษีเป็นรากฐาน เราช่วยเจ้าของธุรกิจและผู้บริหารเข้าใจตัวเลข เห็นต้นทุนและกำไรที่แท้จริง และวางแผนธุรกิจได้อย่างมั่นใจ',
+    },
+    en: {
+      lead: 'From Reliable Accounting',
+      accent: 'to Better Business',
+      tail: 'Decisions',
+      description: 'S2 is a business advisory firm built on strong accounting and tax foundations. We help owners and executives understand their numbers, see their true costs and profits, and plan with confidence.',
+    },
+    zh: {
+      lead: '以可靠的会计为基础，',
+      accent: '做出更好的',
+      tail: '经营决策',
+      description: 'S2 是一家以会计与税务为基础的企业咨询公司。我们帮助企业主和管理层读懂数字、看清真实的成本与利润，并更有把握地规划业务。',
+    },
+  }[locale];
+  // ภาษาจีนไม่เว้นวรรคระหว่างวลี
+  const sep = locale === 'zh' ? '' : ' ';
+
   return (
     <section className="relative overflow-hidden bg-hero-radial pt-32 md:pt-40">
       {/* subtle grid */}
@@ -59,7 +84,7 @@ export function HeroSection() {
           >
             <span className="eyebrow">
               <ShieldCheck className="h-3.5 w-3.5" />
-              บัญชี · ภาษี · การเงิน · ที่ปรึกษาธุรกิจ
+              ที่ปรึกษาธุรกิจ บนรากฐานงานบัญชี
             </span>
           </motion.div>
 
@@ -69,9 +94,9 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.05, ease: EASE }}
           >
-            บริการบัญชีและที่ปรึกษาการเงิน
-            <span className="text-gradient"> มืออาชีพ</span>{' '}
-            เพื่อการเติบโตที่มั่นคงและยั่งยืน
+            {heroCopy.lead}{sep}
+            <span className="text-gradient">{heroCopy.accent}</span>{sep}
+            {heroCopy.tail}
           </motion.h1>
 
           <motion.p
@@ -80,8 +105,7 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
           >
-            ช่วยให้เจ้าของธุรกิจและผู้บริหารเข้าใจตัวเลข ควบคุมกระแสเงินสด วางแผนภาษี
-            และตัดสินใจได้อย่างแม่นยำ ด้วยทีมบัญชีและที่ปรึกษาการเงินมืออาชีพ
+            {heroCopy.description}
           </motion.p>
 
           <motion.div

@@ -9,7 +9,8 @@ interface BadgeProps {
 
 export function Badge({ children, className, variant = 'default' }: BadgeProps) {
   const variants = {
-    default: 'border-borderc bg-primary-50 text-primary-600',
+    // ใช้สไตล์เดียวกับ .eyebrow (มีค่าสีสำหรับ Dark mode แล้ว)
+    default: 'eyebrow',
     gold: 'border-gold-soft bg-gold-soft/20 text-gold',
     solid: 'border-transparent bg-navy text-white',
   };

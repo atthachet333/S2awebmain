@@ -9,7 +9,7 @@ const server = app.listen(env.port, () => {
     `\n  ✅ S2 Backend พร้อมใช้งาน\n` +
       `  ➜ Local:        http://localhost:${env.port}\n` +
       `  ➜ Health:       http://localhost:${env.port}/api/health\n` +
-      `  ➜ Allowed CORS: ${env.frontendUrl}\n` +
+      `  ➜ Allowed CORS: ${env.frontendOrigins.join(', ') || '(none)'}\n` +
       `  ➜ Environment:  ${env.nodeEnv}\n`,
   );
 });

@@ -34,13 +34,12 @@ export function BusinessInsight() {
         </AnimatedSection>
 
         <AnimatedSection className="order-1 lg:order-2">
-          <Badge variant="gold">Business Insight Dashboard</Badge>
+          <Badge variant="gold">ข้อมูลเพื่อการบริหาร</Badge>
           <h2 className="mt-4 text-display-md font-bold text-white">
-            เห็นภาพธุรกิจชัดเจน ในหน้าจอเดียว
+            จากตัวเลข สู่ความเข้าใจธุรกิจ
           </h2>
           <p className="mt-4 text-base leading-relaxed text-primary-100/85 md:text-lg">
-            เราไม่ได้ส่งแค่งบการเงิน แต่มอบ Dashboard ผู้บริหารที่แปลงตัวเลขซับซ้อน
-            ให้เป็นข้อมูลที่เข้าใจง่ายและนำไปตัดสินใจได้ทันที
+            นอกจากงบการเงินตามกฎหมาย เราสรุปตัวเลขให้อยู่ในรูปที่ผู้บริหารอ่านเข้าใจ และพูดคุยร่วมกันว่าตัวเลขเหล่านั้นหมายถึงอะไรต่อการตัดสินใจของธุรกิจ
           </p>
           <ul className="mt-6 space-y-3">
             {insights.map((item) => (
@@ -53,7 +52,7 @@ export function BusinessInsight() {
             ))}
           </ul>
           <Button href="/contact" variant="white" size="lg" className="mt-8">
-            ขอชม Dashboard ตัวอย่าง
+            ขอดูตัวอย่างรายงานผู้บริหาร
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Button>
         </AnimatedSection>

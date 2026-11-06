@@ -9,11 +9,24 @@ import { useScrolled } from '@/hooks/useScrolled';
 import { cn } from '@/lib/utils';
 import { Logo } from './Logo';
 import { MobileMenu } from './MobileMenu';
+import { ThemeToggle } from './ThemeToggle';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { useLanguage } from '@/providers/LanguageProvider';
+
+const navKeys = {
+  '/': 'nav.home',
+  '/services': 'nav.services',
+  '/about': 'nav.about',
+  '/pricing': 'nav.pricing',
+  '/articles': 'nav.articles',
+  '/contact': 'nav.contact',
+} as const;
 
 export function Navbar() {
   const pathname = usePathname();
   const scrolled = useScrolled(12);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <>
@@ -37,7 +50,7 @@ export function Navbar() {
 
           <nav
             className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full lg:flex"
-            aria-label="เมนูหลัก"
+            aria-label={t('menu.main')}
           >
             {navItems.map((item) => {
               const active =
@@ -56,7 +69,7 @@ export function Navbar() {
                       : 'text-ink/80 hover:text-navy',
                   )}
                 >
-                  {item.label}
+                  {t(navKeys[item.href as keyof typeof navKeys])}
                   {active && (
                     <span className="absolute inset-x-4 -bottom-px h-0.5 rounded-full bg-accent" />
                   )}
@@ -66,17 +79,21 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2 lg:flex-1 lg:justify-end">
+            <LanguageSwitcher />
+            <div className="hidden lg:block">
+              <ThemeToggle />
+            </div>
             <Link
               href="/contact"
-              className="group hidden h-11 items-center gap-2 rounded-full bg-brand-gradient px-5 text-sm font-semibold text-white shadow-glow transition-all hover:brightness-105 hover:shadow-lift sm:inline-flex"
+              className="group hidden h-11 items-center gap-2 whitespace-nowrap rounded-full bg-brand-gradient px-5 text-sm font-semibold text-white shadow-glow transition-all hover:brightness-105 hover:shadow-lift xl:inline-flex"
             >
-              นัดปรึกษาฟรี
+              {t('action.consultation')}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
             <button
               onClick={() => setMenuOpen(true)}
               className="flex h-11 w-11 items-center justify-center rounded-full border border-borderc bg-white text-navy transition-colors hover:bg-primary-50 lg:hidden"
-              aria-label="เปิดเมนู"
+              aria-label={t('menu.open')}
             >
               <Menu className="h-5 w-5" />
             </button>

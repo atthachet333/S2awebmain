@@ -1,16 +1,19 @@
 import Link from 'next/link';
 import { ArrowRight, Phone } from 'lucide-react';
 import { AnimatedSection } from '@/components/animations/AnimatedSection';
-import { siteConfig } from '@/lib/utils';
 
 interface CTASectionProps {
   title?: string;
   description?: string;
+  buttonLabel?: string;
+  buttonHref?: string;
 }
 
 export function CTASection({
-  title = 'พร้อมยกระดับระบบบัญชีและการเงินของธุรกิจคุณหรือยัง?',
-  description = 'นัดปรึกษาฟรีกับทีมผู้เชี่ยวชาญของเรา เพื่อค้นหาแนวทางที่เหมาะกับธุรกิจของคุณโดยเฉพาะ',
+  title = 'พร้อมใช้ตัวเลขของธุรกิจให้เกิดประโยชน์มากขึ้นหรือยัง?',
+  description = 'นัดปรึกษาฟรีกับทีมของเรา เพื่อหาแนวทางด้านบัญชีและการบริหารที่เหมาะกับธุรกิจของคุณ',
+  buttonLabel = 'นัดหมายปรึกษาฟรี',
+  buttonHref = '/contact',
 }: CTASectionProps) {
   return (
     <section className="section">
@@ -36,19 +39,18 @@ export function CTASection({
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
-                href="/contact"
+                href={buttonHref}
                 className="group inline-flex h-13 items-center gap-2 rounded-full bg-white px-7 text-base font-semibold text-navy shadow-soft transition-all hover:bg-primary-50 hover:shadow-lift"
               >
-                นัดหมายปรึกษาฟรี
+                {buttonLabel}
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
-              <a
-                href={`tel:${siteConfig.phone}`}
-                className="inline-flex h-13 items-center gap-2 rounded-full border border-white/20 px-7 text-base font-semibold text-white transition-colors hover:bg-white/10"
-              >
+              
+              {/* ส่วนเบอร์โทรที่แก้ไข: แยกเบอร์เป็นอิสระและคลิกไม่ได้ */}
+              <div className="inline-flex h-13 items-center gap-2 rounded-full border border-white/20 bg-transparent px-7 text-base font-semibold text-white cursor-default">
                 <Phone className="h-5 w-5" />
-                {siteConfig.phone}
-              </a>
+                064-924-5544 (Office)
+              </div>
             </div>
           </div>
         </AnimatedSection>

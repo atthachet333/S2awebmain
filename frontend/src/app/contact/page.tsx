@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   Lock,
   BadgeCheck,
+  ArrowUpRight,
 } from 'lucide-react';
 import { PageHero } from '@/components/layout/PageHero';
 import { SectionHeader } from '@/components/ui/SectionHeader';
@@ -24,22 +25,22 @@ import type { FaqItem } from '@/types';
 export const metadata: Metadata = {
   title: 'ติดต่อเรา',
   description:
-    'นัดหมายปรึกษาฟรีกับทีม S2 Accounting & Finance Advisory ติดต่อผ่านโทรศัพท์ อีเมล LINE OA หรือกรอกแบบฟอร์มนัดหมาย',
+    'นัดหมายปรึกษาฟรีกับทีม S2 Accounting Consultant ติดต่อผ่านโทรศัพท์ อีเมล LINE OA หรือกรอกแบบฟอร์มนัดหมาย',
+  alternates: { canonical: '/contact' },
 };
 
 const contactChannels = [
-  { icon: Phone, label: 'โทรศัพท์', value: siteConfig.phone, href: `tel:${siteConfig.phone}` },
   { icon: Mail, label: 'อีเมล', value: siteConfig.email, href: `mailto:${siteConfig.email}` },
-  { icon: MessageCircle, label: 'LINE OA', value: siteConfig.lineOA, href: '#' },
+  { icon: MessageCircle, label: 'LINE OA', value: siteConfig.lineOA, href: siteConfig.lineUrl },
   { icon: MapPin, label: 'ที่ตั้งสำนักงาน', value: siteConfig.address, href: '#map' },
   { icon: Clock, label: 'เวลาทำการ', value: siteConfig.workingHours, href: undefined },
 ];
 
 const steps = [
   { icon: CalendarCheck, title: 'กรอกแบบฟอร์มนัดหมาย', description: 'บอกข้อมูลธุรกิจและบริการที่คุณสนใจ' },
-  { icon: PhoneCall, title: 'ทีมติดต่อกลับ', description: 'เราติดต่อกลับภายใน 1 วันทำการเพื่อนัดเวลา' },
+  { icon: PhoneCall, title: 'ทีมติดต่อกลับ', description: 'เราติดต่อกลับภายใน 1-2 วันทำการเพื่อนัดเวลา' },
   { icon: FileSearch, title: 'ปรึกษาและประเมิน', description: 'พูดคุยเข้าใจธุรกิจและเสนอแนวทางที่เหมาะสม' },
-  { icon: Handshake, title: 'เริ่มต้นทำงานร่วมกัน', description: 'ตกลงแพ็กเกจ วางระบบ และเริ่มดูแลทันที' },
+  { icon: Handshake, title: 'เริ่มต้นทำงานร่วมกัน', description: 'ตกลงขอบเขตงานและใบเสนอราคา แล้วเริ่มดูแลงาน' },
 ];
 
 const newClientFaqs: FaqItem[] = [
@@ -66,9 +67,9 @@ const newClientFaqs: FaqItem[] = [
 ];
 
 const securityPoints = [
-  { icon: Lock, title: 'ข้อมูลเข้ารหัสปลอดภัย', description: 'ควบคุมการเข้าถึงและจัดเก็บข้อมูลอย่างรัดกุม' },
-  { icon: ShieldCheck, title: 'ปฏิบัติตาม PDPA', description: 'ดูแลข้อมูลส่วนบุคคลตามกฎหมายอย่างเคร่งครัด' },
-  { icon: BadgeCheck, title: 'ลงนามรักษาความลับ', description: 'มีข้อตกลงรักษาความลับกับลูกค้าทุกราย' },
+  { icon: Lock, title: 'ส่งข้อมูลผ่านการเชื่อมต่อ HTTPS', description: 'ข้อมูลจากแบบฟอร์มส่งถึงทีมงานผ่านการเชื่อมต่อที่เข้ารหัสระหว่างทาง' },
+  { icon: ShieldCheck, title: 'ดูแลตามนโยบายความเป็นส่วนตัว', description: 'ใช้ข้อมูลเท่าที่จำเป็นต่อการติดต่อกลับและประเมินบริการตามที่แจ้งไว้' },
+  { icon: BadgeCheck, title: 'รองรับข้อตกลงรักษาความลับ (NDA) ตามขอบเขตงาน', description: 'สามารถจัดทำข้อตกลงรักษาความลับร่วมกันก่อนเริ่มงานได้' },
 ];
 
 export default function ContactPage() {
@@ -91,12 +92,41 @@ export default function ContactPage() {
             </p>
 
             <div className="mt-6 space-y-3">
-              {contactChannels.map((channel) => {
+              <div className="overflow-hidden rounded-3xl border border-primary-100 bg-gradient-to-br from-white via-white to-primary-50/55 p-2 shadow-soft">
+                <div className="px-3 pb-2 pt-2">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">ติดต่อทางโทรศัพท์</p>
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                  {siteConfig.phones.map((phone, index) => (
+                    <a
+                      key={phone.number}
+                      href={phone.href}
+                      className={`group relative flex min-w-0 items-center gap-3.5 rounded-2xl border border-borderc/80 bg-white p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/35 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${index === 0 ? 'sm:col-span-2 lg:col-span-1 xl:col-span-2' : ''}`}
+                    >
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-50 text-accent transition-colors group-hover:bg-accent group-hover:text-white">
+                        <Phone className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-xs font-medium text-muted">{phone.label}</span>
+                        <span className="mt-0.5 block whitespace-nowrap font-display text-base font-bold tracking-[0.01em] text-navy">
+                          {phone.number}
+                        </span>
+                        {'note' in phone && phone.note && (
+                          <span className="mt-0.5 block text-[0.68rem] text-muted">{phone.note}</span>
+                        )}
+                      </span>
+                      <ArrowUpRight className="h-4 w-4 shrink-0 text-primary-200 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" aria-hidden="true" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {contactChannels.map((channel, index) => {
                 const Icon = channel.icon;
                 const content = (
-                  <div className="flex items-start gap-4 rounded-2xl border border-borderc bg-white p-4 shadow-soft transition-colors hover:border-accent/40">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-accent">
-                      <Icon className="h-5 w-5" />
+                  <div className="group flex items-start gap-4 rounded-2xl border border-borderc bg-white p-4 shadow-soft transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lift">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-50 text-accent">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
                     <div>
                       <p className="text-xs font-medium text-muted">{channel.label}</p>
@@ -105,11 +135,16 @@ export default function ContactPage() {
                   </div>
                 );
                 return channel.href ? (
-                  <a key={channel.label} href={channel.href}>
+                    <a
+                      key={`${channel.label}-${index}`}
+                      href={channel.href}
+                      className="block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      {...(channel.label === 'LINE OA' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    >
                     {content}
                   </a>
                 ) : (
-                  <div key={channel.label}>{content}</div>
+                  <div key={`${channel.label}-${index}`}>{content}</div>
                 );
               })}
             </div>
@@ -119,22 +154,23 @@ export default function ContactPage() {
               id="map"
               className="mt-6 flex h-56 scroll-mt-28 items-center justify-center overflow-hidden rounded-2xl border border-borderc bg-lightblue/60"
             >
-              <div className="text-center">
-                <MapPin className="mx-auto h-8 w-8 text-accent" />
-                <p className="mt-2 text-sm font-medium text-navy">แผนที่สำนักงาน</p>
-                <p className="mt-1 text-xs text-muted">
-                  {/* Placeholder แผนที่ — เชื่อมต่อ Google Maps Embed ภายหลัง */}
-                  ถนนสาทรเหนือ เขตบางรัก กรุงเทพฯ
-                </p>
-              </div>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3874.3667012850983!2d100.52897881194889!3d13.81700559572192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29d18223aeadd%3A0x6d5960f06d975a2c!2z4Lia4LiI4LiBLuC5gOC4reC4quC4l-C4uSDguYHguK3guITguYDguITguLLguJnguYzguJXguLTguYnguIcg4LiE4Lit4LiZ4LiL4Lix4Lil4LmB4LiV4LiZ4LiX4LmM!5e0!3m2!1sen!2sth!4v1787537445240!5m2!1sen!2sth"
+                title="แผนที่สำนักงาน S2 Accounting Consultant"
+                className="h-full w-full"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
             </div>
           </AnimatedSection>
 
           {/* Form */}
           <AnimatedSection className="lg:col-span-7">
-            <h2 className="text-2xl font-bold text-navy">แบบฟอร์มนัดหมายปรึกษา</h2>
+            <h2 id="contact-form" className="scroll-mt-28 text-2xl font-bold text-navy">แบบฟอร์มนัดหมายปรึกษา</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              กรอกข้อมูลด้านล่าง แล้วทีมของเราจะติดต่อกลับภายใน 1 วันทำการ
+              กรอกข้อมูลด้านล่าง แล้วทีมของเราจะติดต่อกลับภายใน 1-2 วันทำการ
             </p>
             <div className="mt-6">
               <ContactForm />
@@ -181,10 +217,10 @@ export default function ContactPage() {
               <div className="lg:col-span-1">
                 <span className="eyebrow">ความปลอดภัยของข้อมูล</span>
                 <h2 className="mt-4 text-2xl font-bold text-navy">
-                  ข้อมูลของคุณ ปลอดภัยกับเรา
+                  การดูแลข้อมูลของคุณ
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-muted">
-                  เราให้ความสำคัญกับความลับและความปลอดภัยของข้อมูลทางการเงินสูงสุด
+                  เราใช้ข้อมูลที่คุณส่งมาเพื่อติดต่อกลับและประเมินบริการเท่านั้น รายละเอียดอยู่ในนโยบายความเป็นส่วนตัว
                 </p>
               </div>
               <div className="grid gap-4 sm:grid-cols-3 lg:col-span-2">

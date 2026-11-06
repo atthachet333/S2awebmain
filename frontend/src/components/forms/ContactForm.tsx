@@ -1,38 +1,106 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CheckCircle2, Loader2, Send, AlertCircle } from 'lucide-react';
+import { CheckCircle2, Loader2, Send, AlertCircle, UploadCloud, FileText, X } from 'lucide-react';
 import {
   contactSchema,
   businessTypes,
   serviceOptions,
+  pricingIntentOptions,
   type ContactFormValues,
 } from '@/lib/contact-schema';
 import { api, ApiRequestError } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 const fieldBase =
   'h-12 w-full rounded-xl border bg-white px-4 text-sm text-ink transition-colors placeholder:text-muted focus:outline-none';
 
+// 👇 เพิ่มฟังก์ชันแปลงไฟล์เป็น Base64 ตรงนี้
+const getBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const result = reader.result as string;
+      resolve(result.split(',')[1]); // ตัดส่วนหัว data:image/...;base64, ออก
+    };
+    reader.onerror = (error) => reject(error);
+  });
+};
+
+// ตรวจเบื้องต้นฝั่งผู้ใช้ — Backend ตรวจซ้ำทั้งนามสกุล ลายเซ็นไฟล์ และขนาดจริง
+const ALLOWED_FILE_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png'];
+const ALLOWED_FILE_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
+
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  
+  // State สำหรับจัดการไฟล์อัปโหลด
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
     mode: 'onBlur',
   });
 
+  // เลือกบริการให้อัตโนมัติเมื่อมาจากหน้า Pricing (?service=premium|enterprise|custom)
+  useEffect(() => {
+    const intent = new URLSearchParams(window.location.search).get('service');
+    const option = intent ? pricingIntentOptions[intent] : undefined;
+    if (option) setValue('service', option);
+  }, [setValue]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFileError(null);
+    const file = e.target.files?.[0];
+    if (file) {
+      const ext = file.name.slice(file.name.lastIndexOf('.') + 1).toLowerCase();
+      const typeOk =
+        ALLOWED_FILE_EXTENSIONS.includes(ext) && (!file.type || ALLOWED_FILE_TYPES.includes(file.type));
+      if (!typeOk || file.size === 0) {
+        setFileError('รองรับเฉพาะไฟล์ .pdf, .jpg, .jpeg และ .png เท่านั้น');
+        e.target.value = '';
+        setSelectedFile(null);
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        setFileError('ขนาดไฟล์ใหญ่เกินไป กรุณาแนบไฟล์ขนาดไม่เกิน 10 MB');
+        e.target.value = '';
+        setSelectedFile(null);
+        return;
+      }
+      setSelectedFile(file);
+    }
+  };
+
+  const removeFile = () => {
+    setSelectedFile(null);
+    setFileError(null);
+  };
+
   const onSubmit = async (data: ContactFormValues) => {
     setServerError(null);
     try {
-      // เรียก Backend ผ่าน API Client กลาง (ไม่เรียก fetch ตรงใน component)
+      let fileBase64;
+      let fileName;
+
+      // 👇 ถ้ามีการเลือกไฟล์ ให้แปลงเป็น Base64 ก่อนส่ง
+      if (selectedFile) {
+        fileName = selectedFile.name;
+        fileBase64 = await getBase64(selectedFile);
+      }
+
       await api.submitContactForm({
         companyName: data.company,
         contactName: data.name,
@@ -41,9 +109,14 @@ export function ContactForm() {
         businessType: data.businessType,
         interestedServices: [data.service],
         message: data.message || '',
-      });
+        fileName, // 👈 ส่งชื่อไฟล์ไปให้ Backend
+        fileBase64, // 👈 ส่งไฟล์ Base64 ไปให้ Backend
+        consent: data.consent,
+      }, { timeout: 60_000 });
+      
       setSubmitted(true);
       reset();
+      setSelectedFile(null);
     } catch (err) {
       const message =
         err instanceof ApiRequestError
@@ -61,7 +134,7 @@ export function ContactForm() {
         </span>
         <h3 className="mt-5 text-xl font-bold text-navy">ส่งข้อมูลเรียบร้อยแล้ว</h3>
         <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted">
-          ขอบคุณที่ติดต่อเรา ทีมงานจะติดต่อกลับภายใน 1 วันทำการ
+          ขอบคุณที่ติดต่อเรา ทีมงานจะติดต่อกลับภายใน 1–2 วันทำการ
           เพื่อนัดหมายการปรึกษาที่เหมาะกับคุณ
         </p>
         <button
@@ -104,7 +177,7 @@ export function ContactForm() {
             id="phone"
             type="tel"
             {...register('phone')}
-            placeholder="08X-XXX-XXXX"
+            placeholder="0XX-XXX-XXXX"
             aria-invalid={!!errors.phone}
             className={cn(fieldBase, errors.phone ? 'border-rose-400' : 'border-borderc focus:border-accent')}
           />
@@ -173,25 +246,83 @@ export function ContactForm() {
       </div>
 
       <div className="mt-5">
-        <label className="flex cursor-pointer items-start gap-3">
-          <input
-            type="checkbox"
-            {...register('consent')}
-            className="mt-0.5 h-5 w-5 shrink-0 rounded border-borderc text-accent focus:ring-accent"
-          />
-          <span className="text-sm leading-relaxed text-muted">
-            ข้าพเจ้ายินยอมให้ S2 Accounting &amp; Finance Advisory เก็บและใช้ข้อมูลส่วนบุคคล
-            เพื่อวัตถุประสงค์ในการติดต่อกลับและให้บริการ ตาม
-            <span className="font-medium text-accent"> นโยบายความเป็นส่วนตัว (PDPA)</span>
-          </span>
+        <label className="mb-1.5 block text-sm font-medium text-navy">
+          เอกสารประกอบเพิ่มเติม (สูงสุด 10 MB)
         </label>
-        {errors.consent && (
+        {!selectedFile ? (
+          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-borderc border-dashed rounded-xl cursor-pointer bg-[#f8fbff] hover:bg-blue-50/50 dark:bg-white/5 dark:hover:bg-white/10 transition-colors">
+            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+              <UploadCloud className="w-8 h-8 mb-3 text-accent opacity-80" />
+              <p className="mb-1 text-sm text-navy">
+                <span className="font-semibold text-accent">คลิกเพื่ออัปโหลด</span> หรือลากไฟล์มาวาง
+              </p>
+              <p className="text-xs text-muted">PDF, JPG, PNG ขนาดไม่เกิน 10 MB</p>
+            </div>
+            <input
+              type="file"
+              className="hidden"
+              accept=".pdf,.jpg,.jpeg,.png"
+              onChange={handleFileChange}
+            />
+          </label>
+        ) : (
+          <div className="flex items-center justify-between w-full p-4 border border-borderc rounded-xl bg-white shadow-sm">
+            <div className="flex items-center gap-3 overflow-hidden">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                <FileText className="h-5 w-5" />
+              </div>
+              <div className="truncate">
+                <p className="truncate text-sm font-semibold text-navy">{selectedFile.name}</p>
+                <p className="text-xs text-muted">{(selectedFile.size / (1024 * 1024)).toFixed(2)} MB</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={removeFile}
+              aria-label="ลบไฟล์ที่แนบ"
+              className="shrink-0 p-2 text-muted hover:text-rose-500 transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+        )}
+        {fileError && (
           <p className="mt-1.5 flex items-center gap-1.5 text-sm text-rose-500">
             <AlertCircle className="h-4 w-4" />
-            {errors.consent.message}
+            {fileError}
           </p>
         )}
+        <p className="mt-1.5 text-xs leading-relaxed text-muted">
+          กรุณาแนบเฉพาะเอกสารที่จำเป็นต่อการประเมินบริการ ไฟล์จะถูกส่งถึงทีมงานทางอีเมลเท่านั้น และไม่เผยแพร่บนเว็บไซต์
+        </p>
       </div>
+
+      <div className="mt-5">
+  <label className="flex cursor-pointer items-start gap-3">
+    <input
+      type="checkbox"
+      {...register('consent')}
+      className="mt-0.5 h-5 w-5 shrink-0 rounded border-borderc text-accent focus:ring-accent"
+    />
+    <span className="text-sm leading-relaxed text-muted">
+      <span>ข้าพเจ้ายินยอมให้ S2 Accounting Consultant ใช้ข้อมูลที่ให้ไว้เพื่อติดต่อกลับ ประเมินบริการที่ขอ จัดทำใบเสนอราคา (ถ้ามี) และจัดการคำขอนี้ ตามนโยบายความเป็นส่วนตัว</span>{' '}
+      <Link
+        href="/privacy"
+        target="_blank"
+        rel="noopener"
+        className="font-medium text-accent hover:underline"
+      >
+        อ่านนโยบายความเป็นส่วนตัว
+      </Link>
+    </span>
+  </label>
+  {errors.consent && (
+    <p className="mt-1.5 flex items-center gap-1.5 text-sm text-rose-500">
+      <AlertCircle className="h-4 w-4" />
+      {errors.consent.message}
+    </p>
+  )}
+</div>
 
       {serverError && (
         <p
@@ -211,7 +342,7 @@ export function ContactForm() {
         {isSubmitting ? (
           <>
             <Loader2 className="h-5 w-5 animate-spin" />
-            กำลังส่งข้อมูล...
+            กำลังเตรียมไฟล์และส่งข้อมูล...
           </>
         ) : (
           <>
