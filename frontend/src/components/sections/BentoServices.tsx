@@ -1,157 +1,84 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, Compass, Settings2 } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { staggerContainer, staggerItem, viewportOnce } from '@/lib/motion';
-import { resolveIcon } from '@/lib/icon-map';
-import type { ApiService } from '@/lib/api';
-import { BarChart } from '@/components/dashboard/MiniChart';
+import { StaggerGroup, StaggerItem } from '@/components/animations/AnimatedSection';
+import { serviceGroups, services } from '@/data/services';
 
-// รายการบริการหน้าแรก (แหล่งข้อมูลเดียวของเนื้อหา)
-const fallbackServices: ApiService[] = [
-  { slug: 'monthly-accounting', icon: 'BookOpenCheck', title: 'รับทำบัญชีรายเดือน', short: 'บันทึกบัญชีครบวงจร ปิดรอบตรงเวลา พร้อมรายงานที่ผู้บริหารเข้าใจง่ายทุกเดือน', category: 'accounting' },
-  { slug: 'accounting-system', icon: 'Settings2', title: 'วางระบบบัญชี', short: 'ออกแบบผังบัญชีและกระบวนการทำงานให้ข้อมูลไหลลื่น', category: 'setup' },
-  { slug: 'tax-planning', icon: 'Landmark', title: 'วางแผนภาษี', short: 'ใช้สิทธิประโยชน์ทางภาษีเต็มที่อย่างถูกกฎหมาย', category: 'tax' },
-  { slug: 'cfo-advisory', icon: 'TrendingUp', title: 'CFO Advisory', short: 'ที่ปรึกษาการเงินระดับผู้บริหาร วางกลยุทธ์จากข้อมูลจริง', category: 'advisory' },
-  { slug: 'financial-statements', icon: 'FileSpreadsheet', title: 'ปิดงบการเงิน', short: 'จัดทำและยื่นงบประจำปีอย่างถูกต้องครบถ้วน', category: 'accounting' },
-  { slug: 'cost-profitability-analysis', icon: 'Wallet', title: 'วิเคราะห์ต้นทุนและกำไร', short: 'เห็นต้นทุนจริง แหล่งกำไร จุดที่ Margin รั่วไหล และโอกาสปรับราคา', category: 'finance' },
-  { slug: 'payroll', icon: 'Users2', title: 'Payroll และประกันสังคม', short: 'จัดการเงินเดือน ภาษี และประกันสังคมอย่างเป็นความลับ', category: 'accounting' },
-  { slug: 'accounting-systems-erp-advisory', icon: 'Settings2', title: 'ที่ปรึกษาระบบบัญชีและ ERP', short: 'ออกแบบ Process และ Requirement ก่อนเลือก ปรับปรุง หรือนำ ERP ไปใช้', category: 'advisory' },
-];
-
-// accent ต่อการ์ด (จำกัด 2–3 สีต่อหน้า: royal / cyan / teal)
-const accents = [
-  { grad: 'from-royal to-sky', text: 'text-royal', ring: 'group-hover:border-royal/40', soft: 'bg-primary-50' },
-  { grad: 'from-cyan to-sky', text: 'text-cyan', ring: 'group-hover:border-cyan/40', soft: 'bg-cyan-soft' },
-  { grad: 'from-teal to-cyan', text: 'text-teal', ring: 'group-hover:border-teal/40', soft: 'bg-teal-soft' },
-];
-
-// span ต่อ index สำหรับ Bento (lg = 12 คอลัมน์)
-const spans = [
-  'md:col-span-2 lg:col-span-6 lg:row-span-2',
-  'lg:col-span-3',
-  'lg:col-span-3',
-  'lg:col-span-3',
-  'lg:col-span-3',
-  'lg:col-span-4',
-  'lg:col-span-4',
-  'lg:col-span-4',
-];
+/**
+ * Content distillation — บริการบนหน้าแรกจัดเป็น 3 กลุ่ม (รากฐานงานบัญชี → ที่ปรึกษาธุรกิจและการเงิน → ระบบธุรกิจ)
+ * แสดงครบ 12 บริการเป็นลิงก์ไปยังรายละเอียดในหน้า Services · ไม่มีกราฟตกแต่ง
+ */
+const groupIcons: Record<string, typeof BookOpenCheck> = {
+  'accounting-foundation': BookOpenCheck,
+  'business-financial-advisory': Compass,
+  'business-systems-advisory': Settings2,
+};
 
 export function BentoServices() {
-  // เนื้อหาบริการใช้ข้อมูลฝั่งเว็บไซต์เป็นแหล่งเดียว (แปล TH/EN/ZH ครบ)
-  // ไม่แสดงสถานะการเชื่อมต่อ Backend ต่อผู้เข้าชม (EP23) — Backend ยังทำงานตามปกติ
-  const items = fallbackServices;
-
   return (
-    <section className="section bg-white" id="services">
+    <section className="section bg-white" id="services" aria-labelledby="home-services-heading">
       <div className="container">
         <div className="flex flex-col items-center">
           <SectionHeader
             eyebrow="บริการของเรา"
-            title="เริ่มจากงานบัญชี และต่อยอดสู่การบริหาร"
-            description="งานบัญชีและภาษีวางรากฐานข้อมูลที่เชื่อถือได้ ส่วนงานที่ปรึกษาช่วยให้คุณนำข้อมูลนั้นไปวางแผนและตัดสินใจ"
+            title={<span id="home-services-heading">เริ่มจากงานบัญชี และต่อยอดสู่การบริหาร</span>}
+            description="12 บริการใน 3 กลุ่ม ขอบเขตของแต่ละบริการตกลงตามความต้องการจริง ไม่จำเป็นต้องใช้ทุกบริการ"
           />
         </div>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12 lg:auto-rows-[minmax(0,auto)]"
-        >
-          {items.map((service, i) => {
-            const Icon = resolveIcon(service.icon);
-            const accent = accents[i % accents.length];
-            const isHighlight = i === 0;
-
-            if (isHighlight) {
-              return (
-                <motion.div key={service.slug} variants={staggerItem} className={spans[i]}>
-                  <Link
-                    href={`/services#${service.slug}`}
-                    className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-navy-gradient p-7 text-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift md:p-8"
-                  >
-                    <div
-                      className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-gradient-to-br from-royal/40 to-cyan/20 blur-3xl"
-                      aria-hidden="true"
-                    />
-                    <div
-                      className="pointer-events-none absolute inset-0 opacity-[0.06]"
-                      style={{
-                        backgroundImage:
-                          'linear-gradient(to right,#fff 1px,transparent 1px),linear-gradient(to bottom,#fff 1px,transparent 1px)',
-                        backgroundSize: '34px 34px',
-                      }}
-                      aria-hidden="true"
-                    />
-                    <div className="relative flex items-center gap-3">
-                      <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 backdrop-blur">
-                        <Icon className="h-7 w-7 text-sky" />
-                      </span>
-                      <span className="rounded-full bg-gold/20 px-3 py-1 text-xs font-semibold text-gold">
-                        บริการหลัก
-                      </span>
-                    </div>
-                    <h3 className="relative mt-6 text-2xl font-bold md:text-3xl">{service.title}</h3>
-                    <p className="relative mt-3 max-w-md text-sm leading-relaxed text-primary-100/85">
-                      {service.short}
-                    </p>
-                    <div className="relative mt-auto pt-6">
-                      <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
-                        <div className="mb-2 flex items-center justify-between text-xs text-primary-100/70">
-                          <span>ตัวอย่างรายงานรายเดือน</span>
-                        </div>
-                        <BarChart
-                          data={[52, 64, 58, 76, 70, 88]}
-                          labels={['ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.']}
-                          className="w-full"
-                        />
-                      </div>
-                      <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-sky">
-                        ดูรายละเอียด
-                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </span>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            }
-
+        <StaggerGroup className="mx-auto mt-12 grid max-w-6xl gap-5 lg:grid-cols-3">
+          {serviceGroups.map((group) => {
+            const Icon = groupIcons[group.id] ?? BookOpenCheck;
+            const core = group.id === 'business-financial-advisory';
+            const items = group.slugs
+              .map((slug) => services.find((s) => s.slug === slug))
+              .filter((s): s is (typeof services)[number] => Boolean(s));
             return (
-              <motion.div key={service.slug} variants={staggerItem} className={spans[i]}>
-                <Link
-                  href={`/services#${service.slug}`}
-                  className={`group flex h-full flex-col rounded-3xl border border-borderc bg-white p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift ${accent.ring}`}
+              <StaggerItem
+                key={group.id}
+                className={
+                  core
+                    ? 'flex flex-col rounded-3xl bg-navy-gradient p-7 text-white shadow-card'
+                    : 'flex flex-col rounded-3xl border border-borderc bg-white p-7 shadow-soft'
+                }
+              >
+                <span
+                  className={`flex h-12 w-12 items-center justify-center rounded-2xl ${core ? 'bg-white/10 text-sky' : 'bg-primary-50 text-accent'}`}
                 >
-                  <span
-                    className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${accent.grad} text-white shadow-soft transition-transform duration-300 group-hover:scale-105`}
-                  >
-                    <Icon className="h-6 w-6" />
-                  </span>
-                  <h3 className="mt-4 text-base font-bold text-navy">{service.title}</h3>
-                  <p className="mt-1.5 flex-1 text-sm leading-relaxed text-muted">{service.short}</p>
-                  {/* EP34 QA: ข้อความลิงก์ใช้สีเข้มพอสำหรับอ่าน (cyan/teal บนพื้นขาวมีคอนทราสต์ต่ำ) */}
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-royal dark:text-sky">
-                    ดูรายละเอียด
-                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </span>
-                </Link>
-              </motion.div>
+                  <Icon className="h-6 w-6" aria-hidden="true" />
+                </span>
+                <h3 className={`mt-5 text-xl font-bold ${core ? 'text-white' : 'text-navy'}`}>{group.title}</h3>
+                <p className={`mt-2 text-sm leading-relaxed ${core ? 'text-primary-100/85' : 'text-muted'}`}>
+                  {group.description}
+                </p>
+                <ul className={`mt-5 flex-1 space-y-1 border-t pt-4 ${core ? 'border-white/10' : 'border-borderc'}`}>
+                  {items.map((service) => (
+                    <li key={service.slug}>
+                      <Link
+                        href={`/services#${service.slug}`}
+                        className={`group flex items-center justify-between gap-3 rounded-lg py-1.5 text-sm font-semibold underline-offset-4 hover:underline ${core ? 'text-white' : 'text-navy hover:text-accent'}`}
+                      >
+                        {service.title}
+                        <ArrowRight
+                          className={`h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5 ${core ? 'text-sky' : 'text-accent'}`}
+                          aria-hidden="true"
+                        />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </StaggerItem>
             );
           })}
-        </motion.div>
+        </StaggerGroup>
 
         <div className="mt-10 text-center">
           <Link
             href="/services"
             className="group inline-flex items-center gap-2 rounded-full border border-borderc bg-white px-6 py-3 text-sm font-semibold text-navy transition-all hover:border-accent hover:text-accent"
           >
-            ดูบริการทั้งหมด
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            ดูขอบเขตของทุกบริการ
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
           </Link>
         </div>
       </div>

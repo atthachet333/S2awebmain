@@ -29,8 +29,14 @@ function StatCard({ stat, index }: { stat: StatItem; index: number }) {
         <Icon className="h-6 w-6" />
       </span>
       <p className="mt-4 font-display text-3xl font-bold text-navy md:text-4xl">
-        <span ref={ref}>{value.toLocaleString('th-TH')}</span>
-        <span className={m.text}>{stat.suffix}</span>
+        {stat.display ? (
+          <span ref={ref}>{stat.display}</span>
+        ) : (
+          <>
+            <span ref={ref}>{value.toLocaleString('th-TH')}</span>
+            <span className="text-accent">{stat.suffix}</span>
+          </>
+        )}
       </p>
       <p className="mt-1 text-sm font-semibold text-navy">{stat.label}</p>
       {stat.description && (

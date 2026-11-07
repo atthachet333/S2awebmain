@@ -7,9 +7,6 @@ import { DashboardPreview } from '@/components/dashboard/DashboardPreview';
 import { EASE } from '@/lib/motion';
 import { useLanguage } from '@/providers/LanguageProvider';
 
-/** EP34 — ใช้เฉพาะข้อเท็จจริงที่ยืนยันแล้ว (ปีก่อตั้ง · จำนวนลูกค้าที่ให้บริการมาแล้วรวม · ขอบเขตบริการ) */
-const trustPills = ['ให้บริการตั้งแต่ พ.ศ. 2562', 'ให้บริการลูกค้ามาแล้วกว่า 100 ราย ทั้งนิติบุคคลและบุคคล', 'บัญชี ภาษี และที่ปรึกษาธุรกิจในทีมเดียว'];
-
 export function HeroSection() {
   const { locale } = useLanguage();
   const heroCopy = {
@@ -17,19 +14,19 @@ export function HeroSection() {
       lead: 'จากงานบัญชีที่แม่นยำ',
       accent: 'สู่การตัดสินใจทางธุรกิจ',
       tail: 'ที่ดีกว่า',
-      description: 'S2 เป็นที่ปรึกษาธุรกิจที่มีงานบัญชีและภาษีเป็นรากฐาน เราช่วยเจ้าของธุรกิจและผู้บริหารเข้าใจตัวเลข เห็นต้นทุนและกำไรที่แท้จริง และวางแผนธุรกิจได้อย่างมั่นใจ',
+      description: 'S2 ดูแลบัญชีและภาษีให้ข้อมูลของธุรกิจเชื่อถือได้ แล้วช่วยผู้บริหารเข้าใจว่าต้นทุน กำไร และกระแสเงินสดเปลี่ยนเพราะอะไร ก่อนตัดสินใจเรื่องสำคัญ',
     },
     en: {
       lead: 'From Reliable Accounting',
       accent: 'to Better Business',
       tail: 'Decisions',
-      description: 'S2 is a business advisory firm built on strong accounting and tax foundations. We help owners and executives understand their numbers, see their true costs and profits, and plan with confidence.',
+      description: 'S2 keeps your accounting and tax reliable, then helps management understand why costs, margins and cash flow are changing before larger decisions are made.',
     },
     zh: {
       lead: '以可靠的会计为基础，',
       accent: '做出更好的',
       tail: '经营决策',
-      description: 'S2 是一家以会计与税务为基础的企业咨询公司。我们帮助企业主和管理层读懂数字、看清真实的成本与利润，并更有把握地规划业务。',
+      description: 'S2 确保企业的会计与税务数据可靠，并帮助管理层在做出重要决策前，理解成本、利润和现金流为何发生变化。',
     },
   }[locale];
   // ภาษาจีนไม่เว้นวรรคระหว่างวลี
@@ -107,19 +104,6 @@ export function HeroSection() {
             </Link>
           </motion.div>
 
-          <motion.ul
-            className="mt-8 flex flex-wrap gap-x-6 gap-y-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            {trustPills.map((pill) => (
-              <li key={pill} className="flex items-center gap-2 text-sm font-medium text-ink/70">
-                <ShieldCheck className="h-4 w-4 text-accent" />
-                {pill}
-              </li>
-            ))}
-          </motion.ul>
         </div>
 
         {/* Visual */}

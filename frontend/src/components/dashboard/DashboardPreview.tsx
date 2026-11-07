@@ -50,7 +50,7 @@ export function DashboardPreview({ compact = false }: { compact?: boolean }) {
               <p className="mt-1 font-display text-lg font-bold text-navy">{kpi.value}</p>
               <p
                 className={`mt-0.5 flex items-center gap-1 text-[0.7rem] font-semibold ${
-                  kpi.up ? 'text-emerald-600' : 'text-rose-500'
+                  kpi.up ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400'
                 }`}
               >
                 {kpi.up ? (

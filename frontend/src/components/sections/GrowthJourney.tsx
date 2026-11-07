@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { ArrowRight, Info } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { AnimatedSection } from '@/components/animations/AnimatedSection';
-import { continuityPath, journeyStages } from '@/data/journey';
+import { journeyStages } from '@/data/journey';
 
 /**
  * EP28 — เติบโตไปกับ S2 (ฉบับย่อบนหน้าแรก) · รายละเอียดการจับคู่บริการอยู่ที่หน้า Services (#journey-mapping)
@@ -19,7 +19,7 @@ export function GrowthJourney() {
             <span className="inline-block">ความต้องการก็เปลี่ยนตาม</span>
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted md:text-lg">
-            ธุรกิจไม่ควรต้องหาที่ปรึกษาใหม่ทุกครั้งที่เติบโตหรือซับซ้อนขึ้น S2 สนับสนุนได้ตั้งแต่การวางรากฐาน ไปจนถึงงานที่ปรึกษาและการเตรียมโครงสร้าง ตามความต้องการของแต่ละช่วง
+            เริ่มได้จากช่วงที่ตรงกับธุรกิจตอนนี้ ไม่จำเป็นต้องผ่านทุกช่วง และขยายงานได้เมื่อความต้องการเปลี่ยน
           </p>
         </AnimatedSection>
 
@@ -46,27 +46,8 @@ export function GrowthJourney() {
           </ol>
         </AnimatedSection>
 
-        <AnimatedSection className="mx-auto mt-12 max-w-4xl rounded-3xl border border-borderc bg-lightblue/40 p-6 md:p-8">
-          <div className="flex items-start gap-3">
-            <Info className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
-            <div>
-              <p className="text-sm font-semibold text-navy md:text-base">เส้นทางนี้เป็นแนวทาง ไม่ใช่ขั้นตอนที่ทุกธุรกิจต้องผ่าน</p>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                เริ่มได้จากช่วงที่ตรงกับธุรกิจตอนนี้ เลือกเฉพาะบริการที่ต้องการ และอยู่ช่วงเดียวได้นานเท่าที่เหมาะสม เมื่อความต้องการเปลี่ยน ความร่วมมือก็ขยายได้โดยไม่ต้องใช้บริการเพิ่มทุกครั้ง
-              </p>
-              <ol className="mt-4 flex flex-wrap items-center gap-x-1.5 gap-y-2" aria-label="ความร่วมมือที่ขยายได้ตามความต้องการ">
-                {continuityPath.map((step, i) => (
-                  <li key={step} className="flex items-center gap-1.5">
-                    <span className="rounded-full border border-borderc bg-white px-3 py-1 text-xs font-medium text-navy">{step}</span>
-                    {i < continuityPath.length - 1 && (
-                      <ArrowRight className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-          <div className="mt-6 flex flex-col gap-3 border-t border-borderc pt-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
+        <AnimatedSection className="mx-auto mt-12 max-w-4xl rounded-3xl border border-borderc bg-lightblue/40 p-5 md:p-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
             <Button href="/contact">
               ถามเราว่าควรเริ่มจากตรงไหน
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />

@@ -20,6 +20,8 @@ export interface Service {
 
 export interface StatItem {
   value: number;
+  /** แสดงเป็นข้อความแทนตัวนับ (เช่น ปี พ.ศ.) */
+  display?: string;
   suffix: string;
   label: string;
   /** คำอธิบายสั้นใต้ตัวเลข (ต้องเป็นข้อเท็จจริงที่ตรวจสอบได้) */

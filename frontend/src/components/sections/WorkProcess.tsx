@@ -7,7 +7,7 @@ import { AnimatedSection } from '@/components/animations/AnimatedSection';
  * EP30 — "เมื่อเริ่มทำงานกับ S2 จะเกิดอะไรขึ้น"
  * แยกช่วงก่อนตกลงร่วมงาน (ผู้สนใจ) กับหลังตกลงร่วมงาน (ลูกค้า) ให้ชัด · รูปแบบ editorial ไม่ใช่ stepper
  */
-export function WorkProcess() {
+export function WorkProcess({ compact = false }: { compact?: boolean }) {
   let counter = 0;
   return (
     <section id="how-we-work" className="section scroll-mt-20 bg-white" aria-labelledby="how-we-work-heading">
@@ -19,7 +19,9 @@ export function WorkProcess() {
             <span className="inline-block">จะเกิดอะไรขึ้น</span>
           </h2>
           <p className="mt-4 leading-relaxed text-muted md:text-lg">
-            รู้ล่วงหน้าว่าแต่ละขั้นตอนเป็นอย่างไร ตั้งแต่การพูดคุยครั้งแรก การตกลงขอบเขตงาน ไปจนถึงงานที่ดูแลต่อเนื่อง
+            {compact
+              ? 'การพูดคุยและการประเมินยังไม่มีข้อผูกมัด งานเริ่มเมื่อตกลงขอบเขตและใบเสนอราคาแล้วเท่านั้น และงานนอกขอบเขตตกลงก่อนทำเสมอ'
+              : 'รู้ล่วงหน้าว่าแต่ละขั้นตอนเป็นอย่างไร ตั้งแต่การพูดคุยครั้งแรก การตกลงขอบเขตงาน ไปจนถึงงานที่ดูแลต่อเนื่อง'}
           </p>
         </div>
 
@@ -34,7 +36,7 @@ export function WorkProcess() {
                 {stage.steps.map((step) => {
                   counter += 1;
                   return (
-                    <li key={step.title} className="flex gap-4 border-b border-borderc/70 py-5 last:border-b-0">
+                    <li key={step.title} className={`flex gap-4 border-b border-borderc/70 last:border-b-0 ${compact ? 'py-3' : 'py-5'}`}>
                       <span
                         className="mt-0.5 w-7 shrink-0 font-display text-sm font-bold text-accent"
                         aria-hidden="true"
@@ -43,7 +45,7 @@ export function WorkProcess() {
                       </span>
                       <div>
                         <h4 className="font-bold text-navy">{step.title}</h4>
-                        <p className="mt-1 text-sm leading-relaxed text-muted">{step.description}</p>
+                        {!compact && <p className="mt-1 text-sm leading-relaxed text-muted">{step.description}</p>}
                       </div>
                     </li>
                   );
@@ -53,6 +55,7 @@ export function WorkProcess() {
           ))}
         </div>
 
+        {!compact && (
         <AnimatedSection className="mx-auto mt-10 max-w-6xl rounded-3xl border border-borderc bg-lightblue/40 p-6 md:p-8">
           <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
             <div className="lg:col-span-4">
@@ -71,6 +74,20 @@ export function WorkProcess() {
             </ul>
           </div>
         </AnimatedSection>
+        )}
+
+        {compact && (
+          <p className="mt-8 text-center text-sm text-muted">
+            <Link href="/services#how-we-work" className="font-semibold text-accent underline-offset-4 hover:underline">
+              ดูรายละเอียดแต่ละขั้นตอน
+            </Link>
+            <span className="mx-2" aria-hidden="true">·</span>
+            เป็นลูกค้าอยู่แล้ว?{' '}
+            <Link href="/client-resources" className="font-semibold text-accent underline-offset-4 hover:underline">
+              ดูข้อมูลสำหรับลูกค้า S2
+            </Link>
+          </p>
+        )}
 
         <p className="mt-8 text-center">
           <Link
