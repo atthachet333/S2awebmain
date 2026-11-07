@@ -1,28 +1,22 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Target, Eye, Award, Lightbulb, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { Award, ArrowRight, ArrowUpRight } from 'lucide-react';
 import {
   companyStory,
-  mission,
-  vision,
-  coreValues,
   companyTimeline,
   teamMembers,
   technologyPartner,
-  advisoryPrinciples,
   companyEvolution,
-  technologyNarrative,
 } from '@/data/company';
 import { pdaBliss } from '@/data/partnership';
 import { siteConfig } from '@/lib/utils';
 import { PdaBlissLogo } from '@/components/partners/PdaBlissLogo';
 import { industries } from '@/data/industries';
-import { stats } from '@/data/stats';
 import { PageHero } from '@/components/layout/PageHero';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { AnimatedSection, StaggerGroup, StaggerItem } from '@/components/animations/AnimatedSection';
-import { DashboardPreview } from '@/components/dashboard/DashboardPreview';
+import { ProfessionalPrinciples } from '@/components/sections/ProfessionalPrinciples';
 import { CTASection } from '@/components/sections/CTASection';
 
 export const metadata: Metadata = {
@@ -42,9 +36,9 @@ export default function AboutPage() {
         description="S2 Accounting Consultant เริ่มจากงานบัญชีและภาษี และพัฒนาเป็นที่ปรึกษาธุรกิจที่ช่วยผู้ประกอบการเข้าใจผลประกอบการและตัดสินใจจากข้อมูลจริง"
       />
 
-      {/* Story + Visual (overflow-x-clip: กันแสงตกแต่ง -inset-4 ล้นขอบจอมือถือ) */}
-      <section className="section overflow-x-clip bg-white">
-        <div className="container grid items-center gap-12 lg:grid-cols-2">
+      {/* Story — ข้อความล้วน (นำ Dashboard ตัวอย่างและแถบสถิติที่ซ้ำกับหน้าแรกออก) */}
+      <section className="section bg-white">
+        <div className="container max-w-3xl">
           <AnimatedSection>
             <span className="eyebrow">เรื่องราวของเรา</span>
             <h2 className="mt-4 text-display-md font-bold text-navy">
@@ -73,155 +67,12 @@ export default function AboutPage() {
                 ))}
               </ol>
             </div>
-            <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {stats.map((s) => (
-                <div key={s.label} className="rounded-2xl border border-borderc bg-white p-4 text-center shadow-soft">
-                  <p className="font-display text-2xl font-bold text-navy">
-                    {s.value.toLocaleString('th-TH')}
-                    {s.suffix}
-                  </p>
-                  <p className="mt-1 text-xs text-muted">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </AnimatedSection>
-          <AnimatedSection>
-            <div className="relative">
-              <div
-                className="absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-tr from-accent/15 to-transparent blur-2xl"
-                aria-hidden="true"
-              />
-              <DashboardPreview compact />
-              <div className="mt-4 flex items-center gap-4 rounded-2xl border border-borderc bg-lightblue/60 p-5 shadow-soft">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-accent shadow-sm">
-                  <Lightbulb className="h-6 w-6" />
-                </div>
-                <p className="text-sm font-medium leading-relaxed text-navy">
-                  เราเชื่อว่าธุรกิจทุกขนาดสมควรได้รับข้อมูลการเงินที่ถูกต้อง
-                  และคำปรึกษาที่เข้าใจง่าย เพื่อการเติบโตที่ยั่งยืน
-                </p>
-              </div>
-            </div>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Mission / Vision */}
-      <section className="section bg-lightblue/50">
-        <div className="container grid gap-6 md:grid-cols-2">
-          <AnimatedSection className="rounded-3xl border border-borderc bg-white p-8 shadow-soft">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-accent">
-              <Target className="h-6 w-6" />
-            </span>
-            <h3 className="mt-5 text-xl font-bold text-navy">พันธกิจ (Mission)</h3>
-            <p className="mt-3 max-w-prose leading-relaxed text-muted">{mission}</p>
-          </AnimatedSection>
-          <AnimatedSection className="rounded-3xl border border-borderc bg-white p-8 shadow-soft">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-accent">
-              <Eye className="h-6 w-6" />
-            </span>
-            <h3 className="mt-5 text-xl font-bold text-navy">วิสัยทัศน์ (Vision)</h3>
-            <p className="mt-3 max-w-prose leading-relaxed text-muted">{vision}</p>
-          </AnimatedSection>
-
-          {/* Technology & Systems Partner — อธิบายสั้น ๆ ว่าทำไมเทคโนโลยีเป็นส่วนหนึ่งของงาน S2 */}
-          <AnimatedSection className="grid gap-6 rounded-3xl border border-borderc bg-white p-6 shadow-soft md:col-span-2 md:mt-2 md:p-8 lg:grid-cols-12 lg:items-center lg:gap-10">
-            <div className="lg:col-span-7">
-              <span className="eyebrow">วิธีการทำงาน</span>
-              <h3 className="mt-4 text-xl font-bold text-navy md:text-2xl">
-                เทคโนโลยีในวิธีทำงานของ S2
-              </h3>
-              <p className="mt-3 leading-relaxed text-muted">
-                S2 ใช้เทคโนโลยีเป็นเครื่องมือภายในทีม เพื่อจัดระเบียบเอกสาร ลดงานซ้ำและข้อผิดพลาดจากการทำมือ และเตรียมข้อมูลสำหรับผู้บริหารได้เร็วขึ้น เป้าหมายคือให้ทีมมีเวลาวิเคราะห์และให้คำปรึกษามากขึ้น
-              </p>
-              <p className="mt-3 leading-relaxed text-muted">
-                เมื่อธุรกิจของลูกค้าต้องการระบบเฉพาะ เช่น ERP หรือการเชื่อมต่อระบบ S2 ทำงานร่วมกับ PDA BLISS ในฐานะพันธมิตรด้านเทคโนโลยีและระบบ การเลือกใช้ขึ้นอยู่กับความเหมาะสม และลูกค้าเลือกระบบหรือผู้ให้บริการได้อย่างอิสระ
-              </p>
-              <Link
-                href="/services#accounting-systems-erp-advisory"
-                className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent"
-              >
-                ที่ปรึกษาระบบบัญชีและ ERP
-                <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-              </Link>
-              {/* หมายเหตุสถานะทางกฎหมาย — ข้อความรอง (footnote) */}
-              <p className="mt-5 border-t border-borderc pt-3 text-[0.72rem] leading-relaxed text-muted">
-                S2 Accounting Consultant และ PDA BLISS COMPANY LIMITED เป็นนิติบุคคลแยกจากกัน ทำงานร่วมกันในฐานะพันธมิตรด้านเทคโนโลยีและระบบธุรกิจ งานด้านเทคโนโลยีไม่รวมอยู่ในบริการบัญชีโดยอัตโนมัติ และจะเสนอราคาแยกตามขอบเขตงานที่ตกลง
-              </p>
-            </div>
-            {/* Accounting → Process → Data → Technology → Management Insight */}
-            <div className="rounded-2xl border border-borderc bg-primary-50/50 p-5 md:p-6 lg:col-span-5">
-              <p className="text-xs font-semibold uppercase tracking-wider text-accent">เทคโนโลยีช่วยงานของเราอย่างไร</p>
-              <ol className="mt-4 space-y-2">
-                {technologyNarrative.map((step, i) => (
-                  <li key={step} className="flex items-center gap-3">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-display text-xs font-bold text-white">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <span className="flex-1 rounded-xl border border-borderc bg-white px-4 py-2 text-sm font-semibold text-navy">
-                      {step}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* EP27 — แนวทางการให้คำปรึกษาของ S2 */}
-      <section className="section bg-white" aria-labelledby="advisory-approach-heading">
-        <div className="container">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">วิธีคิดของเรา</span>
-            <h2 id="advisory-approach-heading" className="mt-4 text-display-md font-bold text-navy">
-              แนวทางการให้คำปรึกษาของ S2
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-muted md:text-lg">
-              หลักการที่เราใช้ในทุกงาน ตั้งแต่บัญชีรายเดือนไปจนถึง CFO Advisory
-            </p>
-          </div>
-          <ol className="mx-auto mt-12 grid max-w-5xl gap-x-12 gap-y-10 md:grid-cols-2">
-            {advisoryPrinciples.map((principle, i) => (
-              <li key={principle.title} className="border-t-2 border-accent/30 pt-5">
-                <p className="font-display text-sm font-bold text-accent" aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </p>
-                <h3 className="mt-2 text-lg font-bold text-navy">{principle.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{principle.description}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* Core Values */}
-      <section className="section bg-white pt-0 md:pt-0">
-        <div className="container">
-          <SectionHeader
-            eyebrow="ค่านิยมองค์กร"
-            title="สิ่งที่เรายึดถือในทุกงาน"
-            description="ค่านิยมเหล่านี้คือรากฐานที่กำหนดวิธีการทำงานและการดูแลลูกค้าของเรา"
-          />
-          <StaggerGroup className="mt-12 flex flex-wrap justify-center gap-5">
-            {coreValues.map((value) => {
-              const Icon = value.icon;
-              return (
-                <StaggerItem
-                  key={value.title}
-                  className="group w-full rounded-2xl border border-borderc sm:w-[calc(50%-0.625rem)] lg:w-[calc((100%-2.5rem)/3)] bg-white p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card"
-                >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-accent transition-colors group-hover:bg-accent group-hover:text-white">
-                    <Icon className="h-6 w-6" />
-                  </span>
-                  <h3 className="mt-4 text-lg font-bold text-navy">{value.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{value.description}</p>
-                </StaggerItem>
-              );
-            })}
-          </StaggerGroup>
-        </div>
-      </section>
+      {/* Content distillation — หลักการทำงาน 6 ข้อ + ความลับของข้อมูลลูกค้า (แทนพันธกิจ/วิสัยทัศน์ แนวทาง และค่านิยมเดิม) */}
+      <ProfessionalPrinciples variant="full" />
 
       {/* Timeline */}
       <section className="section bg-lightblue/50">
@@ -269,11 +120,12 @@ export default function AboutPage() {
               <li className="rounded-2xl border border-borderc bg-white p-5">
                 <p className="text-xs font-semibold text-accent">วิธีทำงาน</p>
                 <p className="mt-3 text-sm leading-relaxed text-ink/80">แนวทางการให้คำปรึกษา และขั้นตอนตั้งแต่การพูดคุยครั้งแรกจนถึงงานที่ดูแลต่อเนื่อง</p>
-                <Link href="/#how-we-work" className="mt-3 inline-block text-sm font-semibold text-accent underline-offset-4 hover:underline">ดูขั้นตอนการทำงาน</Link>
+                <Link href="/services#how-we-work" className="mt-3 inline-block text-sm font-semibold text-accent underline-offset-4 hover:underline">ดูขั้นตอนการทำงาน</Link>
               </li>
               <li className="rounded-2xl border border-borderc bg-white p-5">
-                <p className="text-xs font-semibold text-accent">กรณีศึกษาของลูกค้า</p>
-                <p className="mt-3 text-sm leading-relaxed text-ink/80">S2 ไม่เผยแพร่ชื่อหรือข้อมูลของลูกค้าโดยไม่ได้รับอนุญาต กรณีศึกษาจะเพิ่มเมื่อลูกค้ายินยอมให้เผยแพร่</p>
+                <p className="text-xs font-semibold text-accent">ข้อมูลของลูกค้า</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink/80">S2 ไม่นำชื่อ ตัวเลข หรือเรื่องราวของลูกค้ามาใช้ในการตลาดโดยไม่ได้รับอนุญาต</p>
+                <Link href="#principles" className="mt-3 inline-block text-sm font-semibold text-accent underline-offset-4 hover:underline">ดูหลักการทำงาน</Link>
               </li>
             </ul>
           </AnimatedSection>
@@ -405,7 +257,7 @@ export default function AboutPage() {
 
       <CTASection
         title="อยากรู้ว่าเราจะช่วยธุรกิจคุณได้อย่างไร?"
-        description="พูดคุยกับทีมของเรา แล้วมาดูกันว่าเราจะสร้างการเติบโตร่วมกันได้อย่างไร"
+        description="เล่าสถานการณ์ของธุรกิจ แล้ว S2 จะบอกว่าบริการใดเกี่ยวข้อง และบริการใดยังไม่จำเป็น"
       />
     </>
   );

@@ -4,7 +4,6 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { usePathname } from 'next/navigation';
 import {
   isLocale,
-  localizedPageDescriptions,
   localizedPageTitles,
   translateContent,
   uiTranslations,
@@ -40,8 +39,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const localeRef = useRef<Locale>('th');
   const textStates = useRef(new WeakMap<Text, TextState>());
   const attributeStates = useRef(new WeakMap<Element, AttributeState>());
-  // ค่า title / description เดิมจากเซิร์ฟเวอร์ (ภาษาไทย) ของหน้าปัจจุบัน เพื่อคืนค่าเมื่อสลับกลับเป็นไทย
-  const serverHead = useRef<{ path: string; title: string; description: string } | null>(null);
+  // ชื่อหน้าเดิมจากเซิร์ฟเวอร์ (ภาษาไทย) ของหน้าปัจจุบัน เพื่อคืนค่าเมื่อสลับกลับเป็นไทย
+  // Content distillation: ไม่แปล meta description ฝั่งเบราว์เซอร์อีกต่อไป — การแก้ attribute ของ <meta> ก่อนที่ React
+  // จะรับ metadata ที่สตรีมมา ทำให้ React สร้าง <meta> ซ้ำ (description 2 ชุด) · ผู้ใช้ไม่เห็น meta description
+  // และ crawler อ่านจาก HTML ของเซิร์ฟเวอร์ (ภาษาไทย) อยู่แล้ว
+  const serverHead = useRef<{ path: string; title: string } | null>(null);
 
   const translateNode = useCallback((node: Node, currentLocale: Locale) => {
     if (node.nodeType === Node.TEXT_NODE) {
@@ -77,7 +79,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const translateDocument = useCallback((currentLocale: Locale) => {
     translateNode(document.body, currentLocale);
 
-    const metaDescription = document.querySelector('meta[name="description"]');
     // EP40: บันทึกเฉพาะค่าที่เป็นภาษาไทยจากเซิร์ฟเวอร์ — ระหว่างเปลี่ยนหน้าแบบ client-side
     // document.title อาจยังเป็นชื่อ (ที่แปลแล้ว) ของหน้าก่อนหน้า จึงไม่ควรเก็บค่านั้น
     const titleIsServer = currentLocale === 'th' || thaiPattern.test(document.title);
@@ -85,24 +86,16 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       serverHead.current = {
         path: pathname,
         title: document.title,
-        description: metaDescription?.getAttribute('content') ?? '',
       };
     }
 
     // เฉพาะ route ที่ตรงกันเท่านั้น — หน้าย่อย (เช่น บทความ) คงชื่อเรื่องของตัวเองไว้
     const pageTitle = localizedPageTitles[currentLocale][pathname];
-    const pageDescription = currentLocale === 'th' ? undefined : localizedPageDescriptions[currentLocale][pathname];
     if (pageTitle) {
       document.title = pathname === '/' ? pageTitle : `${pageTitle} | S2 Accounting Consultant`;
     } else if (serverHead.current?.path === pathname) {
       // EP36: หน้าย่อย (เช่น บทความ) แปลชื่อเรื่องจากชื่อเดิมของหน้า ถ้ามีคำแปล
       document.title = translateTitle(serverHead.current.title, currentLocale);
-    }
-    if (pageDescription || serverHead.current?.path === pathname) {
-      const description = pageDescription ?? translateContent(serverHead.current?.description ?? '', currentLocale);
-      ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]'].forEach((selector) => {
-        document.querySelector(selector)?.setAttribute('content', description);
-      });
     }
   }, [pathname, translateNode]);
 
@@ -138,16 +131,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         return;
       }
       if (thaiPattern.test(document.title)) {
-        const description = document.querySelector('meta[name="description"]')?.getAttribute('content') ?? '';
-        serverHead.current = { path: pathname, title: document.title, description };
+        serverHead.current = { path: pathname, title: document.title };
         const translated = translateTitle(document.title, locale);
         if (translated !== document.title) document.title = translated;
-        if (thaiPattern.test(description)) {
-          const translatedDescription = translateContent(description, locale);
-          ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]'].forEach((selector) => {
-            document.querySelector(selector)?.setAttribute('content', translatedDescription);
-          });
-        }
       }
     });
     if (locale !== 'th') headObserver.observe(document.head, { childList: true, subtree: true, characterData: true });

@@ -222,7 +222,7 @@ export default function PricingPage() {
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                    S2 Enterprise Advisory: เพิ่มรายงานเพื่อการบริหาร มุมมองต้นทุนและกำไร และการสนับสนุนผู้บริหารที่ใกล้ชิดขึ้น ซึ่งเป็นส่วนหนึ่งของขอบเขตงานที่ชำระ
+                    S2 Enterprise Advisory: เพิ่มรายงานเพื่อการบริหาร มุมมองต้นทุนและกำไร และการสนับสนุนผู้บริหารในการอ่านตัวเลข ซึ่งเป็นส่วนหนึ่งของขอบเขตงานที่ชำระ
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
