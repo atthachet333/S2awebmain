@@ -29,6 +29,13 @@ export function ClientRelationship() {
               ดูสิ่งที่ลูกค้าได้จากการทำงานกับ S2
               <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
             </Link>
+            {/* EP32: ลิงก์เล็กสำหรับลูกค้าปัจจุบัน */}
+            <p className="mt-3 text-sm text-primary-100/70">
+              เป็นลูกค้าอยู่แล้ว?{' '}
+              <Link href="/client-resources" className="font-semibold text-white underline-offset-4 hover:underline">
+                ดูข้อมูลสำหรับลูกค้า S2
+              </Link>
+            </p>
           </div>
           <ul className="grid gap-6 sm:grid-cols-3 lg:col-span-8">
             {teaser.map((benefit) => (

@@ -174,6 +174,13 @@ export default function ContactPage() {
             <p className="mt-2 text-sm leading-relaxed text-muted">
               กรอกข้อมูลด้านล่าง โดยปกติทีมของเราจะติดต่อกลับภายใน 1–2 วันทำการ
             </p>
+            {/* EP32: แยกผู้สนใจใหม่กับลูกค้าปัจจุบัน */}
+            <p className="mt-3 rounded-xl border border-borderc bg-lightblue/40 px-4 py-3 text-sm leading-relaxed text-muted">
+              แบบฟอร์มนี้สำหรับผู้สนใจบริการใหม่ หากเป็นลูกค้า S2 อยู่แล้ว ติดต่อทีมผ่าน LINE OA โทรศัพท์สำนักงาน หรืออีเมล และดูข้อมูลการทำงานร่วมกันได้ที่{' '}
+              <Link href="/client-resources" className="font-semibold text-accent underline-offset-4 hover:underline">
+                สำหรับลูกค้า S2
+              </Link>
+            </p>
             <div className="mt-6">
               <ContactForm />
             </div>

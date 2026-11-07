@@ -110,6 +110,15 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              {/* EP32: ข้อมูลสำหรับลูกค้าปัจจุบัน */}
+              <li>
+                <Link
+                  href="/client-resources"
+                  className="text-sm text-primary-100/70 transition-colors hover:text-white"
+                >
+                  สำหรับลูกค้า S2
+                </Link>
+              </li>
             </ul>
           </div>
 
