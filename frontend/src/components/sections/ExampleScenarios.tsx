@@ -47,9 +47,9 @@ export function ExampleScenarios() {
     <section className="section bg-white">
       <div className="container">
         <SectionHeader
-          eyebrow="โจทย์ธุรกิจที่พบบ่อย"
+          eyebrow="สถานการณ์สมมติ"
           title="ตัวอย่างโจทย์ธุรกิจที่เราช่วยวิเคราะห์ได้"
-          description="สถานการณ์ด้านล่างเป็นตัวอย่างเพื่ออธิบายแนวทางการทำงานของเรา ไม่ใช่ข้อมูลหรือคำรับรองจากลูกค้ารายใด"
+          description="สถานการณ์ด้านล่างเป็นตัวอย่างสมมติเพื่ออธิบายแนวทางการทำงาน ไม่ใช่กรณีศึกษาหรือคำรับรองจากลูกค้ารายใด และไม่ใช่ผลลัพธ์ที่รับประกัน"
         />
 
         <div className="relative mx-auto mt-12 max-w-3xl">
@@ -67,7 +67,7 @@ export function ExampleScenarios() {
               >
                 <span className="eyebrow">
                   <FlaskConical className="h-3.5 w-3.5" aria-hidden="true" />
-                  ตัวอย่างสถานการณ์
+                  สถานการณ์สมมติ
                 </span>
 
                 <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-accent">โจทย์ธุรกิจ</p>

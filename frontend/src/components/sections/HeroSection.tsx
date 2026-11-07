@@ -1,37 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, PlayCircle, ShieldCheck, TrendingUp, Wallet, Landmark } from 'lucide-react';
+import { ArrowRight, PlayCircle, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { DashboardPreview } from '@/components/dashboard/DashboardPreview';
 import { EASE } from '@/lib/motion';
 import { useLanguage } from '@/providers/LanguageProvider';
 
-const floatingCards = [
-  {
-    icon: TrendingUp,
-    label: 'รายได้รวม',
-    value: '฿4.82M',
-    className: '-left-4 top-16 sm:-left-8',
-    delay: 0.5,
-  },
-  {
-    icon: Wallet,
-    label: 'กระแสเงินสด',
-    value: '+18.6%',
-    className: '-right-3 top-8 sm:-right-6',
-    delay: 0.7,
-  },
-  {
-    icon: Landmark,
-    label: 'อัตรากำไรขั้นต้น',
-    value: '38.5%',
-    className: '-left-3 bottom-24 sm:-left-10',
-    delay: 0.9,
-  },
-];
-
-const trustPills = ['CPA รับรอง', 'ยื่นภาษีตรงเวลา', 'ดูแลลูกค้ากว่า 100 ราย ทั้งนิติบุคคลและบุคคล'];
+/** EP34 — ใช้เฉพาะข้อเท็จจริงที่ยืนยันแล้ว (ปีก่อตั้ง · จำนวนลูกค้าที่ให้บริการมาแล้วรวม · ขอบเขตบริการ) */
+const trustPills = ['ให้บริการตั้งแต่ พ.ศ. 2562', 'ให้บริการลูกค้ามาแล้วกว่า 100 ราย ทั้งนิติบุคคลและบุคคล', 'บัญชี ภาษี และที่ปรึกษาธุรกิจในทีมเดียว'];
 
 export function HeroSection() {
   const { locale } = useLanguage();
@@ -158,29 +135,8 @@ export function HeroSection() {
               className="absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-tr from-royal/25 via-cyan/15 to-teal/10 blur-2xl"
               aria-hidden="true"
             />
+            {/* EP34: นำการ์ดตัวเลขลอยออก — เหลือเฉพาะ Dashboard ที่ระบุว่าเป็นข้อมูลตัวอย่าง */}
             <DashboardPreview />
-
-            {floatingCards.map((card) => (
-              <motion.div
-                key={card.label}
-                className={`absolute hidden items-center gap-2.5 rounded-xl border border-borderc bg-white/95 px-3.5 py-2.5 shadow-lift backdrop-blur sm:flex ${card.className}`}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: card.delay, ease: EASE }}
-              >
-                <motion.span
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-50 text-accent"
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: card.delay }}
-                >
-                  <card.icon className="h-4.5 w-4.5" />
-                </motion.span>
-                <div>
-                  <p className="text-[0.7rem] font-medium text-muted">{card.label}</p>
-                  <p className="font-display text-sm font-bold text-navy">{card.value}</p>
-                </div>
-              </motion.div>
-            ))}
           </motion.div>
         </div>
       </div>

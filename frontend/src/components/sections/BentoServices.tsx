@@ -134,7 +134,8 @@ export function BentoServices() {
                   </span>
                   <h3 className="mt-4 text-base font-bold text-navy">{service.title}</h3>
                   <p className="mt-1.5 flex-1 text-sm leading-relaxed text-muted">{service.short}</p>
-                  <span className={`mt-4 inline-flex items-center gap-1 text-sm font-semibold ${accent.text}`}>
+                  {/* EP34 QA: ข้อความลิงก์ใช้สีเข้มพอสำหรับอ่าน (cyan/teal บนพื้นขาวมีคอนทราสต์ต่ำ) */}
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-royal dark:text-sky">
                     ดูรายละเอียด
                     <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>

@@ -28,7 +28,7 @@ import { CTASection } from '@/components/sections/CTASection';
 export const metadata: Metadata = {
   title: 'เกี่ยวกับเรา',
   description:
-    'รู้จัก S2 Accounting Consultant บริษัทที่ปรึกษาธุรกิจที่มีงานบัญชีและภาษีเป็นรากฐาน ดูแลลูกค้ากว่า 100 ราย ทั้งนิติบุคคลและบุคคล',
+    'รู้จัก S2 Accounting Consultant บริษัทที่ปรึกษาธุรกิจที่มีงานบัญชีและภาษีเป็นรากฐาน ให้บริการลูกค้ามาแล้วกว่า 100 ราย ทั้งนิติบุคคลและบุคคล',
   alternates: { canonical: '/about' },
 };
 
@@ -248,6 +248,35 @@ export default function AboutPage() {
               })}
             </div>
           </div>
+
+          {/* EP34 — หลักฐานที่ยืนยันได้ในปัจจุบัน แยกตามประเภท (ไม่มีตัวเลขผลลัพธ์ลูกค้าที่ยังไม่ยืนยัน) */}
+          <AnimatedSection className="mx-auto mt-14 max-w-5xl" >
+            <h3 id="evidence-heading" className="text-center text-xl font-bold text-navy md:text-2xl">S2 จากข้อเท็จจริง</h3>
+            <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-labelledby="evidence-heading">
+              <li className="rounded-2xl border border-borderc bg-white p-5">
+                <p className="text-xs font-semibold text-accent">ข้อเท็จจริงของบริษัท</p>
+                <ul className="mt-3 space-y-2 text-sm text-ink/80">
+                  <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" /><span>ให้บริการตั้งแต่ พ.ศ. 2562</span></li>
+                  <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" /><span>ให้บริการลูกค้ามาแล้วกว่า 100 ราย ทั้งนิติบุคคลและบุคคล</span></li>
+                  <li className="flex items-start gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" /><span>12 บริการด้านบัญชี ภาษี และที่ปรึกษาธุรกิจ</span></li>
+                </ul>
+              </li>
+              <li className="rounded-2xl border border-borderc bg-white p-5">
+                <p className="text-xs font-semibold text-accent">ความสามารถ</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink/80">คำถามทางธุรกิจที่ S2 ช่วยผู้บริหารวิเคราะห์ และข้อมูลที่ใช้พิจารณา</p>
+                <Link href="/services#advisory-capabilities" className="mt-3 inline-block text-sm font-semibold text-accent underline-offset-4 hover:underline">ดูความสามารถด้านที่ปรึกษา</Link>
+              </li>
+              <li className="rounded-2xl border border-borderc bg-white p-5">
+                <p className="text-xs font-semibold text-accent">วิธีทำงาน</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink/80">แนวทางการให้คำปรึกษา และขั้นตอนตั้งแต่การพูดคุยครั้งแรกจนถึงงานที่ดูแลต่อเนื่อง</p>
+                <Link href="/#how-we-work" className="mt-3 inline-block text-sm font-semibold text-accent underline-offset-4 hover:underline">ดูขั้นตอนการทำงาน</Link>
+              </li>
+              <li className="rounded-2xl border border-borderc bg-white p-5">
+                <p className="text-xs font-semibold text-accent">กรณีศึกษาของลูกค้า</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink/80">S2 ไม่เผยแพร่ชื่อหรือข้อมูลของลูกค้าโดยไม่ได้รับอนุญาต กรณีศึกษาจะเพิ่มเมื่อลูกค้ายินยอมให้เผยแพร่</p>
+              </li>
+            </ul>
+          </AnimatedSection>
         </div>
       </section>
 

@@ -81,7 +81,7 @@ export default function ArticlesPage() {
                       href={`/articles/${article.slug}`}
                       className="group flex gap-3"
                     >
-                      <span className="font-display text-xl font-bold text-primary-100">
+                      <span className="font-display text-xl font-bold text-primary-100" aria-hidden="true">
                         {String(i + 1).padStart(2, '0')}
                       </span>
                       <div>

@@ -15,6 +15,7 @@ import { AdvisoryModel } from '@/components/sections/AdvisoryModel';
 import { GrowthJourney } from '@/components/sections/GrowthJourney';
 import { ClientRelationship } from '@/components/sections/ClientRelationship';
 import { ScrollToHash } from '@/components/services/ScrollToHash';
+import { CaseStudyHighlights } from '@/components/sections/CaseStudyHighlights';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -41,6 +42,8 @@ export default function HomePage() {
       {/* EP29: คุณค่าของการทำงานกับ S2 (ทีเซอร์) */}
       <ClientRelationship />
       <IndustriesServed />
+      {/* EP34: กรณีศึกษาจริง — แสดงเมื่อมีข้อมูลที่ยืนยันแล้วเท่านั้น (ปัจจุบันว่าง จึงไม่แสดง) */}
+      <CaseStudyHighlights />
       <ExampleScenarios />
       <FAQAccordion />
       <CTASection
