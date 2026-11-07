@@ -4,14 +4,10 @@ import { ArrowUpRight, Clock, Calendar } from 'lucide-react';
 import type { Article } from '@/types';
 
 const categoryGradients: Record<string, string> = {
-  บัญชี: 'from-primary-600 to-accent',
-  ภาษี: 'from-navy to-primary-600',
-  การเงิน: 'from-accent to-accent-light',
+  'บัญชีและภาษี': 'from-primary-600 to-accent',
   'ต้นทุนและกำไร': 'from-royal to-cyan',
+  'การเงินและการบริหาร': 'from-navy-dark to-primary-600',
   'ระบบบัญชีและ ERP': 'from-navy-dark to-teal',
-  การบริหารธุรกิจ: 'from-primary-700 to-accent',
-  'CFO Insight': 'from-navy-dark to-primary-600',
-  ข่าวสารกฎหมาย: 'from-primary-600 to-navy',
 };
 
 export function ArticleCard({ article }: { article: Article }) {

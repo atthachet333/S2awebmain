@@ -10,9 +10,9 @@ import { ArticlesExplorer } from '@/components/articles/ArticlesExplorer';
 import { ArticlesHelp } from '@/components/articles/ArticlesHelp';
 
 export const metadata: Metadata = {
-  title: 'บทความและความรู้',
+  title: 'คลังความรู้ธุรกิจ',
   description:
-    'ศูนย์รวมความรู้ด้านบัญชี ภาษี การเงิน และการบริหารธุรกิจ อัปเดตกฎหมายและมุมมอง CFO สำหรับผู้ประกอบการ',
+    'คลังความรู้ธุรกิจจาก S2 ด้านบัญชีและภาษี ต้นทุนและกำไร การเงินและการบริหาร และระบบบัญชี สำหรับเจ้าของธุรกิจและผู้บริหาร',
   alternates: { canonical: '/articles' },
 };
 
@@ -20,11 +20,19 @@ export default function ArticlesPage() {
   return (
     <>
       <PageHero
-        breadcrumb="บทความ"
-        eyebrow="Knowledge Hub"
-        title="ความรู้ด้านบัญชี ภาษี และการเงิน"
-        description="รวมบทความ มุมมอง และอัปเดตกฎหมาย ที่ช่วยให้ผู้ประกอบการตัดสินใจได้ดีขึ้น"
-      />
+        breadcrumb="คลังความรู้"
+        eyebrow="Knowledge Center"
+        title="คลังความรู้ธุรกิจจาก S2"
+        description="บทความด้านบัญชีและภาษี ต้นทุนและกำไร การเงินและการบริหาร และระบบบัญชี ที่ช่วยให้เจ้าของธุรกิจและผู้บริหารเข้าใจตัวเลขและตัดสินใจได้ดีขึ้น"
+      >
+        {/* EP36: ทางเข้าสู่แบบประเมินเบื้องต้นสำหรับผู้ที่ยังไม่แน่ใจว่าควรเริ่มจากเรื่องใด */}
+        <p className="mt-6 text-sm text-muted">
+          ไม่แน่ใจว่าควรเริ่มจากเรื่องใด?{' '}
+          <Link href="/business-health-check" className="font-semibold text-accent underline-offset-4 hover:underline">
+            ลองประเมินสุขภาพธุรกิจเบื้องต้น
+          </Link>
+        </p>
+      </PageHero>
 
       {/* Featured + Popular */}
       <section className="section bg-white">

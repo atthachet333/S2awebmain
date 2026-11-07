@@ -22,6 +22,16 @@ type TextState = { source: string; lastApplied: string };
 type AttributeState = Record<string, TextState>;
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
+
+const thaiPattern = /[\u0E01-\u0E3A\u0E40-\u0E5B]/;
+
+/** แปลส่วนชื่อเรื่องก่อน " | " (คงชื่อเว็บไซต์ไว้) — ถ้าไม่มีคำแปลคืนค่าเดิม */
+function translateTitle(title: string, locale: Locale): string {
+  if (locale === 'th') return title;
+  const [head, ...rest] = title.split(' | ');
+  const translated = translateContent(head, locale);
+  return rest.length ? `${translated} | ${rest.join(' | ')}` : translated;
+}
 const translatedAttributes = ['aria-label', 'placeholder', 'title', 'alt'] as const;
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
@@ -68,7 +78,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     translateNode(document.body, currentLocale);
 
     const metaDescription = document.querySelector('meta[name="description"]');
-    if (!serverHead.current || serverHead.current.path !== pathname) {
+    // EP40: บันทึกเฉพาะค่าที่เป็นภาษาไทยจากเซิร์ฟเวอร์ — ระหว่างเปลี่ยนหน้าแบบ client-side
+    // document.title อาจยังเป็นชื่อ (ที่แปลแล้ว) ของหน้าก่อนหน้า จึงไม่ควรเก็บค่านั้น
+    const titleIsServer = currentLocale === 'th' || thaiPattern.test(document.title);
+    if ((!serverHead.current || serverHead.current.path !== pathname) && titleIsServer) {
       serverHead.current = {
         path: pathname,
         title: document.title,
@@ -81,13 +94,16 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const pageDescription = currentLocale === 'th' ? undefined : localizedPageDescriptions[currentLocale][pathname];
     if (pageTitle) {
       document.title = pathname === '/' ? pageTitle : `${pageTitle} | S2 Accounting Consultant`;
-    } else {
-      document.title = serverHead.current.title;
+    } else if (serverHead.current?.path === pathname) {
+      // EP36: หน้าย่อย (เช่น บทความ) แปลชื่อเรื่องจากชื่อเดิมของหน้า ถ้ามีคำแปล
+      document.title = translateTitle(serverHead.current.title, currentLocale);
     }
-    const description = pageDescription ?? serverHead.current.description;
-    ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]'].forEach((selector) => {
-      document.querySelector(selector)?.setAttribute('content', description);
-    });
+    if (pageDescription || serverHead.current?.path === pathname) {
+      const description = pageDescription ?? translateContent(serverHead.current?.description ?? '', currentLocale);
+      ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]'].forEach((selector) => {
+        document.querySelector(selector)?.setAttribute('content', description);
+      });
+    }
   }, [pathname, translateNode]);
 
   useEffect(() => {
@@ -110,12 +126,31 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
     // Next.js เขียน <title> จาก metadata (ภาษาไทย) หลัง hydrate — คืนชื่อหน้าตามภาษาที่เลือกเมื่อถูกเขียนทับ
     // เฉพาะ EN/ZH และ route ที่มีชื่อหน้าแปลไว้ — หน้าอื่น (เช่น บทความ) ปล่อยให้ Next.js กำหนดตามปกติ
+    // EP40: หน้าที่ไม่มีชื่อแปลเฉพาะ (เช่น บทความ) แปลชื่อที่ Next.js เขียนใหม่ทุกครั้ง แทนการใช้ค่าที่จำไว้
     const routeTitle = locale === 'th' ? undefined : localizedPageTitles[locale][pathname];
-    const localizedTitle = routeTitle && (pathname === '/' ? routeTitle : `${routeTitle} | S2 Accounting Consultant`);
+    const fixedTitle = routeTitle ? (pathname === '/' ? routeTitle : `${routeTitle} | S2 Accounting Consultant`) : undefined;
     const headObserver = new MutationObserver(() => {
-      if (localizedTitle && document.title !== localizedTitle) document.title = localizedTitle;
+      // ระหว่างเปลี่ยนหน้าแบบ client-side Next.js เขียน <title> ของหน้าใหม่ก่อน effect ของหน้าใหม่จะทำงาน
+      // observer ของหน้าเดิมต้องไม่บังคับชื่อหน้าเดิมทับ (URL เปลี่ยนแล้ว ณ จุดนี้)
+      if (window.location.pathname !== pathname) return;
+      if (fixedTitle) {
+        if (document.title !== fixedTitle) document.title = fixedTitle;
+        return;
+      }
+      if (thaiPattern.test(document.title)) {
+        const description = document.querySelector('meta[name="description"]')?.getAttribute('content') ?? '';
+        serverHead.current = { path: pathname, title: document.title, description };
+        const translated = translateTitle(document.title, locale);
+        if (translated !== document.title) document.title = translated;
+        if (thaiPattern.test(description)) {
+          const translatedDescription = translateContent(description, locale);
+          ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]'].forEach((selector) => {
+            document.querySelector(selector)?.setAttribute('content', translatedDescription);
+          });
+        }
+      }
     });
-    if (localizedTitle) headObserver.observe(document.head, { childList: true, subtree: true, characterData: true });
+    if (locale !== 'th') headObserver.observe(document.head, { childList: true, subtree: true, characterData: true });
     return () => {
       observer.disconnect();
       headObserver.disconnect();

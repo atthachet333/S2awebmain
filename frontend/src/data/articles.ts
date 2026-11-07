@@ -1,15 +1,12 @@
 import type { Article } from '@/types';
 
+/** EP36 — หมวดหลักของคลังความรู้ (pillars) ไม่กี่หมวดที่ผูกกับงานของ S2 */
 export const articleCategories = [
   'ทั้งหมด',
-  'บัญชี',
-  'ภาษี',
-  'การเงิน',
+  'บัญชีและภาษี',
   'ต้นทุนและกำไร',
+  'การเงินและการบริหาร',
   'ระบบบัญชีและ ERP',
-  'การบริหารธุรกิจ',
-  'CFO Insight',
-  'ข่าวสารกฎหมาย',
 ];
 
 export const articles: Article[] = [
@@ -46,8 +43,8 @@ export const articles: Article[] = [
       'ก่อนสิ้นปีบัญชี มีหลายวิธีที่ช่วยให้ธุรกิจบริหารภาระภาษีได้อย่างเหมาะสม มาดูแนวทางที่ใช้ได้จริงกัน',
     coverImage: '/images/articles/tax-planning-year-end-v2.png',
     imageAlt: 'วางแผนภาษีปลายปี ประหยัดได้อย่างถูกกฎหมาย',
-    category: 'ภาษี',
-    author: 'คุณเบญจวรรณ พงษ์ไพศาล',
+    category: 'บัญชีและภาษี',
+    author: 'ทีม S2 Accounting Consultant',
     date: '8 กรกฎาคม 2567',
     readTime: '7 นาที',
     content: [
@@ -64,8 +61,8 @@ export const articles: Article[] = [
       'งบการเงินไม่ใช่แค่เอกสารสำหรับยื่นภาษี แต่คือเครื่องมือสำคัญในการบริหารธุรกิจ เรียนรู้วิธีอ่านให้เข้าใจ',
     coverImage: '/images/articles/read-financial-statements-v2.png',
     imageAlt: 'อ่านงบการเงินให้เป็น ผู้บริหารตัดสินใจได้แม่นยำขึ้น',
-    category: 'บัญชี',
-    author: 'คุณศิริพร สุวรรณเดช',
+    category: 'การเงินและการบริหาร',
+    author: 'ทีม S2 Accounting Consultant',
     date: '1 กรกฎาคม 2567',
     readTime: '8 นาที',
     content: [
@@ -82,15 +79,15 @@ export const articles: Article[] = [
       'เมื่อธุรกิจเติบโตถึงจุดหนึ่ง การตัดสินใจการเงินซับซ้อนขึ้น บทความนี้ช่วยประเมินว่าเมื่อไรควรมีที่ปรึกษาระดับ CFO',
     coverImage: '/images/articles/when-to-hire-cfo-v2.png',
     imageAlt: 'ธุรกิจควรมี CFO เมื่อไร และทางเลือกแบบ CFO Advisory',
-    category: 'CFO Insight',
-    author: 'คุณอนุชา ธีรวัฒน์',
+    category: 'การเงินและการบริหาร',
+    author: 'ทีม S2 Accounting Consultant',
     date: '24 มิถุนายน 2567',
     readTime: '6 นาที',
     content: [
       'CFO หรือประธานเจ้าหน้าที่บริหารการเงิน มีบทบาทมากกว่าการดูแลบัญชี แต่คือผู้วางกลยุทธ์การเงินและช่วยผู้บริหารตัดสินใจเชิงธุรกิจ',
       'สัญญาณที่บอกว่าธุรกิจควรมี CFO ได้แก่ การเติบโตเร็วจนควบคุมการเงินยาก การเตรียมระดมทุน การขยายสู่ตลาดใหม่ หรือการมีบริษัทในเครือหลายแห่ง',
       'อย่างไรก็ตาม ธุรกิจขนาดกลางอาจยังไม่พร้อมมี CFO ประจำเต็มเวลา ทางเลือกแบบ CFO Advisory จึงตอบโจทย์ เพราะได้มุมมองระดับผู้บริหารในต้นทุนที่เหมาะสม',
-      'บริการ CFO Advisory ช่วยตั้งแต่การวิเคราะห์การเงิน วางงบประมาณ ไปจนถึงการให้คำปรึกษาการลงทุน โดยไม่ต้องแบกต้นทุนพนักงานประจำ',
+      'บริการ CFO Advisory ช่วยตั้งแต่การวิเคราะห์การเงิน วางงบประมาณ ไปจนถึงการเตรียมข้อมูลประกอบการตัดสินใจเรื่องสำคัญ โดยไม่ต้องแบกต้นทุนพนักงานประจำ',
     ],
   },
   {
@@ -100,8 +97,8 @@ export const articles: Article[] = [
       'ธุรกิจ E-Commerce มีรายการจำนวนมากและหลายช่องทาง การวางระบบบัญชีที่ดีจึงสำคัญมาก มาดูแนวทางกัน',
     coverImage: '/images/articles/ecommerce-accounting-tips-v2.png',
     imageAlt: 'บัญชีร้านค้าออนไลน์ จัดการอย่างไรให้ไม่ปวดหัว',
-    category: 'บัญชี',
-    author: 'คุณกฤษณะ วัฒนกุล',
+    category: 'บัญชีและภาษี',
+    author: 'ทีม S2 Accounting Consultant',
     date: '17 มิถุนายน 2567',
     readTime: '5 นาที',
     content: [
@@ -113,13 +110,13 @@ export const articles: Article[] = [
   },
   {
     slug: 'new-tax-law-update',
-    title: 'อัปเดตกฎหมายภาษีที่ผู้ประกอบการควรรู้ปีนี้',
+    title: 'ประเด็นกฎหมายภาษีที่ผู้ประกอบการควรติดตาม',
     excerpt:
       'กฎหมายภาษีมีการเปลี่ยนแปลงอยู่เสมอ สรุปประเด็นสำคัญที่ธุรกิจควรติดตามและเตรียมพร้อมรับมือ',
     coverImage: '/images/articles/tax-law-update.png',
-    imageAlt: 'อัปเดตกฎหมายภาษีที่ผู้ประกอบการควรรู้ปีนี้',
-    category: 'ข่าวสารกฎหมาย',
-    author: 'คุณเบญจวรรณ พงษ์ไพศาล',
+    imageAlt: 'ประเด็นกฎหมายภาษีที่ผู้ประกอบการควรติดตาม',
+    category: 'บัญชีและภาษี',
+    author: 'ทีม S2 Accounting Consultant',
     date: '10 มิถุนายน 2567',
     readTime: '5 นาที',
     content: [
@@ -176,3 +173,21 @@ export function getArticle(slug: string): Article | undefined {
 
 export const featuredArticle = articles.find((a) => a.featured) ?? articles[0];
 export const popularArticles = articles.slice(1, 5);
+
+/**
+ * EP36 — บริการที่เกี่ยวข้องกับบทความ (ลิงก์เดียวต่อบทความ ไม่เชื่อมมากเกินไป)
+ */
+export const articleRelatedService: Record<string, string> = {
+  'true-business-costs': 'cost-profitability-analysis',
+  'tax-planning-year-end': 'tax-planning',
+  'read-financial-statements': 'financial-analysis',
+  'when-to-hire-cfo': 'cfo-advisory',
+  'ecommerce-accounting-tips': 'monthly-accounting',
+  'new-tax-law-update': 'tax-filing',
+  'gross-margin-guide': 'cost-profitability-analysis',
+  'break-even-point-guide': 'cost-profitability-analysis',
+  'cost-leakage-signs': 'cost-profitability-analysis',
+  'erp-business-readiness': 'accounting-systems-erp-advisory',
+  'erp-business-process': 'accounting-systems-erp-advisory',
+  'erp-implementation-mistakes': 'accounting-systems-erp-advisory',
+};

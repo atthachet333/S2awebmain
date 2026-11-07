@@ -5,6 +5,6 @@ export const navItems: NavItem[] = [
   { label: 'บริการ', href: '/services' },
   { label: 'เกี่ยวกับเรา', href: '/about' },
   { label: 'แพ็กเกจ', href: '/pricing' },
-  { label: 'บทความ', href: '/articles' },
+  { label: 'คลังความรู้', href: '/articles' },
   { label: 'ติดต่อ', href: '/contact' },
 ];
