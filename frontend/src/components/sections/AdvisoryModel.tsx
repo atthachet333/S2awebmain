@@ -1,6 +1,7 @@
-import { ArrowRight, BookOpenCheck, Check, Compass, Workflow } from 'lucide-react';
+import Link from 'next/link';
+import { BookOpenCheck, Check, Compass, Workflow } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { AnimatedSection, StaggerGroup, StaggerItem } from '@/components/animations/AnimatedSection';
+import { StaggerGroup, StaggerItem } from '@/components/animations/AnimatedSection';
 
 /**
  * EP26 — โมเดลธุรกิจของ S2: บัญชี = รากฐาน · ที่ปรึกษาธุรกิจ = แกนหลัก · เทคโนโลยี = เครื่องมือ
@@ -11,15 +12,15 @@ const layers = [
     icon: BookOpenCheck,
     kicker: 'รากฐาน',
     title: 'งานบัญชีและภาษีที่เชื่อถือได้',
-    description: 'ข้อมูลที่ถูกต้องและเป็นระบบ คือจุดเริ่มต้นของการเข้าใจธุรกิจ',
-    points: ['บันทึกบัญชีและปิดงบอย่างเป็นระบบ', 'ภาษีถูกต้องและยื่นตรงเวลา', 'เอกสารและข้อมูลธุรกิจที่มีโครงสร้าง'],
+    description: 'การวิเคราะห์ดีได้เท่ากับข้อมูลที่ใช้ งานบัญชีจึงต้องครบ จัดประเภทถูก และกระทบยอดได้',
+    points: ['รายการครบตามเอกสาร และกระทบยอดกับธนาคาร', 'จัดประเภทสม่ำเสมอ เทียบงวดต่องวดได้', 'ภาษีที่สอดคล้องกับรายการทางธุรกิจจริง'],
     core: false,
   },
   {
     icon: Compass,
     kicker: 'แกนหลัก',
     title: 'ที่ปรึกษาธุรกิจ',
-    description: 'ช่วยผู้บริหารตีความตัวเลข และใช้ข้อมูลประกอบการตัดสินใจทางธุรกิจ',
+    description: 'ช่วยผู้บริหารเข้าใจว่าตัวเลขเปลี่ยนเพราะอะไร และแต่ละทางเลือกมีผลอย่างไร',
     points: ['ต้นทุนและความสามารถในการทำกำไร', 'ผลประกอบการและรายงานผู้บริหาร', 'งบประมาณ ประมาณการ และการวางแผนภาษี', 'CFO Advisory'],
     core: true,
   },
@@ -27,14 +28,11 @@ const layers = [
     icon: Workflow,
     kicker: 'เครื่องมือ',
     title: 'เทคโนโลยีที่ช่วยให้ทำงานได้ดีขึ้น',
-    description: 'ลดงานซ้ำและข้อผิดพลาด เตรียมข้อมูลได้เร็วขึ้น ทีมจึงมีเวลาให้คำปรึกษามากขึ้น',
-    points: ['Workflow เอกสารที่เป็นระบบ', 'รายงานที่สม่ำเสมอและพร้อมใช้เร็วขึ้น'],
+    description: 'เทคโนโลยีเป็นเครื่องมือของทีม ไม่ใช่สินค้าที่ S2 ขาย ช่วยลดงานซ้ำ ทีมจึงมีเวลาวิเคราะห์มากขึ้น',
+    points: ['Workflow เอกสารที่ตรวจย้อนหลังได้', 'รูปแบบรายงานคงที่ทุกงวด'],
     core: false,
   },
 ];
-
-/** ข้อมูลบัญชี → ความเข้าใจทางการเงิน → ข้อมูลเชิงธุรกิจ → การตัดสินใจที่ดีขึ้น */
-const insightFlow = ['ข้อมูลบัญชี', 'ความเข้าใจทางการเงิน', 'ข้อมูลเชิงธุรกิจ', 'การตัดสินใจที่ดีขึ้น'];
 
 export function AdvisoryModel() {
   return (
@@ -49,7 +47,7 @@ export function AdvisoryModel() {
               <span className="inline-block">การให้คำปรึกษาคือหัวใจของงานเรา</span>
             </span>
           }
-          description="เราเริ่มจากข้อมูลบัญชีและภาษีที่ถูกต้อง แล้วช่วยผู้บริหารเปลี่ยนตัวเลขเหล่านั้นเป็นความเข้าใจและการตัดสินใจทางธุรกิจ"
+          description="บัญชีให้ข้อเท็จจริงที่เชื่อถือได้ งานที่ปรึกษาช่วยผู้บริหารเข้าใจข้อเท็จจริงนั้นและประเมินการตัดสินใจ ส่วนเทคโนโลยีช่วยให้ทำงานได้สม่ำเสมอ"
         />
 
         <StaggerGroup className="mx-auto mt-12 grid max-w-6xl gap-5 lg:grid-cols-3 lg:items-stretch">
@@ -105,24 +103,13 @@ export function AdvisoryModel() {
           })}
         </StaggerGroup>
 
-        {/* จากตัวเลข สู่การตัดสินใจ */}
-        <AnimatedSection className="mx-auto mt-12 max-w-5xl rounded-3xl border border-borderc bg-lightblue/40 p-5 md:p-6">
-          <p className="text-center text-xs font-semibold uppercase tracking-wider text-accent">
-            จากตัวเลข สู่การตัดสินใจ
-          </p>
-          <ol className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:flex-wrap sm:justify-center">
-            {insightFlow.map((step, i) => (
-              <li key={step} className="flex flex-col items-center gap-2 sm:flex-row">
-                <span className="rounded-full border border-borderc bg-white px-4 py-2 text-sm font-semibold text-navy shadow-sm">
-                  {step}
-                </span>
-                {i < insightFlow.length - 1 && (
-                  <ArrowRight className="h-4 w-4 shrink-0 rotate-90 text-accent sm:rotate-0" aria-hidden="true" />
-                )}
-              </li>
-            ))}
-          </ol>
-        </AnimatedSection>
+        {/* EP: เทคโนโลยีเป็นส่วนสนับสนุน — รายละเอียดพันธมิตรอยู่ที่หน้า /partners */}
+        <p className="mx-auto mt-10 max-w-4xl text-center text-sm leading-relaxed text-muted">
+          เมื่อธุรกิจต้องการระบบเฉพาะ เช่น ERP หรือการเชื่อมต่อระบบ S2 ทำงานร่วมกับ PDA BLISS ซึ่งเป็นนิติบุคคลแยก กำหนดขอบเขตและเสนอราคาแยก{' '}
+          <Link href="/partners" className="font-semibold text-accent underline-offset-4 hover:underline">
+            ดูหลักการทำงานกับพันธมิตร
+          </Link>
+        </p>
       </div>
     </section>
   );

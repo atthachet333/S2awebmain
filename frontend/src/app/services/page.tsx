@@ -8,16 +8,16 @@ import { PageHero } from '@/components/layout/PageHero';
 import { ServiceDetail } from '@/components/services/ServiceDetail';
 import { WorkProcess } from '@/components/sections/WorkProcess';
 import { CTASection } from '@/components/sections/CTASection';
-import { FAQAccordion } from '@/components/sections/FAQAccordion';
 import { CostToErpJourney } from '@/components/services/CostToErpJourney';
 import { ScrollToHash } from '@/components/services/ScrollToHash';
 import { AdvisoryCapabilities } from '@/components/services/AdvisoryCapabilities';
+import { AccountingFoundation } from '@/components/services/AccountingFoundation';
 
 export const metadata: Metadata = {
-  title: 'บริการ',
+  title: 'บริการบัญชี ภาษี และที่ปรึกษาธุรกิจ',
   description:
-    'บริการบัญชี ภาษี วิเคราะห์ต้นทุนและกำไร ที่ปรึกษาระบบบัญชีและ ERP และ CFO Advisory สำหรับธุรกิจที่ต้องการตัดสินใจจากข้อมูลจริง',
-  keywords: ['วิเคราะห์ต้นทุน', 'วิเคราะห์กำไร', 'ที่ปรึกษา ERP', 'ERP Consultant Thailand', 'Accounting System Consultant', 'Cost Analysis', 'Profitability Analysis'],
+    'รับทำบัญชีรายเดือน ปิดงบ ยื่นภาษี วางระบบบัญชี และงานที่ปรึกษา: วิเคราะห์การเงิน ต้นทุนและกำไร งบประมาณ CFO Advisory และที่ปรึกษาระบบบัญชีและ ERP พร้อมขอบเขตของแต่ละบริการ',
+  keywords: ['รับทำบัญชี', 'สำนักงานบัญชี', 'วางระบบบัญชี', 'วิเคราะห์ต้นทุน', 'ที่ปรึกษาธุรกิจ', 'CFO Advisory', 'ที่ปรึกษา ERP'],
   alternates: { canonical: '/services' },
 };
 
@@ -165,6 +165,8 @@ export default function ServicesPage() {
               <Fragment key={group.id}>
               {/* EP31: ชั้นความสามารถด้านที่ปรึกษา ก่อนกลุ่มบริการที่ปรึกษาธุรกิจและการเงิน */}
               {group.id === 'business-financial-advisory' && <AdvisoryCapabilities />}
+              {/* Content distillation: ข้อมูลบัญชีแบบไหนจึงใช้ตัดสินใจได้ ก่อนกลุ่มบริการรากฐานงานบัญชี */}
+              {group.id === 'accounting-foundation' && <AccountingFoundation />}
               <section id={group.id} className="scroll-mt-28" aria-labelledby={`${group.id}-heading`}>
                 <div className="mx-auto max-w-3xl text-center">
                   <p className="text-xs font-semibold uppercase tracking-wider text-accent">{`0${groupIndex + 1}`}</p>
@@ -191,10 +193,9 @@ export default function ServicesPage() {
         <WorkProcess />
       </div>
 
-      <FAQAccordion />
       <CTASection
-        title="พร้อมเริ่มต้นยกระดับการเงินธุรกิจคุณแล้วหรือยัง?"
-        description="นัดปรึกษาฟรี ทีมของเราจะช่วยประเมินและแนะนำแนวทางที่เหมาะกับคุณโดยเฉพาะ"
+        title="ยังไม่แน่ใจว่าบริการไหนตรงกับธุรกิจ?"
+        description="เล่าสถานการณ์ของธุรกิจ แล้ว S2 จะบอกว่าบริการใดเกี่ยวข้อง และบริการใดยังไม่จำเป็น"
       />
     </>
   );

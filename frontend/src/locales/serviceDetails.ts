@@ -21,8 +21,8 @@ export const localizedServiceDetails: Record<string, LocalizedDetail> = {
     zh: { deliverables: ['增值税与预扣税申报', '企业所得税半年及年度申报', '完整税表及支持文件', '持续跟踪税法变化'], process: ['核验数据准确性', '计算税额并检查优惠', '准备表格并申报', '留存凭证并跟踪结果'], documents: ['进销项税报告', '预扣税明细', '财务报表与收入明细'] },
   },
   'tax-planning': {
-    en: { deliverables: ['Current tax-structure analysis', 'Plan for available tax incentives', 'Recommended business structure', 'Estimated tax savings'], process: ['Study business information and goals', 'Analyze options and risks', 'Design the tax plan', 'Monitor and refine the plan'], documents: ['Historical financial statements', 'Shareholder and group structure', 'Business and investment plans'] },
-    zh: { deliverables: ['当前税务结构分析', '税务优惠使用方案', '合适的企业架构建议', '预计节税金额评估'], process: ['了解业务信息与目标', '分析方案与风险', '设计税务计划', '持续跟踪与调整'], documents: ['历史财务报表', '股东及关联公司架构', '商业与投资计划'] },
+    en: { deliverables: ['Current tax-structure analysis', 'Plan for available tax incentives', 'Recommended business structure', 'Estimated tax effect of each option'], process: ['Study business information and goals', 'Analyze options and risks', 'Design the tax plan', 'Monitor and refine the plan'], documents: ['Historical financial statements', 'Shareholder and group structure', 'Business and investment plans'] },
+    zh: { deliverables: ['当前税务结构分析', '税务优惠使用方案', '合适的企业架构建议', '各方案的预计税务影响'], process: ['了解业务信息与目标', '分析方案与风险', '设计税务计划', '持续跟踪与调整'], documents: ['历史财务报表', '股东及关联公司架构', '商业与投资计划'] },
   },
   'cfo-advisory': {
     en: { deliverables: ['Financial health and key KPI analysis', 'Management reporting and financial modelling', 'Scenario analysis and cash planning', 'Budget and forecast monitoring', 'Financial preparation for fundraising or business transactions', 'Performance reviews and management decision support'], process: ['Assess organizational finances', 'Define KPIs and targets', 'Build and monitor the financial plan', 'Provide ongoing strategic advice'], documents: ['Financial statements and management reports', 'Business plan and capital budget', 'Detailed sales and cost data'] },

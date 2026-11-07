@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { advisoryCapabilities } from '@/data/advisoryCapabilities';
 import { services } from '@/data/services';
+import { AdvisoryMethod } from '@/components/services/AdvisoryMethod';
 
 /**
  * EP31 — ชั้นอธิบายความสามารถด้านที่ปรึกษาธุรกิจ (อยู่เหนือบริการเดิม ไม่ใช่บริการใหม่)
@@ -89,12 +90,14 @@ export function AdvisoryCapabilities() {
           </p>
         </div>
         <div className="rounded-2xl border border-borderc bg-lightblue/40 p-5">
-          <h3 className="text-sm font-bold text-navy">S2 ให้คำปรึกษา ผู้บริหารเป็นผู้ตัดสินใจ</h3>
+          <h3 className="text-sm font-bold text-navy">งานที่ปรึกษาตกลงขอบเขตแยก</h3>
           <p className="mt-1.5 text-sm leading-relaxed text-muted">
             งานที่ปรึกษาเป็นบริการตามขอบเขตที่ตกลงและเสนอราคา ไม่ได้รวมอยู่ในทุกรูปแบบบริการโดยอัตโนมัติ ตัวอย่างคำถามข้างต้นใช้อธิบายแนวทางการทำงาน ไม่ใช่ผลลัพธ์ที่รับประกัน
           </p>
         </div>
       </div>
+
+      <AdvisoryMethod />
     </section>
   );
 }

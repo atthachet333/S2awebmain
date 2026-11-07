@@ -91,10 +91,30 @@ export const advisoryCapabilities: AdvisoryCapability[] = [
   },
 ];
 
-/** คำถามตัวอย่างสำหรับหน้าแรก (ชี้ไปยังความสามารถด้านบน) */
-export const homeAdvisoryQuestions: { question: string; looksAt: string; capability: string }[] = [
-  { question: 'ยอดขายโต แต่กำไรหายไปไหน?', looksAt: 'S2 พิจารณา Margin ต้นทุน และค่าใช้จ่าย', capability: 'cap-cost-profit' },
-  { question: 'สินค้าหรือสาขาไหนทำกำไรจริง?', looksAt: 'S2 พิจารณากำไรแยกตามมิติที่เกี่ยวข้องกับธุรกิจ', capability: 'cap-cost-profit' },
-  { question: 'งบประมาณที่ตั้งไว้สมเหตุสมผลไหม?', looksAt: 'S2 พิจารณาสมมติฐาน ผลจริง และสิ่งที่คาดว่าจะเปลี่ยน', capability: 'cap-budget' },
-  { question: 'ผู้บริหารควรดูตัวเลขอะไร?', looksAt: 'S2 ช่วยจัดข้อมูลการบริหารที่เกี่ยวข้องให้ใช้งานได้', capability: 'cap-management-info' },
+/** คำถามตัวอย่างสำหรับหน้าแรก: คำถาม → สิ่งที่ S2 พิจารณา → สิ่งที่ผู้บริหารเข้าใจได้ (ชี้ไปยังความสามารถด้านบน) */
+export const homeAdvisoryQuestions: { question: string; looksAt: string; understands: string; capability: string }[] = [
+  {
+    question: 'ยอดขายเพิ่ม แต่กำไรไม่เพิ่ม เพราะอะไร?',
+    looksAt: 'Gross Margin ต้นทุนตรง โครงสร้างค่าใช้จ่าย สัดส่วนรายได้ และการเปลี่ยนแปลงเทียบงวดก่อน',
+    understands: 'ความต่างของกำไรน่าจะมาจากส่วนใด และส่วนใดควรตรวจลึกขึ้น',
+    capability: 'cap-cost-profit',
+  },
+  {
+    question: 'สินค้าหรือบริการไหนทำกำไรจริง?',
+    looksAt: 'ต้นทุนตรง การปันส่วนต้นทุนทางอ้อม Contribution Margin และค่าใช้จ่ายส่วนกลางที่เกี่ยวข้อง',
+    understands: 'สินค้า บริการ สาขา หรือโครงการใดสร้างกำไร และรายการใดกินกำไร',
+    capability: 'cap-cost-profit',
+  },
+  {
+    question: 'งบประมาณที่ตั้งไว้สมเหตุสมผลไหม?',
+    looksAt: 'สมมติฐานด้านรายได้และต้นทุน ผลจริงที่ผ่านมา และสิ่งที่คาดว่าจะเปลี่ยน',
+    understands: 'สมมติฐานใดเสี่ยง และควรเตรียมรับอะไรล่วงหน้า',
+    capability: 'cap-budget',
+  },
+  {
+    question: 'ผู้บริหารควรดูตัวเลขอะไร?',
+    looksAt: 'ตัวเลขที่ผูกกับการตัดสินใจจริงของธุรกิจ และรอบรายงานที่เหมาะสม',
+    understands: 'ชุดตัวเลขสำคัญไม่กี่ตัวที่ควรติดตามเป็นประจำ',
+    capability: 'cap-management-info',
+  },
 ];
