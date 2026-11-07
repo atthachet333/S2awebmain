@@ -8,9 +8,10 @@ import {
   contactSchema,
   businessTypes,
   serviceOptions,
-  pricingIntentOptions,
+  initialServiceFromQuery,
   type ContactFormValues,
 } from '@/lib/contact-schema';
+import { track } from '@/lib/analytics';
 import { api, ApiRequestError } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -54,11 +55,21 @@ export function ContactForm() {
     mode: 'onBlur',
   });
 
-  // เลือกบริการให้อัตโนมัติเมื่อมาจากหน้า Pricing (?service=premium|enterprise|custom)
+  const [fromHealthCheck, setFromHealthCheck] = useState(false);
+  const [started, setStarted] = useState(false);
+
+  // เลือกบริการให้อัตโนมัติจาก ?service= (Pricing/บริการ/บทความ) หรือ ?source=health-check&interest= (EP37)
   useEffect(() => {
-    const intent = new URLSearchParams(window.location.search).get('service');
-    const option = intent ? pricingIntentOptions[intent] : undefined;
+    const option = initialServiceFromQuery(window.location.search);
     if (option) setValue('service', option);
+    setFromHealthCheck(new URLSearchParams(window.location.search).get('source') === 'health-check');
+    // ตัวเลือก "ติดต่อเรื่องใด" บนหน้าเดียวกัน (ไม่โหลดหน้าใหม่)
+    const onIntent = (e: Event) => {
+      const service = (e as CustomEvent<{ service?: string }>).detail?.service;
+      if (service && serviceOptions.includes(service)) setValue('service', service, { shouldValidate: true });
+    };
+    window.addEventListener('s2:contact-intent', onIntent);
+    return () => window.removeEventListener('s2:contact-intent', onIntent);
   }, [setValue]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,6 +126,7 @@ export function ContactForm() {
       }, { timeout: 60_000 });
       
       setSubmitted(true);
+      track('contact_success', { source: fromHealthCheck ? 'health-check' : 'contact' });
       reset();
       setSelectedFile(null);
     } catch (err) {
@@ -150,9 +162,20 @@ export function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
+      onFocusCapture={() => {
+        if (!started) {
+          setStarted(true);
+          track('contact_start');
+        }
+      }}
       noValidate
       className="rounded-3xl border border-borderc bg-white p-6 shadow-soft md:p-8"
     >
+      {fromHealthCheck && (
+        <p className="mb-5 rounded-xl border border-borderc bg-lightblue/40 px-4 py-3 text-sm leading-relaxed text-muted">
+          คุณมาจากแบบประเมินสุขภาพธุรกิจ ผลการประเมินไม่ได้ถูกส่งมาด้วย หากต้องการ เล่าสิ่งที่พบในช่องรายละเอียดเพิ่มเติมได้
+        </p>
+      )}
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="ชื่อบริษัท" error={errors.company?.message} htmlFor="company" required>
           <input

@@ -51,5 +51,51 @@ export const serviceOptions = [
   'CFO Advisory',
   'ที่ปรึกษาระบบบัญชีและ ERP',
   'จดทะเบียนบริษัท',
+  'ต้องการคำปรึกษาด้านธุรกิจ',
   'ยังไม่แน่ใจ ขอคำปรึกษา',
 ];
+
+/** EP37 — ลิงก์ ?service=<slug> จากหน้าบทความ/บริการ → ตัวเลือกบริการในแบบฟอร์ม */
+export const serviceSlugOptions: Record<string, string> = {
+  'monthly-accounting': 'รับทำบัญชีรายเดือน',
+  'financial-statements': 'ปิดงบการเงิน',
+  'accounting-system': 'วางระบบบัญชี',
+  'tax-filing': 'ยื่นภาษี',
+  'tax-planning': 'วางแผนภาษี',
+  payroll: 'Payroll และประกันสังคม',
+  'financial-analysis': 'วิเคราะห์การเงิน',
+  'cost-profitability-analysis': 'วิเคราะห์ต้นทุนและกำไร',
+  'budgeting-forecasting': 'งบประมาณและประมาณการ',
+  'cfo-advisory': 'CFO Advisory',
+  'accounting-systems-erp-advisory': 'ที่ปรึกษาระบบบัญชีและ ERP',
+  'company-registration': 'จดทะเบียนบริษัท',
+};
+
+/** EP37 — ?source=health-check&interest=<ด้านที่ควรพิจารณา> → ตัวเลือกบริการ (ไม่มีคำตอบแบบประเมินใน URL) */
+export const healthCheckInterestOptions: Record<string, string> = {
+  foundation: 'รับทำบัญชีรายเดือน',
+  cost: 'วิเคราะห์ต้นทุนและกำไร',
+  visibility: 'วิเคราะห์การเงิน',
+  planning: 'งบประมาณและประมาณการ',
+  'management-info': 'วิเคราะห์การเงิน',
+  complexity: 'ที่ปรึกษาระบบบัญชีและ ERP',
+  general: 'ยังไม่แน่ใจ ขอคำปรึกษา',
+};
+
+/** EP37 — ตัวเลือก "ติดต่อเรื่องใด" → บริการในแบบฟอร์ม */
+export const contactIntentOptions: Record<'quote' | 'unsure' | 'advisory', string> = {
+  quote: 'ขอใบเสนอราคาตามขอบเขตงาน',
+  unsure: 'ยังไม่แน่ใจ ขอคำปรึกษา',
+  advisory: 'ต้องการคำปรึกษาด้านธุรกิจ',
+};
+
+/** เลือกบริการเริ่มต้นจาก query string (ค่าอื่นที่ไม่รู้จักถูกละเว้น) */
+export function initialServiceFromQuery(search: string): string | undefined {
+  const params = new URLSearchParams(search);
+  const service = params.get('service');
+  if (service) return pricingIntentOptions[service] ?? serviceSlugOptions[service];
+  if (params.get('source') === 'health-check') {
+    return healthCheckInterestOptions[params.get('interest') ?? 'general'] ?? healthCheckInterestOptions.general;
+  }
+  return undefined;
+}
