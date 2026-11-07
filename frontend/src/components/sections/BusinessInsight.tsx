@@ -1,16 +1,15 @@
-import { Check } from 'lucide-react';
+import Link from 'next/link';
 import { DashboardPreview } from '@/components/dashboard/DashboardPreview';
 import { AnimatedSection } from '@/components/animations/AnimatedSection';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ArrowRight } from 'lucide-react';
+import { homeAdvisoryQuestions } from '@/data/advisoryCapabilities';
 
-const insights = [
-  'รายได้ กำไรขั้นต้น และกำไรสุทธิ แบบเห็นแนวโน้มชัดเจน',
-  'กระแสเงินสดเข้า–ออก พร้อมสัญญาณเตือนล่วงหน้า',
-  'โครงสร้างค่าใช้จ่ายและสรุปภาษี ในหน้าจอเดียว',
-  'ผลประกอบการรายเดือน เทียบเป้าหมายและงวดก่อน',
-];
+/**
+ * EP31 — จากคำถามของธุรกิจ สู่ข้อมูลที่ช่วยตัดสินใจ (ทีเซอร์ความสามารถด้านที่ปรึกษา)
+ * เดิมเป็นรายการฟีเจอร์ Dashboard — เปลี่ยนเป็นคำถามของผู้บริหาร · ภาพ Dashboard เป็นข้อมูลตัวอย่าง
+ */
 
 export function BusinessInsight() {
   return (
@@ -34,27 +33,34 @@ export function BusinessInsight() {
         </AnimatedSection>
 
         <AnimatedSection className="order-1 lg:order-2">
-          <Badge variant="gold">ข้อมูลเพื่อการบริหาร</Badge>
+          <Badge variant="gold">ที่ปรึกษาธุรกิจ</Badge>
           <h2 className="mt-4 text-display-md font-bold text-white">
-            จากตัวเลข สู่ความเข้าใจธุรกิจ
+            <span className="inline-block pr-[0.3em]">จากคำถามของธุรกิจ</span>
+            <span className="inline-block">สู่ข้อมูลที่ช่วยตัดสินใจได้ชัดขึ้น</span>
           </h2>
           <p className="mt-4 text-base leading-relaxed text-primary-100/85 md:text-lg">
-            นอกจากงบการเงินตามกฎหมาย เราสรุปตัวเลขให้อยู่ในรูปที่ผู้บริหารอ่านเข้าใจ และพูดคุยร่วมกันว่าตัวเลขเหล่านั้นหมายถึงอะไรต่อการตัดสินใจของธุรกิจ
+            นอกจากงบการเงินตามกฎหมาย เราช่วยผู้บริหารหาคำตอบให้คำถามทางธุรกิจจากข้อมูลการเงินและบัญชี โดยการตัดสินใจยังเป็นของผู้บริหาร
           </p>
-          <ul className="mt-6 space-y-3">
-            {insights.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-sm text-primary-100/90">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent">
-                  <Check className="h-3 w-3 text-white" />
-                </span>
-                {item}
+          <ul className="mt-6 divide-y divide-white/10 border-y border-white/10">
+            {homeAdvisoryQuestions.map((item) => (
+              <li key={item.question} className="py-3.5">
+                <p className="font-semibold text-white">“{item.question}”</p>
+                <p className="mt-1 text-sm text-primary-100/75">{item.looksAt}</p>
               </li>
             ))}
           </ul>
-          <Button href="/contact" variant="white" size="lg" className="mt-8">
-            ขอดูตัวอย่างรายงานผู้บริหาร
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Button>
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <Button href="/services#advisory-capabilities" variant="white" size="lg">
+              ดูว่า S2 ช่วยวิเคราะห์อะไรได้บ้าง
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Button>
+            <Link
+              href="/contact#contact-form"
+              className="text-sm font-semibold text-sky underline-offset-4 hover:underline"
+            >
+              คุยว่าผู้บริหารต้องการเห็นข้อมูลอะไร
+            </Link>
+          </div>
         </AnimatedSection>
       </div>
     </section>

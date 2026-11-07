@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, CalendarCheck, ChevronRight } from 'lucide-react';
@@ -10,6 +11,7 @@ import { CTASection } from '@/components/sections/CTASection';
 import { FAQAccordion } from '@/components/sections/FAQAccordion';
 import { CostToErpJourney } from '@/components/services/CostToErpJourney';
 import { ScrollToHash } from '@/components/services/ScrollToHash';
+import { AdvisoryCapabilities } from '@/components/services/AdvisoryCapabilities';
 
 export const metadata: Metadata = {
   title: 'บริการ',
@@ -160,7 +162,10 @@ export default function ServicesPage() {
           {groupedServices.map((group, groupIndex) => {
             const offset = groupedServices.slice(0, groupIndex).reduce((sum, g) => sum + g.items.length, 0);
             return (
-              <section key={group.id} id={group.id} className="scroll-mt-28" aria-labelledby={`${group.id}-heading`}>
+              <Fragment key={group.id}>
+              {/* EP31: ชั้นความสามารถด้านที่ปรึกษา ก่อนกลุ่มบริการที่ปรึกษาธุรกิจและการเงิน */}
+              {group.id === 'business-financial-advisory' && <AdvisoryCapabilities />}
+              <section id={group.id} className="scroll-mt-28" aria-labelledby={`${group.id}-heading`}>
                 <div className="mx-auto max-w-3xl text-center">
                   <p className="text-xs font-semibold uppercase tracking-wider text-accent">{`0${groupIndex + 1}`}</p>
                   <h2 id={`${group.id}-heading`} className="mt-2 text-2xl font-bold text-navy md:text-3xl">
@@ -174,6 +179,7 @@ export default function ServicesPage() {
                   ))}
                 </div>
               </section>
+              </Fragment>
             );
           })}
         </div>
