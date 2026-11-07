@@ -6,6 +6,7 @@ import { Footer } from '@/components/layout/Footer';
 import { ScrollProgress } from '@/components/layout/ScrollProgress';
 import { siteConfig } from '@/lib/utils';
 import { AppProviders } from '@/providers/AppProviders';
+import { AnalyticsListener } from '@/components/analytics/AnalyticsListener';
 
 const plexThai = IBM_Plex_Sans_Thai({
   subsets: ['thai', 'latin'],
@@ -95,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
         />
         <AppProviders>
+          <AnalyticsListener />
           <ScrollProgress />
           <Navbar />
           <main id="main">{children}</main>
