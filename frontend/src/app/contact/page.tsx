@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import {
   Phone,
   Mail,
   MessageCircle,
   MapPin,
   Clock,
-  CalendarCheck,
+  ClipboardList,
+  ArrowRight,
   PhoneCall,
   FileSearch,
   Handshake,
@@ -15,8 +17,7 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 import { PageHero } from '@/components/layout/PageHero';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { AnimatedSection, StaggerGroup, StaggerItem } from '@/components/animations/AnimatedSection';
+import { AnimatedSection } from '@/components/animations/AnimatedSection';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { FAQAccordion } from '@/components/sections/FAQAccordion';
 import { siteConfig } from '@/lib/utils';
@@ -37,10 +38,11 @@ const contactChannels = [
 ];
 
 const steps = [
-  { icon: CalendarCheck, title: 'กรอกแบบฟอร์มนัดหมาย', description: 'บอกข้อมูลธุรกิจและบริการที่คุณสนใจ' },
-  { icon: PhoneCall, title: 'ทีมติดต่อกลับ', description: 'เราติดต่อกลับภายใน 1-2 วันทำการเพื่อนัดเวลา' },
-  { icon: FileSearch, title: 'ปรึกษาและประเมิน', description: 'พูดคุยเข้าใจธุรกิจและเสนอแนวทางที่เหมาะสม' },
-  { icon: Handshake, title: 'เริ่มต้นทำงานร่วมกัน', description: 'ตกลงขอบเขตงานและใบเสนอราคา แล้วเริ่มดูแลงาน' },
+  // EP30 — สิ่งที่เกิดขึ้นหลังติดต่อ (ช่วงผู้สนใจ ยังไม่ใช่ลูกค้า) · เวลาติดต่อกลับเป็น "โดยปกติ" ไม่ใช่การรับประกัน
+  { icon: FileSearch, title: 'ทีมอ่านข้อมูลที่คุณส่งมา', description: 'ทบทวนข้อมูลธุรกิจและบริการที่คุณสนใจ' },
+  { icon: PhoneCall, title: 'ติดต่อกลับเพื่อพูดคุย', description: 'โดยปกติภายใน 1–2 วันทำการ เพื่อสอบถามความต้องการและข้อมูลที่จำเป็น' },
+  { icon: ClipboardList, title: 'ชี้แจงขอบเขตงาน', description: 'สรุปงานที่รวม ไม่รวม และรูปแบบการทำงานที่เหมาะกับธุรกิจ' },
+  { icon: Handshake, title: 'เสนอขั้นตอนถัดไป', description: 'จัดทำใบเสนอราคาเมื่อเหมาะสม ให้คุณพิจารณาและตัดสินใจได้โดยไม่มีข้อผูกมัด' },
 ];
 
 const newClientFaqs: FaqItem[] = [
@@ -57,7 +59,7 @@ const newClientFaqs: FaqItem[] = [
   {
     question: 'ใช้เวลานานแค่ไหนกว่าจะเริ่มบริการได้',
     answer:
-      'โดยทั่วไปหลังตกลงร่วมงาน เราสามารถเริ่มรับข้อมูลและวางระบบได้ภายใน 3-5 วันทำการ ขึ้นกับความพร้อมของเอกสารและขนาดธุรกิจ',
+      'ขึ้นกับขอบเขตงานและความพร้อมของข้อมูลและเอกสาร ทีมจะแจ้งกำหนดเริ่มงานและรายการข้อมูลที่ต้องใช้ เมื่อตกลงขอบเขตงานและใบเสนอราคาแล้ว',
   },
   {
     question: 'สามารถปรึกษาแบบออนไลน์ได้หรือไม่',
@@ -170,7 +172,7 @@ export default function ContactPage() {
           <AnimatedSection className="lg:col-span-7">
             <h2 id="contact-form" className="scroll-mt-28 text-2xl font-bold text-navy">แบบฟอร์มนัดหมายปรึกษา</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              กรอกข้อมูลด้านล่าง แล้วทีมของเราจะติดต่อกลับภายใน 1-2 วันทำการ
+              กรอกข้อมูลด้านล่าง โดยปกติทีมของเราจะติดต่อกลับภายใน 1–2 วันทำการ
             </p>
             <div className="mt-6">
               <ContactForm />
@@ -179,33 +181,47 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Steps */}
-      <section className="section bg-lightblue/50">
+      {/* EP30: หลังจากติดต่อเรา จะเกิดอะไรขึ้น */}
+      <section className="section bg-lightblue/50" aria-labelledby="after-contact-heading">
         <div className="container">
-          <SectionHeader
-            eyebrow="ขั้นตอนการนัดปรึกษา"
-            title="เริ่มต้นง่ายๆ เพียง 4 ขั้นตอน"
-          />
-          <StaggerGroup className="mt-12 grid gap-6 md:grid-cols-4">
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              return (
-                <StaggerItem
-                  key={step.title}
-                  className="relative rounded-2xl border border-borderc bg-white p-6 text-center shadow-soft"
-                >
-                  <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-50 text-accent">
-                    <Icon className="h-6 w-6" />
-                  </span>
-                  <span className="mt-4 block font-display text-xs font-bold text-accent">
-                    ขั้นตอนที่ {i + 1}
-                  </span>
-                  <h3 className="mt-1 text-base font-bold text-navy">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{step.description}</p>
-                </StaggerItem>
-              );
-            })}
-          </StaggerGroup>
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="eyebrow">หลังจากติดต่อเรา</span>
+            <h2 id="after-contact-heading" className="mt-4 text-display-md font-bold text-navy">
+              <span className="inline-block pr-[0.3em]">ส่งข้อมูลแล้ว</span>
+              <span className="inline-block">จะเกิดอะไรขึ้นต่อ</span>
+            </h2>
+          </div>
+          <AnimatedSection>
+            <ol className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {steps.map((step, i) => {
+                const Icon = step.icon;
+                return (
+                  <li key={step.title} className="rounded-2xl border border-borderc bg-white p-6 shadow-soft">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-accent">
+                      <Icon className="h-6 w-6" aria-hidden="true" />
+                    </span>
+                    <span className="mt-4 block font-display text-xs font-bold text-accent" aria-hidden="true">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="mt-1 text-base font-bold text-navy">{step.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted">{step.description}</p>
+                  </li>
+                );
+              })}
+            </ol>
+          </AnimatedSection>
+          <div className="mx-auto mt-8 max-w-3xl text-center">
+            <p className="text-sm leading-relaxed text-muted">
+              การส่งแบบฟอร์มหรือการพูดคุยยังไม่ถือเป็นการตกลงใช้บริการ งานจะเริ่มเมื่อตกลงขอบเขตงานและใบเสนอราคาร่วมกันแล้ว
+            </p>
+            <Link
+              href="/#how-we-work"
+              className="group mt-3 inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-primary-600"
+            >
+              ดูขั้นตอนหลังตกลงร่วมงาน
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -244,8 +260,8 @@ export default function ContactPage() {
 
       <FAQAccordion
         items={newClientFaqs}
-        eyebrow="คำถามลูกค้าใหม่"
-        title="สิ่งที่ลูกค้าใหม่มักถามเรา"
+        eyebrow="ก่อนเริ่มใช้บริการ"
+        title="คำถามที่พบบ่อยก่อนเริ่มทำงานกับ S2"
         description="รวมคำถามที่พบบ่อยก่อนเริ่มใช้บริการ"
       />
     </>

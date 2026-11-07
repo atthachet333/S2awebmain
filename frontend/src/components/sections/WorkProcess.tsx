@@ -1,76 +1,86 @@
-import { workProcess } from '@/data/process';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { StaggerGroup, StaggerItem } from '@/components/animations/AnimatedSection';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import { experienceStages, sharedResponsibilities } from '@/data/process';
+import { AnimatedSection } from '@/components/animations/AnimatedSection';
 
-const accentByIndex = [
-  'from-royal to-sky',
-  'from-cyan to-sky',
-  'from-teal to-cyan',
-  'from-royal to-sky',
-  'from-cyan to-sky',
-  'from-teal to-cyan',
-];
-
+/**
+ * EP30 — "เมื่อเริ่มทำงานกับ S2 จะเกิดอะไรขึ้น"
+ * แยกช่วงก่อนตกลงร่วมงาน (ผู้สนใจ) กับหลังตกลงร่วมงาน (ลูกค้า) ให้ชัด · รูปแบบ editorial ไม่ใช่ stepper
+ */
 export function WorkProcess() {
+  let counter = 0;
   return (
-    <section className="section relative overflow-hidden bg-white">
-      <div
-        className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.25] [background-size:44px_44px] [mask-image:radial-gradient(720px_420px_at_50%_20%,black,transparent)]"
-        aria-hidden="true"
-      />
-      <div className="container relative">
-        <SectionHeader
-          eyebrow="ขั้นตอนการทำงาน"
-          title="กระบวนการที่ชัดเจน ตั้งแต่วันแรกจนถึงการเติบโต"
-          description="เราทำงานอย่างเป็นระบบในทุกขั้นตอน เพื่อให้คุณมั่นใจได้ในทุกรายละเอียด"
-        />
+    <section id="how-we-work" className="section scroll-mt-20 bg-white" aria-labelledby="how-we-work-heading">
+      <div className="container">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="eyebrow">ขั้นตอนการทำงาน</span>
+          <h2 id="how-we-work-heading" className="mt-4 text-display-md font-bold text-navy">
+            <span className="inline-block pr-[0.3em]">เมื่อเริ่มทำงานกับ S2</span>
+            <span className="inline-block">จะเกิดอะไรขึ้น</span>
+          </h2>
+          <p className="mt-4 leading-relaxed text-muted md:text-lg">
+            รู้ล่วงหน้าว่าแต่ละขั้นตอนเป็นอย่างไร ตั้งแต่การพูดคุยครั้งแรก การตกลงขอบเขตงาน ไปจนถึงงานที่ดูแลต่อเนื่อง
+          </p>
+        </div>
 
-        <StaggerGroup className="relative mx-auto mt-16 max-w-4xl">
-          {/* เส้นแกนกลางแนวตั้ง (เฉพาะ desktop) */}
-          <div
-            className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-royal/30 via-cyan/30 to-teal/30 md:block"
-            aria-hidden="true"
-          />
-
-          <div className="space-y-6 md:space-y-2">
-            {workProcess.map((step, i) => {
-              const Icon = step.icon;
-              const left = i % 2 === 0;
-              const grad = accentByIndex[i % accentByIndex.length];
-              return (
-                <StaggerItem key={step.step} className="md:grid md:grid-cols-2 md:gap-8">
-                  <div
-                    className={
-                      left ? 'md:col-start-1 md:pr-4 md:text-right' : 'md:col-start-2 md:pl-4'
-                    }
-                  >
-                    <div className="group relative rounded-3xl border border-borderc bg-white p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card">
-                      {/* จุดบนเส้นแกน */}
+        <div className="mx-auto mt-12 grid max-w-6xl gap-10 lg:grid-cols-2 lg:gap-14">
+          {experienceStages.map((stage) => (
+            <AnimatedSection key={stage.id}>
+              <div className="border-b border-borderc pb-4">
+                <h3 className="text-xl font-bold text-navy">{stage.title}</h3>
+                <p className="mt-1 text-sm text-muted">{stage.note}</p>
+              </div>
+              <ol className="mt-2">
+                {stage.steps.map((step) => {
+                  counter += 1;
+                  return (
+                    <li key={step.title} className="flex gap-4 border-b border-borderc/70 py-5 last:border-b-0">
                       <span
-                        className={`absolute top-8 hidden h-4 w-4 rounded-full border-4 border-white bg-gradient-to-br ${grad} shadow-soft md:block ${
-                          left ? '-right-[41px]' : '-left-[41px]'
-                        }`}
+                        className="mt-0.5 w-7 shrink-0 font-display text-sm font-bold text-accent"
                         aria-hidden="true"
-                      />
-                      <div className={`flex items-center gap-3 ${left ? 'md:flex-row-reverse' : ''}`}>
-                        <span
-                          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${grad} text-white shadow-soft`}
-                        >
-                          <Icon className="h-6 w-6" />
-                        </span>
-                        <span className="font-display text-3xl font-bold text-primary-100">
-                          {step.step}
-                        </span>
+                      >
+                        {String(counter).padStart(2, '0')}
+                      </span>
+                      <div>
+                        <h4 className="font-bold text-navy">{step.title}</h4>
+                        <p className="mt-1 text-sm leading-relaxed text-muted">{step.description}</p>
                       </div>
-                      <h3 className="mt-4 text-lg font-bold text-navy">{step.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-muted">{step.description}</p>
-                    </div>
-                  </div>
-                </StaggerItem>
-              );
-            })}
+                    </li>
+                  );
+                })}
+              </ol>
+            </AnimatedSection>
+          ))}
+        </div>
+
+        <AnimatedSection className="mx-auto mt-10 max-w-6xl rounded-3xl border border-borderc bg-lightblue/40 p-6 md:p-8">
+          <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-4">
+              <h3 className="text-lg font-bold text-navy">การทำงานร่วมกันที่ดีอาศัยทั้งสองฝ่าย</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                เพื่อให้งานเป็นไปตามขอบเขตและรอบที่ตกลง สิ่งที่ช่วยได้มากจากฝั่งธุรกิจ คือ
+              </p>
+            </div>
+            <ul className="grid gap-x-8 gap-y-3 text-sm text-ink/80 sm:grid-cols-2 lg:col-span-8">
+              {sharedResponsibilities.map((item) => (
+                <li key={item} className="flex items-start gap-2.5">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
-        </StaggerGroup>
+        </AnimatedSection>
+
+        <p className="mt-8 text-center">
+          <Link
+            href="/contact#contact-form"
+            className="group inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-primary-600"
+          >
+            เริ่มจากการพูดคุยครั้งแรก
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+          </Link>
+        </p>
       </div>
     </section>
   );

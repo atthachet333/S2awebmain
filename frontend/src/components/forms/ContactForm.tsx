@@ -134,8 +134,8 @@ export function ContactForm() {
         </span>
         <h3 className="mt-5 text-xl font-bold text-navy">ส่งข้อมูลเรียบร้อยแล้ว</h3>
         <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted">
-          ขอบคุณที่ติดต่อเรา ทีมงานจะติดต่อกลับภายใน 1–2 วันทำการ
-          เพื่อนัดหมายการปรึกษาที่เหมาะกับคุณ
+          ขอบคุณที่ติดต่อเรา โดยปกติทีมงานจะติดต่อกลับภายใน 1–2 วันทำการ
+          เพื่อพูดคุยเกี่ยวกับความต้องการของคุณ
         </p>
         <button
           onClick={() => setSubmitted(false)}

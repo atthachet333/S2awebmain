@@ -20,6 +20,13 @@ export const metadata: Metadata = {
   alternates: { canonical: '/pricing' },
 };
 
+const startSteps = [
+  'ติดต่อและเล่าความต้องการของธุรกิจ',
+  'พูดคุยเพื่อทำความเข้าใจธุรกิจ',
+  'ตกลงขอบเขตงานและใบเสนอราคา',
+  'รวบรวมข้อมูลและเริ่มงานตามขอบเขต',
+];
+
 function Chip({ children }: { children: string }) {
   return (
     <li className="rounded-full border border-borderc bg-primary-50/60 px-3 py-1 text-xs font-medium text-navy">
@@ -69,6 +76,29 @@ export default function PricingPage() {
                 </li>
               ))}
             </ul>
+          </AnimatedSection>
+
+          {/* EP30 — เริ่มทำงานร่วมกันอย่างไร (สั้น ๆ ต่อจากการเลือกรูปแบบบริการ) */}
+          <AnimatedSection className="mx-auto mt-10 max-w-6xl rounded-3xl border border-borderc bg-lightblue/40 p-6 md:p-8">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <h2 className="text-lg font-bold text-navy lg:max-w-[14rem]">เริ่มทำงานร่วมกันอย่างไร</h2>
+              <ol className="grid flex-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {startSteps.map((step, i) => (
+                  <li key={step} className="flex items-start gap-3 text-sm text-ink/80">
+                    <span className="font-display text-sm font-bold text-accent" aria-hidden="true">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    {step}
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <p className="mt-5 border-t border-borderc pt-4 text-sm text-muted">
+              งานเริ่มเมื่อตกลงขอบเขตและใบเสนอราคาแล้วเท่านั้น{' '}
+              <Link href="/#how-we-work" className="font-semibold text-accent hover:text-primary-600">
+                ดูขั้นตอนทั้งหมด
+              </Link>
+            </p>
           </AnimatedSection>
         </div>
       </section>

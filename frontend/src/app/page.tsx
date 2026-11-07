@@ -14,6 +14,7 @@ import { CTASection } from '@/components/sections/CTASection';
 import { AdvisoryModel } from '@/components/sections/AdvisoryModel';
 import { GrowthJourney } from '@/components/sections/GrowthJourney';
 import { ClientRelationship } from '@/components/sections/ClientRelationship';
+import { ScrollToHash } from '@/components/services/ScrollToHash';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -22,6 +23,8 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      {/* EP30: รองรับลิงก์ /#how-we-work จากหน้าอื่น */}
+      <ScrollToHash />
       <HeroSection />
       <TrustMetrics />
       <LogoMarquee />
@@ -32,10 +35,11 @@ export default function HomePage() {
       <WhyChooseUs />
       {/* EP28: เส้นทางการเติบโต (ฉบับย่อ) */}
       <GrowthJourney />
+      <TechnologyPartnership />
+      {/* EP30: เมื่อเริ่มทำงานกับ S2 จะเกิดอะไรขึ้น (ก่อน/หลังตกลงร่วมงาน) */}
+      <WorkProcess />
       {/* EP29: คุณค่าของการทำงานกับ S2 (ทีเซอร์) */}
       <ClientRelationship />
-      <TechnologyPartnership />
-      <WorkProcess />
       <IndustriesServed />
       <ExampleScenarios />
       <FAQAccordion />
