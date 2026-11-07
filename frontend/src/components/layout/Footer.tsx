@@ -110,6 +110,15 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              {/* EP40: แบบประเมินสุขภาพธุรกิจเบื้องต้น */}
+              <li>
+                <Link
+                  href="/business-health-check"
+                  className="text-sm text-primary-100/70 transition-colors hover:text-white"
+                >
+                  ประเมินสุขภาพธุรกิจ
+                </Link>
+              </li>
               {/* EP32: ข้อมูลสำหรับลูกค้าปัจจุบัน */}
               <li>
                 <Link

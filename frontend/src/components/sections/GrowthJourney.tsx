@@ -66,7 +66,7 @@ export function GrowthJourney() {
               </ol>
             </div>
           </div>
-          <div className="mt-6 flex flex-col gap-3 border-t border-borderc pt-6 sm:flex-row sm:items-center">
+          <div className="mt-6 flex flex-col gap-3 border-t border-borderc pt-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
             <Button href="/contact">
               ถามเราว่าควรเริ่มจากตรงไหน
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
@@ -76,6 +76,14 @@ export function GrowthJourney() {
               className="group inline-flex items-center gap-1.5 text-sm font-semibold text-accent underline-offset-4 hover:underline"
             >
               ดูบริการตามความต้องการของธุรกิจ
+              <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Link>
+            {/* EP40: ทางเลือกสำหรับผู้ที่ยังไม่แน่ใจ — ประเมินด้วยตนเองก่อน */}
+            <Link
+              href="/business-health-check"
+              className="group inline-flex items-center gap-1.5 text-sm font-semibold text-accent underline-offset-4 hover:underline"
+            >
+              ประเมินสุขภาพธุรกิจเบื้องต้น
               <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
             </Link>
           </div>
