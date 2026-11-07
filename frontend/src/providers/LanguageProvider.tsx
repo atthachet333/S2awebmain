@@ -22,7 +22,7 @@ type TextState = { source: string; lastApplied: string };
 type AttributeState = Record<string, TextState>;
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
-const translatedAttributes = ['aria-label', 'placeholder', 'title'] as const;
+const translatedAttributes = ['aria-label', 'placeholder', 'title', 'alt'] as const;
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

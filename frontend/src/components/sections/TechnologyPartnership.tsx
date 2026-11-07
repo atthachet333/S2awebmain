@@ -98,6 +98,13 @@ export function TechnologyPartnership() {
             <p className="mt-5 border-t border-borderc pt-3 text-[0.72rem] leading-relaxed text-muted">
               S2 Accounting Consultant และ PDA BLISS COMPANY LIMITED เป็นนิติบุคคลแยกจากกัน ทำงานร่วมกันในฐานะพันธมิตรด้านเทคโนโลยีและระบบธุรกิจ งานด้านเทคโนโลยีไม่รวมอยู่ในบริการบัญชีโดยอัตโนมัติ และจะเสนอราคาแยกตามขอบเขตงานที่ตกลง
             </p>
+            {/* EP33: หลักการเมื่อความต้องการอยู่นอกขอบเขตของ S2 */}
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              เมื่อความต้องการอยู่นอกขอบเขตงานของ S2 โดยตรง เราช่วยแนะนำผู้เชี่ยวชาญที่เกี่ยวข้องเมื่อเหมาะสม{' '}
+              <Link href="/partners" className="font-semibold text-accent underline-offset-4 hover:underline">
+                ดูหลักการทำงานกับพันธมิตร
+              </Link>
+            </p>
           </div>
         </AnimatedSection>
       </div>

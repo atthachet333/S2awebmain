@@ -119,6 +119,15 @@ export function Footer() {
                   สำหรับลูกค้า S2
                 </Link>
               </li>
+              {/* EP33: หลักการทำงานกับพันธมิตร */}
+              <li>
+                <Link
+                  href="/partners"
+                  className="text-sm text-primary-100/70 transition-colors hover:text-white"
+                >
+                  พันธมิตร
+                </Link>
+              </li>
             </ul>
           </div>
 

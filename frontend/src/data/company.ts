@@ -161,9 +161,8 @@ export const teamMembers: TeamMember[] = [
 export const technologyPartner = {
   label: 'Technology & Systems Partner',
   name: 'PDA BLISS',
-  role: 'บริษัทพันธมิตร · แยกจาก S2',
-  tags: ['ERP', 'Workflow', 'Dashboard', 'Integration'],
-  bio: 'PDA BLISS สนับสนุนด้านระบบธุรกิจ ซอฟต์แวร์ ERP, Workflow, Dashboard และการเชื่อมโยงข้อมูล เพื่อช่วยให้กระบวนการทำงานด้านบัญชีและธุรกิจมีโครงสร้างที่ชัดเจนยิ่งขึ้น',
+  role: 'พันธมิตรด้านเทคโนโลยีและระบบ · นิติบุคคลแยกจาก S2',
+  bio: 'เมื่อธุรกิจของลูกค้าต้องการงานระบบ เช่น การนำ ERP ไปใช้หรือการเชื่อมต่อระบบ S2 อาจแนะนำ PDA BLISS เป็นทางเลือก โดยกำหนดขอบเขตและเสนอราคาแยก',
 };
 
 /** เทคโนโลยีช่วยงานของ S2 อย่างไร (EP26) */

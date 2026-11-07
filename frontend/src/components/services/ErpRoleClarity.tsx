@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Check, Scale } from 'lucide-react';
 import { erpRoles } from '@/data/partnership';
 
@@ -44,6 +45,12 @@ export function ErpRoleClarity() {
       <p className="mt-4 flex items-start gap-2 text-sm leading-relaxed text-muted">
         <Scale className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
         S2 ให้คำปรึกษาอย่างเป็นกลางต่อผู้ให้บริการซอฟต์แวร์ ลูกค้าเลือกระบบหรือ Vendor ที่เหมาะสมได้อย่างอิสระ การทำงานร่วมกับ PDA BLISS เป็นทางเลือกหนึ่ง ไม่ใช่เงื่อนไขของบริการ
+      </p>
+      {/* EP33 */}
+      <p className="mt-2 pl-6 text-sm">
+        <Link href="/partners" className="font-semibold text-accent underline-offset-4 hover:underline">
+          หลักการทำงานกับพันธมิตร
+        </Link>
       </p>
     </div>
   );

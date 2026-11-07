@@ -149,8 +149,15 @@ function EnterpriseCard({ pathway }: { pathway: PricingPathway }) {
         <div className="mt-auto flex items-start gap-3 pt-6 text-xs leading-relaxed text-[#b9c7e3]">
           <PdaBlissLogo variant="mark" className="h-8 shrink-0" sizes="32px" />
           <div>
-            <p className="font-semibold text-[#ffffff]">พันธมิตรด้านเทคโนโลยีและระบบ: PDA BLISS</p>
+            <p className="font-semibold text-[#ffffff]">พันธมิตรด้านเทคโนโลยีและระบบ (ทางเลือก)</p>
+            {/* EP33: PDA BLISS ไม่รวมในราคาเริ่มต้น — เป็นนิติบุคคลแยก กำหนดขอบเขตและเสนอราคาแยก */}
+            <p className="mt-1">
+              เมื่อพบความต้องการด้านระบบหรือเทคโนโลยี S2 อาจแนะนำ PDA BLISS ซึ่งเป็นนิติบุคคลแยก เป็นทางเลือก กำหนดขอบเขตและเสนอราคาแยก และไม่รวมในราคาเริ่มต้นนี้
+            </p>
             <p className="mt-1">{pathway.note}</p>
+            <Link href="/partners" className="mt-1.5 inline-block font-semibold text-[#8EC5FF] underline-offset-4 hover:underline">
+              หลักการทำงานกับพันธมิตร
+            </Link>
           </div>
         </div>
 

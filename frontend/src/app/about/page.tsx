@@ -319,39 +319,29 @@ export default function AboutPage() {
             })}
           </StaggerGroup>
 
-          {/* Technology & Systems Partner — บริษัทแยกจาก S2 จึงแสดงนอกกริดทีมงาน */}
-          <AnimatedSection className="mx-auto mt-14 max-w-4xl border-t border-borderc pt-12">
-            <div className="text-center">
-              <span className="eyebrow">{technologyPartner.label}</span>
-            </div>
-            <div className="relative mt-6 grid items-center gap-6 overflow-hidden rounded-3xl border border-borderc bg-white p-6 shadow-soft sm:grid-cols-[auto_1fr] md:gap-8 md:p-8">
-              <span className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-[#1E6B2E] dark:bg-[#5FBF7A]" aria-hidden="true" />
-              <div className="flex justify-center sm:justify-start">
-                <PdaBlissLogo className="h-20 md:h-24" sizes="(max-width: 768px) 80px, 96px" />
-              </div>
-              <div className="text-center sm:text-left">
-                <h3 className="text-xl font-bold text-navy">{technologyPartner.name}</h3>
-                <p className="mt-1 text-sm font-medium text-[#1E6B2E] dark:text-[#7DD69A]">{technologyPartner.role}</p>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{technologyPartner.bio}</p>
-                <ul className="mt-4 flex flex-wrap justify-center gap-2 sm:justify-start">
-                  {technologyPartner.tags.map((tag) => (
-                    <li
-                      key={tag}
-                      className="rounded-full border border-borderc bg-primary-50/60 px-3 py-1 text-xs font-medium text-navy"
-                    >
-                      {tag}
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href={pdaBliss.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-navy underline-offset-4 transition-colors hover:text-accent hover:underline"
-                >
-                  {pdaBliss.displayUrl}
-                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-                </a>
+          {/* EP33: พันธมิตร — แสดงแบบกระชับนอกกริดทีมงาน (บริษัทแยกจาก S2) · รายละเอียดอยู่ที่ /partners */}
+          <AnimatedSection className="mx-auto mt-14 max-w-4xl border-t border-borderc pt-10">
+            <div className="flex flex-col items-center gap-5 text-center sm:flex-row sm:items-start sm:text-left">
+              <PdaBlissLogo variant="mark" className="h-12 shrink-0" sizes="48px" />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted">{technologyPartner.label}</p>
+                <h3 className="mt-1 text-lg font-bold text-navy">{technologyPartner.name}</h3>
+                <p className="mt-0.5 text-sm font-medium text-[#1E6B2E] dark:text-[#7DD69A]">{technologyPartner.role}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{technologyPartner.bio}</p>
+                <div className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2 sm:justify-start">
+                  <Link href="/partners" className="text-sm font-semibold text-accent underline-offset-4 hover:underline">
+                    หลักการทำงานกับพันธมิตร
+                  </Link>
+                  <a
+                    href={pdaBliss.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy underline-offset-4 transition-colors hover:text-accent hover:underline"
+                  >
+                    {pdaBliss.displayUrl}
+                    <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </div>
               </div>
             </div>
           </AnimatedSection>
